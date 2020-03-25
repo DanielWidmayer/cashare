@@ -1,5 +1,5 @@
 // Set new default font family and font color to mimic Bootstrap's default styling
-Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+(Chart.defaults.global.defaultFontFamily = 'Nunito'), '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
 function number_format(number, decimals, dec_point, thousands_sep) {
@@ -8,8 +8,8 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   number = (number + '').replace(',', '').replace(' ', '');
   var n = !isFinite(+number) ? 0 : +number,
     prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+    sep = typeof thousands_sep === 'undefined' ? ',' : thousands_sep,
+    dec = typeof dec_point === 'undefined' ? '.' : dec_point,
     s = '',
     toFixedFix = function(n, prec) {
       var k = Math.pow(10, prec);
@@ -28,26 +28,28 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 // Area Chart Example
-var ctx = document.getElementById("myAreaChart");
+var ctx = document.getElementById('myAreaChart');
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    datasets: [{
-      label: "Earnings",
-      lineTension: 0.3,
-      backgroundColor: "rgba(78, 115, 223, 0.05)",
-      borderColor: "rgba(78, 115, 223, 1)",
-      pointRadius: 3,
-      pointBackgroundColor: "rgba(78, 115, 223, 1)",
-      pointBorderColor: "rgba(78, 115, 223, 1)",
-      pointHoverRadius: 3,
-      pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-      pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-      pointHitRadius: 10,
-      pointBorderWidth: 2,
-      data: [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
-    }],
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    datasets: [
+      {
+        label: 'Earnings',
+        lineTension: 0.1,
+        backgroundColor: 'rgba(52, 147, 255, 0.1)',
+        borderColor: 'rgba(52, 147, 255, 1)',
+        pointRadius: 3,
+        pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+        pointBorderColor: 'rgba(78, 115, 223, 1)',
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: 'rgba(78, 115, 223, 1)',
+        pointHoverBorderColor: 'rgba(78, 115, 223, 1)',
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: [334, 421, 227, 301, 612, 180, 1400, 720, 240, 670, 200, 1800]
+      }
+    ]
   },
   options: {
     maintainAspectRatio: false,
@@ -60,42 +62,46 @@ var myLineChart = new Chart(ctx, {
       }
     },
     scales: {
-      xAxes: [{
-        time: {
-          unit: 'date'
-        },
-        gridLines: {
-          display: false,
-          drawBorder: false
-        },
-        ticks: {
-          maxTicksLimit: 7
-        }
-      }],
-      yAxes: [{
-        ticks: {
-          maxTicksLimit: 5,
-          padding: 10,
-          // Include a dollar sign in the ticks
-          callback: function(value, index, values) {
-            return '$' + number_format(value);
+      xAxes: [
+        {
+          time: {
+            unit: 'date'
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
+          ticks: {
+            maxTicksLimit: 7
           }
-        },
-        gridLines: {
-          color: "rgb(234, 236, 244)",
-          zeroLineColor: "rgb(234, 236, 244)",
-          drawBorder: false,
-          borderDash: [2],
-          zeroLineBorderDash: [2]
         }
-      }],
+      ],
+      yAxes: [
+        {
+          ticks: {
+            maxTicksLimit: 5,
+            padding: 10,
+            // Include a dollar sign in the ticks
+            callback: function(value, index, values) {
+              return '$' + number_format(value);
+            }
+          },
+          gridLines: {
+            color: 'rgb(234, 236, 244)',
+            zeroLineColor: 'rgb(234, 236, 244)',
+            drawBorder: false,
+            borderDash: [2],
+            zeroLineBorderDash: [2]
+          }
+        }
+      ]
     },
     legend: {
       display: false
     },
     tooltips: {
-      backgroundColor: "rgb(255,255,255)",
-      bodyFontColor: "#858796",
+      backgroundColor: 'rgb(255,255,255)',
+      bodyFontColor: '#858796',
       titleMarginBottom: 10,
       titleFontColor: '#6e707e',
       titleFontSize: 14,
