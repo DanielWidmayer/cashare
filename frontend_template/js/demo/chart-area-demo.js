@@ -47,7 +47,22 @@ var myLineChart = new Chart(ctx, {
         pointHoverBorderColor: 'rgba(78, 115, 223, 1)',
         pointHitRadius: 10,
         pointBorderWidth: 2,
-        data: [334, 421, 227, 301, 612, 180, 1400, 720, 240, 670, 200, 1800]
+        data: [1100, 1100, 1100, 1100, 1800, 1100, 1100, 1100, 1100, 1100, 1800, 1100]
+      },
+      {
+        label: 'Editions',
+        lineTension: 0.01,
+        backgroundColor: 'rgba(255, 20, 47, 0.01)',
+        borderColor: 'rgba(255, 20, 52, 1)',
+        pointRadius: 3,
+        pointBackgroundColor: 'rgba(255, 20, 78, 1)',
+        pointBorderColor: 'rgba(255, 20, 78, 1)',
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: 'rgba(223, 115, 78, 1)',
+        pointHoverBorderColor: 'rgba(223, 115, 78, 1)',
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: [1150, 580, 220, 260, 530, 1200, 300, 420, 600, 214, 815, 1900]
       }
     ]
   },
