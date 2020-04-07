@@ -32,9 +32,11 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "5.10.2",
+        "body-parser": "^1.19.0",
         "bootstrap": "4.3.1",
         "chart.js": "2.8.0",
         "datatables.net-bs4": "1.10.19",
+        "ejs": "^3.0.2",
         "express": "^4.17.1",
         "jquery": "3.4.1",
         "jquery.easing": "^1.4.1"
