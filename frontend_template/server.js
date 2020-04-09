@@ -30,7 +30,7 @@ con.connect(function(err) {
         +"userid int(9) not null auto_increment primary key," 
         +"firstName varchar(255) not null,"
         +"lastName varchar(255) not null,"
-        +"email VARCHAR(255),"
+        +"email VARCHAR(255) not null,"
         +"password varchar(255) not null,"
         +"balance decimal(10,2) not null default('0')"
         +");"
