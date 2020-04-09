@@ -40,11 +40,11 @@
               <form class="user">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                    <input type="text" class="form-control form-control-user" id="FirstName"
                       placeholder="First Name">
                   </div>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName"
+                    <input type="text" class="form-control form-control-user" id="LastName"
                       placeholder="Last Name">
                   </div>
                 </div>
@@ -54,15 +54,15 @@
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="password" class="form-control form-control-user" id="exampleInputPassword"
+                    <input type="password" class="form-control form-control-user" id="password"
                       placeholder="Password">
                   </div>
                   <div class="col-sm-6">
-                    <input type="password" class="form-control form-control-user" id="exampleRepeatPassword"
+                    <input type="password" class="form-control form-control-user" id="confirm_password"
                       placeholder="Repeat Password">
                   </div>
                 </div>
-                <a href="login.html" class="btn btn-primary btn-user btn-block">
+                <a class="btn btn-primary btn-user btn-block" id = "registerAccount">
                   Register Account
                 </a>
                 <hr>
@@ -97,6 +97,75 @@
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
+
+  <script>
+    var checkEmail = false;
+    var checkPassword = false;
+
+    //check email
+    function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+    }
+
+    $("#exampleInputEmail").on('keyup', function(){
+      var email = $("#exampleInputEmail").val();
+      if (validateEmail(email)) {
+        $("#exampleInputEmail").css("color", "green");
+        checkEmail = true;
+     } else {
+        $("#exampleInputEmail").css("color", "red");
+        checkEmail = false;
+      }
+    });
+
+    //check password
+    $('#password, #confirm_password').on('keyup', function () {
+      if ($('#password').val() == $('#confirm_password').val() && $('#password').val() != 0 && $('#confirm_password').val() !=null) {
+          $('#password').css('color', 'green');
+          $('#confirm_password').css('color', 'green');
+          checkPassword = true;
+     } 
+     else 
+     {
+          $('#password').css('color', 'red'); 
+          $('#confirm_password').css('color', 'red');
+          checkPassword = false;
+     }
+    });
+
+    $("#registerAccount").click(function(){
+      if(!checkEmail){
+        console.log("invalid Email!");
+        return;
+      }
+
+      if(!checkPassword){
+        console.log("invalid Passwords!");
+        return;
+      }
+      var firstName = $("#FirstName").val();
+      var lastName = $("#LastName").val();
+      var eMail = $("#exampleInputEmail").val();
+      var password = $("#password").val();
+
+      console.log(firstName);
+      console.log(lastName);
+      console.log(eMail);
+      console.log(password);
+
+      var user = {'firstName' : firstName, 'lastName' : lastName, 'eMail' : eMail, 'password' : password}
+
+      $.ajax({
+        url: "http://localhost:3000/register",
+        type: "POST",
+        data: user ,
+        success: function (response) {
+           console.log(response);
+        }
+    });
+    });
+  </script>
 
 </body>
 

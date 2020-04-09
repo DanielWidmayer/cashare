@@ -39,7 +39,8 @@
         "ejs": "^3.0.2",
         "express": "^4.17.1",
         "jquery": "3.4.1",
-        "jquery.easing": "^1.4.1"
+        "jquery.easing": "^1.4.1",
+        "mysql": "^2.18.1"
     },
     "devDependencies": {
         "browser-sync": "2.26.7",
