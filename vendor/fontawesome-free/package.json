@@ -2,7 +2,7 @@
   "_args": [
     [
       "@fortawesome/fontawesome-free@5.10.2",
-      "/home/daniel/src/WebEngineering/frontend_template"
+      "/home/daniel/src/cashare"
     ]
   ],
   "_from": "@fortawesome/fontawesome-free@5.10.2",
@@ -37,7 +37,7 @@
   "_shasum": "27e02da1e34b50c9869179d364fb46627b521130",
   "_shrinkwrap": null,
   "_spec": "@fortawesome/fontawesome-free@5.10.2",
-  "_where": "/home/daniel/src/WebEngineering/frontend_template",
+  "_where": "/home/daniel/src/cashare",
   "author": {
     "email": "dave@fontawesome.com",
     "name": "Dave Gandy",
