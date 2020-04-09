@@ -32,12 +32,9 @@ We used [SB Admin 2](https://startbootstrap.com/template-overviews/sb-admin-2/) 
 
 ## Preview
 
-[![SB Admin 2 Preview](https://startbootstrap.com/assets/img/screenshots/themes/sb-admin-2.png)](https://blackrockdigital.github.io/startbootstrap-sb-admin-2/)
-
-**[Launch Live Preview](https://blackrockdigital.github.io/startbootstrap-sb-admin-2/)**
+![Picture](currentLook.png)
 
 ## Status
-![Picture](currentLook.png)
 
 ## Download and Installation
 
