@@ -1,11 +1,11 @@
 {
-  "title": "SB Admin 2",
-  "name": "startbootstrap-sb-admin-2",
+  "title": "Ca$hare",
+  "name": "startbootstrap-cashare",
   "version": "4.0.7",
   "scripts": {
     "start": "gulp watch"
   },
-  "description": "An open source Bootstrap 4 admin theme.",
+  "description": "A finance managing tool.",
   "keywords": [
     "css",
     "sass",
@@ -16,19 +16,10 @@
     "admin",
     "app"
   ],
-  "homepage": "https://startbootstrap.com/template-overviews/sb-admin-2",
-  "bugs": {
-    "url": "https://github.com/BlackrockDigital/startbootstrap-sb-admin-2/issues",
-    "email": "feedback@startbootstrap.com"
-  },
   "license": "MIT",
-  "author": "Start Bootstrap",
-  "contributors": [
-    "David Miller (http://davidmiller.io/)"
-  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BlackrockDigital/startbootstrap-sb-admin-2.git"
+    "url": "git+https://github.com/PhilemonWeber/cashare.git"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.10.2",
