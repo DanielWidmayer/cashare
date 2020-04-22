@@ -11,7 +11,7 @@ var con = mysql.createConnection({
   user: "root",
   password: "password",
   // Port muss evtl. bei euch angepasst werden..
-  port: '3306',
+  port: '3308',
   // Datenbank "cashare" vor dem starten angelegt werden mit "CREATE DATABASE cashare;"
   database: 'cashare'
 });
@@ -24,30 +24,256 @@ con.connect(function(err) {
     if (err)
     {
       console.log(err);
-      console.log("No Database user.."); 
-      console.log("create databaase..");
+      console.log("No Table user.."); 
+      console.log("create Table..");
       var sql = "create table user("
-        +"userid int(9) not null auto_increment primary key," 
+        +"user_id int(9) not null auto_increment primary key," 
         +"firstName varchar(255) not null,"
         +"lastName varchar(255) not null,"
-        +"email VARCHAR(255) not null,"
+        +"mail VARCHAR(255) not null,"
         +"password varchar(255) not null,"
+		+"phone varchar(255),"
         +"balance decimal(10,2) not null default('0')"
         +");"
 
       con.query(sql, function(err, result){
           if(err) 
           {
-            console.log("cannot create database...");
+            console.log("cannot create table...");
           }
           else
           {
-          console.log("database user created!");// hier weiter machen
+          console.log("table user created!");// hier weiter machen
           }
       });
     }
     else{
-      console.log("database user allready exists!");
+      console.log("table user allready exists!");
+    }
+  });
+   var sql = "SELECT 1 FROM category LIMIT 1;"
+  con.query(sql, function (err, result) {
+    if (err)
+    {
+      console.log(err);
+      console.log("No table Category.."); 
+      console.log("create table..");
+      var sql = "create table category("
+        +"category_id int(9) not null auto_increment primary key," 
+        +"category_name varchar(255) not null,"
+        +"category_description varchar(500) "
+        +");"
+
+      con.query(sql, function(err, result){
+          if(err) 
+          {
+            console.log("cannot create table...");
+          }
+          else
+          {
+          console.log("table Category created!");// hier weiter machen
+          }
+      });
+    }
+    else{
+      console.log("table Category allready exists!");
+    }
+  });
+  var sql = "SELECT 1 FROM group LIMIT 1;"
+  con.query(sql, function (err, result) {
+    if (err)
+    {
+      console.log(err);
+      console.log("No table group.."); 
+      console.log("create table..");
+      var sql = "create table group("
+        +"group_id int(9) not null auto_increment primary key," 
+        +"group_name varchar(255) not null,"
+        +"group_description varchar(500),"
+		+"group_balance decimal(10,2) not null default('0')"
+        +");"
+
+      con.query(sql, function(err, result){
+          if(err) 
+          {
+            console.log("cannot create table...");
+          }
+          else
+          {
+          console.log("table group created!");// hier weiter machen
+          }
+      });
+    }
+    else{
+      console.log("table group allready exists!");
+    }
+  });
+  var sql = "SELECT 1 FROM user_group LIMIT 1;"
+  con.query(sql, function (err, result) {
+    if (err)
+    {
+      console.log(err);
+      console.log("No table user_group.."); 
+      console.log("create table..");
+      var sql = "create table user_group("
+        +"user_id int(9) not null,"
+		+"Foreign Key (user_id) References user(user_id),"
+        +"group_id int(9) not null,"
+		+"Foreign Key (group_id) REFERENCES group(group_id),"
+        +"user_role int(5) not null,"
+		+"PRIMARY KEY (user_id,group_id)"
+        +");"
+
+      con.query(sql, function(err, result){
+          if(err) 
+          {
+            console.log("cannot create table...");
+          }
+          else
+          {
+          console.log("table user_group created!");// hier weiter machen
+          }
+      });
+    }
+    else{
+      console.log("table user_group allready exists!");
+    }
+  });
+  var sql = "SELECT 1 FROM user_category LIMIT 1;"
+  con.query(sql, function (err, result) {
+    if (err)
+    {
+      console.log(err);
+      console.log("No table user_category.."); 
+      console.log("create table..");
+      var sql = "create table user_category("
+        +"user_id int(9) not null,"
+		+"Foreign Key (user_id) References user(user_id),"
+        +"category_id int(9) not null,"
+		+"Foreign Key (category_id) REFERENCES category(category_id),"
+        +"category_description varchar(5000),"
+		+"PRIMARY KEY (user_id,category_id)"
+        +");"
+
+      con.query(sql, function(err, result){
+          if(err) 
+          {
+            console.log("cannot create table...");
+          }
+          else
+          {
+          console.log("table user_category created!");// hier weiter machen
+          }
+      });
+    }
+    else{
+      console.log("table user_category allready exists!");
+    }
+  });
+  var sql = "SELECT 1 FROM goal LIMIT 1;"
+  con.query(sql, function (err, result) {
+    if (err)
+    {
+      console.log(err);
+      console.log("No table goal.."); 
+      console.log("create table..");
+      var sql = "create table goal("
+        +"goal_id int(9) not null auto_increment primary key,"
+		+"value decimal(10,2) not null default('0'),"
+		+"current decimal(10,2) not null default('0'),"
+		+"period_days int(9),"
+        +"category_id int(9) not null,"
+		+"Foreign Key (category_id) REFERENCES category(category_id),"
+		+"group_id int(9),"
+		+"Foreign Key (group_id) REFERENCES group(group_id),"
+		+"user_id int(9),"
+		+"Foreign Key (user_id) REFERENCES user(user_id)"
+        +");"
+
+      con.query(sql, function(err, result){
+          if(err) 
+          {
+            console.log("cannot create table...");
+          }
+          else
+          {
+          console.log("table goal created!");// hier weiter machen
+          }
+      });
+    }
+    else{
+      console.log("table goal allready exists!");
+    }
+  });
+  var sql = "SELECT 1 FROM message LIMIT 1;"
+  con.query(sql, function (err, result) {
+    if (err)
+    {
+      console.log(err);
+      console.log("No table message.."); 
+      console.log("create table..");
+      var sql = "create table message("
+        +"message_id int(9) not null auto_increment primary key,"
+		+"timetag datetime not null,"
+		+"text varchar(500) not null"
+		+"user_send_id int(9) not null,"
+		+"Foreign Key (user_send_id) REFERENCES user(user_id),"
+		+"user_receive_id int(9),"
+		+"Foreign Key (user_receive_id_id) REFERENCES user(user_id),"
+		+"group_id int(9),"
+		+"Foreign Key (group_id) REFERENCES group(group_id)"
+        +");"
+
+      con.query(sql, function(err, result){
+          if(err) 
+          {
+            console.log("cannot create table...");
+          }
+          else
+          {
+          console.log("table message created!");// hier weiter machen
+          }
+      });
+    }
+    else{
+      console.log("table message allready exists!");
+    }
+  });
+  var sql = "SELECT 1 FROM transaction LIMIT 1;"
+  con.query(sql, function (err, result) {
+    if (err)
+    {
+      console.log(err);
+      console.log("No table transaction.."); 
+      console.log("create table..");
+      var sql = "create table transaction("
+        +"transaction_id int(9) not null auto_increment primary key,"
+		+"transaction_date datetime not null,"
+		+"comment varchar(500) not null"
+		+"user_id int(9) not null,"
+		+"Foreign Key (user_id) REFERENCES user(user_id),"
+		+"category_id int(9),"
+		+"Foreign Key (category_id) REFERENCES category(category_id),"
+		+"group_id int(9),"
+		+"Foreign Key (group_id) REFERENCES group(group_id)"
+		+"user_receive_id int(9),"
+		+"Foreign Key (user_receive_id_id) REFERENCES user(user_id),"
+		+"receive varchar(255)"
+        +");"
+
+      con.query(sql, function(err, result){
+          if(err) 
+          {
+            console.log("cannot create table...");
+          }
+          else
+          {
+          console.log("table transaction created!");// hier weiter machen
+          }
+      });
+    }
+    else{
+      console.log("table transaction allready exists!");
     }
   });
 });
