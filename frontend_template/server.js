@@ -50,14 +50,14 @@ var con = mysql.createConnection({
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected to database!");
-  var sql = "SELECT 1 FROM user LIMIT 1;"
+  var sql = "SELECT 1 FROM user_table LIMIT 1;"
   con.query(sql, function (err, result) {
     if (err)
     {
       console.log(err);
       console.log("No Table user.."); 
       console.log("create Table..");
-      var sql = "create table user("
+      var sql = "create table user_table("
         +"user_id int(9) not null auto_increment primary key," 
         +"firstName varchar(255) not null,"
         +"lastName varchar(255) not null,"
@@ -82,14 +82,14 @@ con.connect(function(err) {
       console.log("table user allready exists!");
     }
   });
-   var sql = "SELECT 1 FROM category LIMIT 1;"
+   var sql = "SELECT 1 FROM category_table LIMIT 1;"
   con.query(sql, function (err, result) {
     if (err)
     {
       console.log(err);
       console.log("No table Category.."); 
       console.log("create table..");
-      var sql = "create table category("
+      var sql = "create table category_table("
         +"category_id int(9) not null auto_increment primary key," 
         +"category_name varchar(255) not null,"
         +"category_description varchar(500) "
@@ -110,14 +110,14 @@ con.connect(function(err) {
       console.log("table Category allready exists!");
     }
   });
-  var sql = "SELECT 1 FROM group LIMIT 1;"
+  var sql = "SELECT 1 FROM group_table LIMIT 1;"
   con.query(sql, function (err, result) {
     if (err)
     {
       console.log(err);
       console.log("No table group.."); 
       console.log("create table..");
-      var sql = "create table group("
+      var sql = "create table group_table("
         +"group_id int(9) not null auto_increment primary key," 
         +"group_name varchar(255) not null,"
         +"group_description varchar(500),"
@@ -139,18 +139,18 @@ con.connect(function(err) {
       console.log("table group allready exists!");
     }
   });
-  var sql = "SELECT 1 FROM user_group LIMIT 1;"
+  var sql = "SELECT 1 FROM user_group_table LIMIT 1;"
   con.query(sql, function (err, result) {
     if (err)
     {
       console.log(err);
       console.log("No table user_group.."); 
       console.log("create table..");
-      var sql = "create table user_group("
+      var sql = "create table user_group_table("
         +"user_id int(9) not null,"
-		+"Foreign Key (user_id) References user(user_id),"
+		+"Foreign Key (user_id) References user_table(user_id),"
         +"group_id int(9) not null,"
-		+"Foreign Key (group_id) REFERENCES group(group_id),"
+		+"Foreign Key (group_id) REFERENCES group_table(group_id),"
         +"user_role int(5) not null,"
 		+"PRIMARY KEY (user_id,group_id)"
         +");"
@@ -170,18 +170,18 @@ con.connect(function(err) {
       console.log("table user_group allready exists!");
     }
   });
-  var sql = "SELECT 1 FROM user_category LIMIT 1;"
+  var sql = "SELECT 1 FROM user_category_table LIMIT 1;"
   con.query(sql, function (err, result) {
     if (err)
     {
       console.log(err);
       console.log("No table user_category.."); 
       console.log("create table..");
-      var sql = "create table user_category("
+      var sql = "create table user_category_table("
         +"user_id int(9) not null,"
-		+"Foreign Key (user_id) References user(user_id),"
+		+"Foreign Key (user_id) References user_table(user_id),"
         +"category_id int(9) not null,"
-		+"Foreign Key (category_id) REFERENCES category(category_id),"
+		+"Foreign Key (category_id) REFERENCES category_table(category_id),"
         +"category_description varchar(5000),"
 		+"PRIMARY KEY (user_id,category_id)"
         +");"
@@ -201,24 +201,24 @@ con.connect(function(err) {
       console.log("table user_category allready exists!");
     }
   });
-  var sql = "SELECT 1 FROM goal LIMIT 1;"
+  var sql = "SELECT 1 FROM goal_table LIMIT 1;"
   con.query(sql, function (err, result) {
     if (err)
     {
       console.log(err);
       console.log("No table goal.."); 
       console.log("create table..");
-      var sql = "create table goal("
+      var sql = "create table goal_table("
         +"goal_id int(9) not null auto_increment primary key,"
 		+"value decimal(10,2) not null default('0'),"
 		+"current decimal(10,2) not null default('0'),"
 		+"period_days int(9),"
         +"category_id int(9) not null,"
-		+"Foreign Key (category_id) REFERENCES category(category_id),"
+		+"Foreign Key (category_id) REFERENCES category_table(category_id),"
 		+"group_id int(9),"
-		+"Foreign Key (group_id) REFERENCES group(group_id),"
+		+"Foreign Key (group_id) REFERENCES group_table(group_id),"
 		+"user_id int(9),"
-		+"Foreign Key (user_id) REFERENCES user(user_id)"
+		+"Foreign Key (user_id) REFERENCES user_table(user_id)"
         +");"
 
       con.query(sql, function(err, result){
@@ -236,23 +236,23 @@ con.connect(function(err) {
       console.log("table goal allready exists!");
     }
   });
-  var sql = "SELECT 1 FROM message LIMIT 1;"
+  var sql = "SELECT 1 FROM message_table LIMIT 1;"
   con.query(sql, function (err, result) {
     if (err)
     {
       console.log(err);
       console.log("No table message.."); 
       console.log("create table..");
-      var sql = "create table message("
+      var sql = "create table message_table("
         +"message_id int(9) not null auto_increment primary key,"
 		+"timetag datetime not null,"
 		+"text varchar(500) not null"
 		+"user_send_id int(9) not null,"
-		+"Foreign Key (user_send_id) REFERENCES user(user_id),"
+		+"Foreign Key (user_send_id) REFERENCES user_table(user_id),"
 		+"user_receive_id int(9),"
-		+"Foreign Key (user_receive_id_id) REFERENCES user(user_id),"
+		+"Foreign Key (user_receive_id_id) REFERENCES user_table(user_id),"
 		+"group_id int(9),"
-		+"Foreign Key (group_id) REFERENCES group(group_id)"
+		+"Foreign Key (group_id) REFERENCES group_table(group_id)"
         +");"
 
       con.query(sql, function(err, result){
@@ -270,25 +270,25 @@ con.connect(function(err) {
       console.log("table message allready exists!");
     }
   });
-  var sql = "SELECT 1 FROM transaction LIMIT 1;"
+  var sql = "SELECT 1 FROM transaction_table LIMIT 1;"
   con.query(sql, function (err, result) {
     if (err)
     {
       console.log(err);
       console.log("No table transaction.."); 
       console.log("create table..");
-      var sql = "create table transaction("
+      var sql = "create table transaction_table("
         +"transaction_id int(9) not null auto_increment primary key,"
 		+"transaction_date datetime not null,"
 		+"comment varchar(500) not null"
 		+"user_id int(9) not null,"
-		+"Foreign Key (user_id) REFERENCES user(user_id),"
+		+"Foreign Key (user_id) REFERENCES user_table(user_id),"
 		+"category_id int(9),"
-		+"Foreign Key (category_id) REFERENCES category(category_id),"
+		+"Foreign Key (category_id) REFERENCES category_table(category_id),"
 		+"group_id int(9),"
-		+"Foreign Key (group_id) REFERENCES group(group_id)"
+		+"Foreign Key (group_id) REFERENCES group_table(group_id)"
 		+"user_receive_id int(9),"
-		+"Foreign Key (user_receive_id_id) REFERENCES user(user_id),"
+		+"Foreign Key (user_receive_id) REFERENCES user_table(user_id),"
 		+"receive varchar(255)"
         +");"
 
@@ -341,7 +341,7 @@ app.use('/',router);
 router.get('/', redirectLogin, async function (req, res) {
   console.log(req.cookies);
   if (req.session.userID) {
-    let sql = `SELECT firstName, lastName FROM user WHERE userid = '${req.session.userID}';`
+    let sql = `SELECT firstName, lastName FROM user_table WHERE userid = '${req.session.userID}';`
     let user = await query(sql);
     res.render('index.html', { user: user[0] });
   }
@@ -367,7 +367,7 @@ router.post('/login', async function(req, res){
   let user;
   let f1 = false;
   console.log(mail + pass);
-  var sql = `SELECT userid, password FROM user WHERE email = '${mail}';`;
+  var sql = `SELECT userid, password FROM user_table WHERE email = '${mail}';`;
   try {
     user = await query(sql);
     f1 = await bcrypt.compare(pass, user[0].password);
@@ -446,12 +446,12 @@ app.listen(process.env.PORT, function () {
 
 async function createUser(firstName, lastName, eMail, password)
 {
-  let sql = `SELECT userid FROM user WHERE eMail = '${eMail}';`
+  let sql = `SELECT userid FROM user_table WHERE eMail = '${eMail}';`
   let res = await query(sql);
   password = await bcrypt.hash(password, 10);
   console.log(res);
   if(res.length == 0) {
-    sql = `INSERT INTO user (firstName, lastName, eMail, password) VALUES ('${firstName}','${lastName}','${eMail}','${password}');`;
+    sql = `INSERT INTO user_table (firstName, lastName, eMail, password) VALUES ('${firstName}','${lastName}','${eMail}','${password}');`;
     res = await query(sql);
     console.log(res);
   }
