@@ -149,8 +149,10 @@ con.connect(function(err) {
       var sql = "create table user_group_table("
         +"user_id int not null,"
 		+"Foreign Key (user_id) References user_table(user_id),"
-        +"group_id int not null,"
-		+"Foreign Key (group_id) REFERENCES group_table(group_id),"
+        +"group_id int not null"
+		+"ON DELETE CASCADE,"
+		+"Foreign Key (group_id) REFERENCES group_table(group_id)"
+		+"ON DELETE CASCADE,"
         +"user_role int not null,"
 		+"PRIMARY KEY (user_id,group_id)"
         +");"
@@ -179,9 +181,11 @@ con.connect(function(err) {
       console.log("create table..");
       var sql = "create table user_category_table("
         +"user_id int not null,"
-		+"Foreign Key (user_id) References user_table(user_id),"
+		+"Foreign Key (user_id) References user_table(user_id)"
+		+"ON DELETE CASCADE,"
         +"category_id int not null,"
-		+"Foreign Key (category_id) REFERENCES category_table(category_id),"
+		+"Foreign Key (category_id) REFERENCES category_table(category_id)"
+		+"ON DELETE CASCADE,"
         +"category_description varchar(5000),"
 		+"PRIMARY KEY (user_id,category_id)"
         +");"
@@ -216,9 +220,11 @@ con.connect(function(err) {
         +"category_id int not null,"
 		+"Foreign Key (category_id) REFERENCES category_table(category_id),"
 		+"group_id int,"
-		+"Foreign Key (group_id) REFERENCES group_table(group_id),"
+		+"Foreign Key (group_id) REFERENCES group_table(group_id)"
+		+"ON DELETE CASCADE,"
 		+"user_id int,"
 		+"Foreign Key (user_id) REFERENCES user_table(user_id)"
+		+"ON DELETE CASCADE"
         +");"
 
       con.query(sql, function(err, result){
@@ -248,11 +254,14 @@ con.connect(function(err) {
 		+"timetag datetime not null,"
 		+"text varchar(500) not null,"
 		+"user_send_id int not null,"
-		+"Foreign Key (user_send_id) REFERENCES user_table(user_id),"
+		+"Foreign Key (user_send_id) REFERENCES user_table(user_id)"
+		+"ON DELETE CASCADE,"
 		+"user_receive_id int,"
-		+"Foreign Key (user_receive_id) REFERENCES user_table(user_id),"
+		+"Foreign Key (user_receive_id) REFERENCES user_table(user_id)"
+		+"ON DELETE CASCADE,"
 		+"group_id int,"
 		+"Foreign Key (group_id) REFERENCES group_table(group_id)"
+		+"ON DELETE CASCADE"
         +");"
 
       con.query(sql, function(err, result){
@@ -283,11 +292,13 @@ con.connect(function(err) {
 		+"transaction_date datetime not null,"
 		+"comment varchar(500) not null,"
 		+"user_id int not null,"
-		+"Foreign Key (user_id) REFERENCES user_table(user_id),"
+		+"Foreign Key (user_id) REFERENCES user_table(user_id)"
+		+"ON DELETE CASCADE,"
 		+"category_id int,"
 		+"Foreign Key (category_id) REFERENCES category_table(category_id),"
 		+"group_id int,"
-		+"Foreign Key (group_id) REFERENCES group_table(group_id),"
+		+"Foreign Key (group_id) REFERENCES group_table(group_id)"
+		+"ON DELETE CASCADE,"
 		+"user_receive_id int,"
 		+"Foreign Key (user_receive_id) REFERENCES user_table(user_id),"
 		+"receive varchar(255)"
@@ -341,6 +352,7 @@ app.use('/',router);
 
 router.get('/', redirectLogin, async function (req, res) {
   console.log(req.cookies);
+  console.log("test");
   if (req.session.userID) {
     let sql = `SELECT firstName, lastName FROM user_table WHERE user_id = '${req.session.userID}';`
     let user = await query(sql);
@@ -377,9 +389,11 @@ router.post('/login', async function(req, res){
     console.log(err);
   }
   console.log("outside try");
+  console.log(f1.toString());
   if(!f1) res.redirect('/login');
   else {
-    req.session.userID = user[0].userid;
+    console.log("password correct");
+    
     res.redirect('/');
   }
 }); 
@@ -406,13 +420,12 @@ router.post('/register', async function(req, res){
   try {
     user_res = await createUser(req.body.firstName, req.body.lastName, req.body.eMail, req.body.password);
     req.session.userID = user_res;
-    console.log("received " + user_res + "from user_create");
   }
   catch (err) {
     console.log(err);
   }
-  
-  res.redirect('/');
+  console.log("redirect..")
+  res.redirect(302,'/');
 });
 
 router.get('/tables', redirectLogin, function(req, res) {
@@ -424,12 +437,12 @@ router.get('/try', function (req, res) {
   throw new Error('this was a test, and you failed!');
 });
 
-/*app.use(function(req, res, next) {
-  res.setHeader("Cache-Control", "no-cache, must-revalidate, no-store");
-  res.setHeader("Pragma", "no-cache"); // HTTP 1.0.
-  res.setHeader("Expires", "0"); // Proxies.
-  next();
-});*/
+//app.use(function(req, res, next) {
+//   res.setHeader("Cache-Control", "no-cache, must-revalidate, no-store");
+//   res.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+//   res.setHeader("Expires", "0"); // Proxies.
+//   next();
+// });
 
 // handle error 404 - page not found
 app.use('*', redirectLogin, function(req, res, next) {
