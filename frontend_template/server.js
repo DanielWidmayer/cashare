@@ -341,8 +341,9 @@ app.use('/',router);
 
 router.get('/', redirectLogin, async function (req, res) {
   console.log(req.cookies);
+  console.log("test");
   if (req.session.userID) {
-    let sql = `SELECT firstName, lastName FROM user WHERE userid = '${req.session.userID}';`
+    let sql = `SELECT firstName, lastName FROM user_table WHERE user_id = '${req.session.userID}';`
     let user = await query(sql);
     res.render('index.html', { user: user[0] });
   }
@@ -368,7 +369,7 @@ router.post('/login', async function(req, res){
   let user;
   let f1 = false;
   console.log(mail + pass);
-  var sql = `SELECT userid, password FROM user WHERE email = '${mail}';`;
+  var sql = `SELECT user_id, password FROM user_table WHERE mail = '${mail}';`;
   try {
     user = await query(sql);
     f1 = await bcrypt.compare(pass, user[0].password);
@@ -377,9 +378,11 @@ router.post('/login', async function(req, res){
     console.log(err);
   }
   console.log("outside try");
+  console.log(f1.toString());
   if(!f1) res.redirect('/login');
   else {
-    req.session.userID = user[0].userid;
+    console.log("password correct");
+    
     res.redirect('/');
   }
 }); 
@@ -399,18 +402,19 @@ router.get('/register', function (req, res) {
 });
 
 router.post('/register', async function(req, res){
-  res.status(200).json({'success': "User data reached!"});
+  //res.status(200).json({'success': "User data reached!"});
   console.log("The following data has been received:");
   console.log(req.body);
   console.log("Insert data to table user...");
   try {
     user_res = await createUser(req.body.firstName, req.body.lastName, req.body.eMail, req.body.password);
+    req.session.userID = user_res;
   }
   catch (err) {
     console.log(err);
   }
-  
-  res.redirect('/');
+  console.log("redirect..")
+  res.redirect(302,'/');
 });
 
 router.get('/tables', redirectLogin, function(req, res) {
@@ -422,12 +426,12 @@ router.get('/try', function (req, res) {
   throw new Error('this was a test, and you failed!');
 });
 
-app.use(function(req, res, next) {
-  res.setHeader("Cache-Control", "no-cache, must-revalidate, no-store");
-  res.setHeader("Pragma", "no-cache"); // HTTP 1.0.
-  res.setHeader("Expires", "0"); // Proxies.
-  next();
-});
+//app.use(function(req, res, next) {
+//   res.setHeader("Cache-Control", "no-cache, must-revalidate, no-store");
+//   res.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+//   res.setHeader("Expires", "0"); // Proxies.
+//   next();
+// });
 
 // handle error 404 - page not found
 app.use('*', redirectLogin, function(req, res, next) {
@@ -447,14 +451,17 @@ app.listen(process.env.PORT, function () {
 
 async function createUser(firstName, lastName, eMail, password)
 {
-  let sql = `SELECT userid FROM user WHERE eMail = '${eMail}';`
+  let sql = `SELECT user_id FROM user_table WHERE mail = '${eMail}';`
   let res = await query(sql);
   password = await bcrypt.hash(password, 10);
   console.log(res);
   if(res.length == 0) {
-    sql = `INSERT INTO user (firstName, lastName, eMail, password) VALUES ('${firstName}','${lastName}','${eMail}','${password}');`;
+    sql = `INSERT INTO user_table (firstName, lastName, mail, password) VALUES ('${firstName}','${lastName}','${eMail}','${password}');`;
+    res = await query(sql);
+    sql = `SELECT user_id FROM user_table WHERE mail = '${eMail}';`;
     res = await query(sql);
     console.log(res);
+    return res[0].user_id;
   }
   else {
     console.log("Mail is already used");
