@@ -37,7 +37,7 @@
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
               </div>
-              <form class="user" id="user_all" action="/register">
+              <form class="user" id="user_all" action="/register" method="POST">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
                     <input type="text" class="form-control form-control-user" id="FirstName"
@@ -78,7 +78,7 @@
                 <a class="small" href="forgot-password.html">Forgot Password?</a>
               </div>
               <div class="text-center">
-                <a class="small" href="login.html">Already have an account? Login!</a>
+                <a class="small" href="./login">Already have an account? Login!</a>
               </div>
             </div>
           </div>
@@ -209,16 +209,7 @@
 
       var user = {'firstName' : firstName, 'lastName' : lastName, 'eMail' : eMail, 'password' : password}
 
-      $.ajax({
-        url: "http://localhost:3000/register",
-        type: "POST",
-        data: user ,
-        success: function (response) {
-           console.log(response);
-           window.location = "http://localhost:3000/";
-        }
-    });
-    // $("#user_all").submit();
+      $("#user_all").submit();
     });
   </script>
 
