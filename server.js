@@ -48,14 +48,11 @@ dbsql.db_trans.create_table(dbsql.db_user, dbsql.db_cat, dbsql.db_group);
 
 
 const redirectLogin = (req, res, next) => {
-  console.log("authentication");
-  console.log(req.originalUrl);
-  console.log(req.session.userID);
+  //console.log("authentication");
+  //console.log(req.originalUrl);
   if(!req.session.userID && req.originalUrl != '/favicon.ico') {
-    console.log("not allowed, back to login");
     res.redirect('/login');
   } else {
-    console.log("next handler");
     next();
   }
 }
@@ -78,20 +75,17 @@ app.use(express.json());
 
 app.use('/',router);
 
-/*router.get('/', function(req, res) {
+router.get('/', function(req, res) {
   res.send("this is the homepage");
-});*/
+});
 
 router.get('/home', redirectLogin, async function (req, res) {
-  console.log("inside home route");
   try {
     let q_user = await dbsql.db_user.getNameByID(req.session.userID);
-    console.log("found userid");
     return res.render('index.html', { user: q_user });
   }
   catch(err) {
     console.log(err);
-    console.log("userid hasnt been found");
     return res.redirect('/login');
   }
 });
@@ -101,7 +95,6 @@ router.get('/blank', redirectLogin, function (req, res) {
 });
 
 router.get('/login', function (req, res) {
-  console.log("log of /login"); 
   if(req.session.userID) return res.redirect('/home');
   return res.render('login.html');
 });
@@ -138,7 +131,6 @@ router.post('/logout', redirectLogin, (req, res) => {
 });
 
 router.get('/register', function (req, res) {
-  console.log("req and res of register");
   //console.log(req);
   //console.log(res);
   return res.render('register.html');
@@ -148,7 +140,6 @@ router.post('/register', async function(req, res){
   //res.status(200).json({'success': "User data reached!"});
   console.log("The following data has been received:");
   console.log(req.body);
-  console.log("Insert data to table user...");
   try {
     user_res = await dbsql.db_user.registerUser(req.body.firstName, req.body.lastName, req.body.eMail, req.body.password);
     req.session.userID = user_res;
