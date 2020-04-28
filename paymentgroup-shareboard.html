@@ -73,21 +73,15 @@
         </a>
       </li>
 
-      <!-- Nav Item - Logs Collapse Menu -->
+      <!-- Nav Item - Logs -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-          aria-controls="collapseTwo">
+        <a class="nav-link" href="tables.html">
           <i class="fas fa-fw fa-file-invoice-dollar"></i>
           <span>Logs</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="charts.html">Graphs</a>
-            <a class="collapse-item" href="logs-tables.html">Table</a>
-          </div>
-        </div>
+
       </li>
+
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -99,10 +93,21 @@
 
       <!-- Nav Item - Payment Groups -->
       <li class="nav-item active">
-        <a class="nav-link" href="payment-groups.html">
+        <a class="nav-link" href="payment-groups.html" data-toggle="collapse" data-target="#collapsePayGroups"
+          aria-expanded="true" aria-controls="collapseTestings">
           <i class="fas fa-fw fa-hand-holding-usd"></i>
-          <span>Payment Groups</span>
+          <span>Payment Groups</span></a>
         </a>
+        <div id="collapsePayGroups" class="collapse show" aria-labelledby="headingPages"
+          data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item font-weight-bold text-primary" href="payment-groups.html">Overview</a>
+            <div class="collapse-divider"></div>
+            <h6 class="collapse-header">Payment Groups:</h6>
+            <a class="collapse-item" href="paymentgroup-shareboard.html">Payment Group Title</a>
+            <a class="collapse-item" href="paymentgroup-shareboard.html">Payment Group Title</a>
+          </div>
+        </div>
       </li>
 
       <!-- Divider -->
@@ -115,7 +120,7 @@
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="blank.html">
+        <a class="nav-link" href="profile.html">
           <i class="fas fa-fw fa-user"></i>
           <span>Profile</span></a>
       </li>
@@ -129,41 +134,6 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        *Testing*
-      </div>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTestings"
-          aria-expanded="true" aria-controls="collapseTestings">
-          <i class="fas fa-fw fa-user"></i>
-          <span>Testing Overview</span></a>
-        </a>
-        <div id="collapseTestings" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Login Screens:</h6>
-            <a class="collapse-item" href="login.html">Login</a>
-            <a class="collapse-item" href="register.html">Register</a>
-            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-            <div class="collapse-divider"></div>
-            <h6 class="collapse-header">Other Pages:</h6>
-            <a class="collapse-item" href="404.html">404 Page</a>
-            <a class="collapse-item" href="blank.html">Blank Page</a>
-            <div class="collapse-divider"></div>
-            <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="utilities-color.html">Colors</a>
-            <a class="collapse-item" href="utilities-border.html">Borders</a>
-            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
-            <div class="collapse-divider"></div>
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="buttons.html">Buttons</a>
-            <a class="collapse-item" href="cards.html">Cards</a>
-          </div>
-        </div>
-      </li>
 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">
@@ -240,7 +210,7 @@
                 <h6 class="dropdown-header">
                   Alerts Center
                 </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                <a class="dropdown-item d-flex align-items-center" href="alerts.html">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
@@ -251,7 +221,7 @@
                     <span class="font-weight-bold">A new monthly report is ready to download!</span>
                   </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                <a class="dropdown-item d-flex align-items-center" href="alerts.html">
                   <div class="mr-3">
                     <div class="icon-circle bg-success">
                       <i class="fas fa-donate text-white"></i>
@@ -262,7 +232,7 @@
                     $290.29 has been deposited into your account!
                   </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                <a class="dropdown-item d-flex align-items-center" href="alerts.html">
                   <div class="mr-3">
                     <div class="icon-circle bg-warning">
                       <i class="fas fa-exclamation-triangle text-white"></i>
@@ -273,7 +243,7 @@
                     Spending Alert: We've noticed unusually high spending for your account.
                   </div>
                 </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                <a class="dropdown-item text-center small text-gray-500" href="alerts.html">Show All Alerts</a>
               </div>
             </li>
 
@@ -579,10 +549,64 @@
                 </div>
               </div>
 
-
-
             </div>
 
+
+            <div class="col-lg-6 mb-4">
+
+              <!-- Illustrations -->
+              <div class="card border-left-primary shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-secondary">Add new Todo</h6>
+                </div>
+                <div class="card-body">
+                  <div class="text-center">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" placeholder="Todo Title" aria-label="Todo Title"
+                        aria-describedby="basic-addon2">
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <div class="input-group mb-3">
+                          <input type="text" class="form-control" placeholder="Value Goal" aria-label="Value Goal"
+                            aria-describedby="basic-addon2">
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="input-group mb-3">
+                          <input type="text" class="form-control" placeholder="Current Value" aria-label="Current Value"
+                            aria-describedby="basic-addon2">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      <select class="custom-select" id="inputGroupSelect04">
+                        <option selected>Choose Category</option>
+                        <option value="0">None</option>
+                        <option value="1">Food</option>
+                        <option value="2">Social</option>
+                        <option value="3">Trips</option>
+                      </select>
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">
+                          <i class="fas fa-plus fa-sm text-gray-50"></i>
+                          New Category</button>
+                      </div>
+                    </div>
+                    <hr>
+                    <!-- Button Add new Expense-->
+                    <a href="#" class="btn btn-success btn-icon-split">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-check"></i>
+                      </span>
+                      <span class="text">Add new Todo</span>
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
 
           </div>
 
