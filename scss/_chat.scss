@@ -1,0 +1,137 @@
+img {
+    max-width: 100%;
+}
+
+.chat_img {
+    float: left;
+    width: 11%;
+}
+
+.chat_ib {
+    float: left;
+    padding: 0 0 0 15px;
+    width: 88%;
+    text-align: left;
+    h5 {
+        font-size: 15px;
+        color: $black;
+        margin: 0 0 8px 0;
+    }
+    p {
+        font-size: 14px;
+        color: $gray-700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+    }
+    h5 span {
+        font-size: 13px;
+        float: right;
+    }
+}
+
+.chat_people {
+    overflow: hidden;
+    clear: both;
+}
+.chat_list {
+    border-bottom: 1px solid $gray-600;
+    margin: 0;
+    padding: 18px 16px 10px;
+    width: 100%;
+}
+.inbox_chat {
+    height: 75vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-right: 1px solid $gray-600;
+}
+
+.active_chat {
+    background: $gblue;
+}
+
+.incoming_msg {
+    padding-left: 26px;
+}
+
+.incoming_msg_img {
+    display: inline-block;
+    width: 6%;
+}
+.received_msg {
+    display: inline-block;
+    padding: 0 0 0 10px;
+    vertical-align: top;
+    width: 92%;
+}
+.received_withd_msg p {
+    background: $gray-300 none repeat scroll 0 0;
+    border-radius: 3px;
+    color: $black;
+    font-size: 14px;
+    margin: 0;
+    padding: 5px 10px 5px 12px;
+    width: 100%;
+}
+.time_date {
+    color: $gray-700;
+    display: block;
+    font-size: 12px;
+    margin: 8px 0 0;
+}
+.received_withd_msg {
+    width: 57%;
+}
+.mesgs {
+    float: left;
+    padding: 30px 15px 0 25px;
+    width: 60%;
+}
+
+.sent_msg p {
+    background: $cblue none repeat scroll 0 0;
+    border-radius: 3px;
+    font-size: 14px;
+    margin: 0;
+    color: $white;
+    padding: 5px 10px 5px 12px;
+    width: 100%;
+}
+.outgoing_msg {
+    overflow: hidden;
+    margin: 26px 0 26px;
+}
+.sent_msg {
+    float: right;
+    width: 46%;
+    margin-right: 26px;
+}
+.input_msg_write {
+    background: $gray-100 none repeat scroll 0 0;
+    border: medium none;
+    color: $gray-900;
+    font-size: 15px;
+    min-height: 48px;
+    width: 90%;
+}
+
+.type_msg {
+    border-top: 1px solid $gray-600;
+    position: relative;
+    margin-right: 1em;
+    padding-left: 1em;
+}
+
+.msg_history {
+    height: 65vh;
+    overflow-y: auto;
+    margin: 1em;
+}
+
+@media only screen and (max-width: 1200px) {
+    #toggleChat {
+        display: none;
+    }
+}

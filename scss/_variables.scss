@@ -17,6 +17,7 @@ $gray-900: #3a3b45 !default;
 $black: #000 !default;
 
 $cblue: rgb(52, 147, 255) !default;
+$gblue: rgba(52, 147, 255, 0.2) !default;
 $blue: #4e73df !default;
 $indigo: #6610f2 !default;
 $purple: #6f42c1 !default;
@@ -78,6 +79,6 @@ $dropdown-border-color: $border-color;
 
 // Theme
 $theme-colors: (
-  'primary': $cblue,
-  'secondary': $gray-700
+    'primary': $cblue,
+    'secondary': $gray-700,
 );
