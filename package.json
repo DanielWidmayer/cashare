@@ -1,55 +1,62 @@
 {
-    "title": "Ca$hare",
-    "name": "startbootstrap-cashare",
-    "version": "4.0.7",
-    "scripts": {
-        "start": "gulp watch"
-    },
-    "description": "A finance managing tool.",
-    "keywords": [
-        "css",
-        "sass",
-        "html",
-        "responsive",
-        "cash",
-        "financing",
-        "app"
-    ],
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/PhilemonWeber/cashare.git"
-    },
-    "dependencies": {
-        "@fortawesome/fontawesome-free": "5.10.2",
-        "bcrypt": "^4.0.1",
-        "bootstrap": "4.3.1",
-        "chart.js": "2.8.0",
-        "cookie-parser": "^1.4.5",
-        "crypto": "^1.0.1",
-        "datatables.net-bs4": "1.10.19",
-        "dotenv": "^8.2.0",
-        "ejs": "^3.0.2",
-        "express": "^4.17.1",
-        "express-session": "^1.17.1",
-        "helmet": "^3.22.0",
-        "jquery": "3.4.1",
-        "jquery.easing": "^1.4.1",
-        "mysql": "^2.18.1",
-        "util": "^0.12.2"
-    },
-    "devDependencies": {
-        "browser-sync": "2.26.7",
-        "del": "5.1.0",
-        "gulp": "4.0.2",
-        "gulp-autoprefixer": "7.0.0",
-        "gulp-clean-css": "4.2.0",
-        "gulp-header": "2.0.9",
-        "gulp-plumber": "^1.2.1",
-        "gulp-rename": "1.4.0",
-        "gulp-sass": "4.0.2",
-        "gulp-uglify": "3.0.2",
-        "merge-stream": "2.0.0"
-    },
-    "main": "gulpfile.js"
+  "title": "Ca$hare",
+  "name": "startbootstrap-cashare",
+  "version": "4.0.7",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "description": "A finance managing tool.",
+  "keywords": [
+    "css",
+    "sass",
+    "html",
+    "responsive",
+    "cash",
+    "financing",
+    "app"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhilemonWeber/cashare.git"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "5.10.2",
+    "bcrypt": "^4.0.1",
+    "bcryptjs": "^2.4.3",
+    "bootstrap": "4.3.1",
+    "chart.js": "2.8.0",
+    "cookie-parser": "^1.4.5",
+    "crypto": "^1.0.1",
+    "datatables.net-bs4": "1.10.19",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.2",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "helmet": "^3.22.0",
+    "jquery": "3.4.1",
+    "jquery.easing": "^1.4.1",
+    "mysql": "^2.18.1",
+    "popper.js": "^1.16.1",
+    "util": "^0.12.2"
+  },
+  "devDependencies": {
+    "browser-sync": "2.26.7",
+    "del": "5.1.0",
+    "gulp": "4.0.2",
+    "gulp-autoprefixer": "7.0.0",
+    "gulp-clean-css": "4.2.0",
+    "gulp-header": "2.0.9",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rename": "1.4.0",
+    "gulp-sass": "4.0.2",
+    "gulp-uglify": "3.0.2",
+    "merge-stream": "2.0.0"
+  },
+  "main": "gulpfile.js",
+  "bugs": {
+    "url": "https://github.com/PhilemonWeber/cashare/issues"
+  },
+  "homepage": "https://github.com/PhilemonWeber/cashare#readme",
+  "author": ""
 }
