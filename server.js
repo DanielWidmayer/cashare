@@ -76,7 +76,7 @@ app.use(express.json());
 app.use('/',router);
 
 router.get('/', function(req, res) {
-  res.send("this is the homepage");
+  return res.render('home.html');
 });
 
 router.get('/home', redirectLogin, async function (req, res) {
@@ -119,7 +119,7 @@ router.post('/login', async function(req, res){
   }
 }); 
 
-router.post('/logout', redirectLogin, (req, res) => {
+router.get('/logout', redirectLogin, (req, res) => {
   req.session.destroy(err => {
     if(err) {
       console.log(err);
@@ -153,8 +153,33 @@ router.post('/register', async function(req, res){
   }
 });
 
+
 router.get('/tables', redirectLogin, function(req, res) {
-  res.render('tables.html');
+  res.render('logs-tables.html');
+});
+
+router.get('/income', redirectLogin, function(req, res) {
+  res.render('income.html');
+});
+
+router.get('/groups', redirectLogin, function(req, res) {
+  res.render('payment-groups.html');
+});
+
+router.get('/profile', redirectLogin, function(req, res) {
+  res.render('profile.html');
+});
+
+router.get('/expenses', redirectLogin, function(req, res) {
+  res.render('expenses.html');
+});
+
+router.get('/chat', redirectLogin, function(req, res) {
+  res.render('chat.html');
+});
+
+router.get('/settings', redirectLogin, function(req, res) {
+  res.render('blank.html');
 });
 
 router.get('/try', function (req, res) {
@@ -170,7 +195,6 @@ app.use(function(req, res, next) {
 
 // handle error 404 - page not found
 app.use('*', redirectLogin, function(req, res, next) {
-  console.log("404 handler");
   if(req.originalUrl != '/favicon.ico') return res.render('404.html');
 });
 

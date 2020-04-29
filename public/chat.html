@@ -10,6 +10,7 @@
     <meta name="Daniel Widmayer" content="Financing">
 
     <title>Cashare Chat</title>
+    <base href="http://localhost:3000/chat">
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
@@ -33,7 +34,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="./home">
                 <div class="sidebar-brand-icon">
                     <img src="img/cashare21.png" class="img-fluid" alt="Responsive image">
                 </div>
@@ -45,7 +46,7 @@
 
             <!-- Nav Item - Ca$hboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="./home">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Ca$hboard</span></a>
             </li>
@@ -60,7 +61,7 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" href="expenses.html">
+                <a class="nav-link" href="./expenses">
                     <i class="fas fa-fw fa-money-check-alt"></i>
                     <span>Expenses</span>
                 </a>
@@ -69,7 +70,7 @@
 
             <!-- Nav Item - Income -->
             <li class="nav-item">
-                <a class="nav-link" href="income.html">
+                <a class="nav-link" href="./income">
                     <i class="fas fa-fw fa-dollar-sign"></i>
                     <span>Income</span>
                 </a>
@@ -78,7 +79,7 @@
 
             <!-- Nav Item - Logs -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="./tables">
                     <i class="fas fa-fw fa-file-invoice-dollar"></i>
                     <span>Logs</span>
                 </a>
@@ -96,7 +97,7 @@
 
             <!-- Nav Item - Payment Groups -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="payment-groups.html" data-toggle="collapse"
+                <a class="nav-link collapsed" href=",/groups" data-toggle="collapse"
                     data-target="#collapsePayGroups" aria-expanded="true" aria-controls="collapseTestings">
                     <i class="fas fa-fw fa-hand-holding-usd"></i>
                     <span>Payment Groups</span></a>
@@ -104,7 +105,7 @@
                 <div id="collapsePayGroups" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item font-weight-bold text-primary" href="payment-groups.html">Overview</a>
+                        <a class="collapse-item font-weight-bold text-primary" href="./groups">Overview</a>
                         <div class="collapse-divider"></div>
                         <h6 class="collapse-header">Payment Groups:</h6>
                         <a class="collapse-item" href="paymentgroup-shareboard.html">Payment Group Title</a>
@@ -123,7 +124,7 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="profile.html">
+                <a class="nav-link" href="./profile">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Profile</span></a>
             </li>
@@ -217,7 +218,7 @@
                                 <h6 class="dropdown-header">
                                     Alerts Center
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="alerts.html">
+                                <a class="dropdown-item d-flex align-items-center" href="./alerts">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-primary">
                                             <i class="fas fa-file-alt text-white"></i>
@@ -228,7 +229,7 @@
                                         <span class="font-weight-bold">A new monthly report is ready to download!</span>
                                     </div>
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="alerts.html">
+                                <a class="dropdown-item d-flex align-items-center" href="./alerts">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-success">
                                             <i class="fas fa-donate text-white"></i>
@@ -239,7 +240,7 @@
                                         $290.29 has been deposited into your account!
                                     </div>
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="alerts.html">
+                                <a class="dropdown-item d-flex align-items-center" href="./alerts">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-warning">
                                             <i class="fas fa-exclamation-triangle text-white"></i>
@@ -250,7 +251,7 @@
                                         Spending Alert: We've noticed unusually high spending for your account.
                                     </div>
                                 </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="alerts.html">Show All
+                                <a class="dropdown-item text-center small text-gray-500" href="./alerts">Show All
                                     Alerts</a>
                             </div>
                         </li>
@@ -622,7 +623,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="./logout">Logout</a>
                 </div>
             </div>
         </div>
