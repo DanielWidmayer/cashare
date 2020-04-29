@@ -1,46 +1,45 @@
 {
-  "title": "Ca$hare",
-  "name": "startbootstrap-cashare",
-  "version": "4.0.7",
-  "scripts": {
-    "start": "gulp watch"
-  },
-  "description": "A finance managing tool.",
-  "keywords": [
-    "css",
-    "sass",
-    "html",
-    "responsive",
-    "theme",
-    "template",
-    "admin",
-    "app"
-  ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PhilemonWeber/cashare.git"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "5.10.2",
-    "bootstrap": "4.3.1",
-    "chart.js": "2.8.0",
-    "datatables.net-bs4": "1.10.19",
-    "jquery": "3.4.1",
-    "jquery.easing": "^1.4.1"
-  },
-  "devDependencies": {
-    "browser-sync": "2.26.7",
-    "del": "5.1.0",
-    "gulp": "4.0.2",
-    "gulp-autoprefixer": "7.0.0",
-    "gulp-clean-css": "4.2.0",
-    "gulp-header": "2.0.9",
-    "gulp-plumber": "^1.2.1",
-    "gulp-rename": "1.4.0",
-    "gulp-sass": "4.0.2",
-    "gulp-uglify": "3.0.2",
-    "merge-stream": "2.0.0"
-  },
-  "main": "gulpfile.js"
+    "title": "Ca$hare",
+    "name": "startbootstrap-cashare",
+    "version": "4.0.7",
+    "scripts": {
+        "start": "gulp watch"
+    },
+    "description": "A finance managing tool.",
+    "keywords": [
+        "css",
+        "sass",
+        "html",
+        "responsive",
+        "cash",
+        "financing",
+        "app"
+    ],
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/PhilemonWeber/cashare.git"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "5.10.2",
+        "bootstrap": "4.3.1",
+        "chart.js": "2.8.0",
+        "datatables.net-bs4": "1.10.19",
+        "jquery": "3.4.1",
+        "jquery.easing": "^1.4.1"
+    },
+    "devDependencies": {
+        "browser-sync": "2.26.7",
+        "del": "5.1.0",
+        "gulp": "4.0.2",
+        "gulp-autoprefixer": "7.0.0",
+        "gulp-clean-css": "4.2.0",
+        "gulp-header": "2.0.9",
+        "gulp-plumber": "^1.2.1",
+        "gulp-rename": "1.4.0",
+        "gulp-sass": "4.0.2",
+        "gulp-uglify": "3.0.2",
+        "merge-stream": "2.0.0"
+    },
+    "main": "gulpfile.js"
 }

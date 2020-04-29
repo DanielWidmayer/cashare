@@ -1,32 +1,36 @@
 # Gemeinsame-Finanzverwaltung
+
 Projektarbeit 2 der Vorlesung Software-Engineering DHBW Stuttgart
-***********************************************************
-* Projekt: Webapplikation für gemeinsame Finanzverwaltung *
-***********************************************************
+
+---
+
+-   Projekt: Webapplikation für gemeinsame Finanzverwaltung
+
+---
 
 Anforderungen ans Projekt:
-- Webapplikation
-- Datenbankanbindung
-- Benutzer und Rechtesteuerung (Rollen)
+
+-   Webapplikation
+-   Datenbankanbindung
+-   Benutzer und Rechtesteuerung (Rollen)
 
 Vorstellung am 14. Mai 2020
 
-- Pflichtenheft (Spez.)
-- Architekturdokument (ARCH42)
-- Codierungsrichtlinien
-- Konfigmanagement (Versionierung: Minor Major)
-- Lauffähige Anwendung
-- Planung Betrieb Wartung
-- Dokumentation (Benutzeranleitung)
+-   Pflichtenheft (Spez.)
+-   Architekturdokument (ARCH42)
+-   Codierungsrichtlinien
+-   Konfigmanagement (Versionierung: Minor Major)
+-   Lauffähige Anwendung
+-   Planung Betrieb Wartung
+-   Dokumentation (Benutzeranleitung)
 
 Projektbeschreibung:
 Ziel des Projekts ist es Finanzen für bestimmte Dinge Teilen zu können.
 Dies kann mit TODO's verbunden werden. Dabei können Kosten aufgeteilt werden oder auch gespartes Geld getrackt werden.
 
+---
 
-********************************************************************************
-
-## CA$HARE [Template](https://startbootstrap.com/template-overviews/sb-admin-2/)
+## CA\$HARE Frontend Template
 
 We used [SB Admin 2](https://startbootstrap.com/template-overviews/sb-admin-2/) which is an open source admin dashboard theme.
 
@@ -40,14 +44,13 @@ We used [SB Admin 2](https://startbootstrap.com/template-overviews/sb-admin-2/) 
 
 To begin using this template, choose one of the following options to get started:
 
--   [Download the latest release on Start Bootstrap](https://startbootstrap.com/template-overviews/sb-admin-2/)
--   Install via npm: `npm i startbootstrap-sb-admin-2`
--   Clone the repo: `git clone https://github.com/BlackrockDigital/startbootstrap-sb-admin-2.git`
--   [Fork, Clone, or Download on GitHub](https://github.com/BlackrockDigital/startbootstrap-sb-admin-2)
+-   [Fork, Clone, or Download on GitHub](https://github.com/PhilemonWeber/cashare/tree/frontend_dev)
+-   Install via npm: `npm install`
+-   Start developing: `npm start`
 
 ## Usage
 
-After installation, run `npm install` and then run `npm start` which will open up a preview of the template in your default browser, watch for changes to core template files, and live reload the browser when changes are saved. You can view the `gulpfile.js` to see which tasks are included with the dev environment.
+After node.js installation, run `npm install` and then run `npm start` which will open up a preview of the template in your default browser, watch for changes to core template files, and live reload the browser when changes are saved. You can view the `gulpfile.js` to see which tasks are included with the dev environment.
 
 ### Gulp Tasks
 
@@ -65,7 +68,6 @@ Start Bootstrap is an open source library of free Bootstrap templates and themes
 
 -   <https://startbootstrap.com>
 -   <https://twitter.com/SBootstrap>
-
 
 ## Copyright and License
 
