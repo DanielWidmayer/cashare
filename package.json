@@ -22,11 +22,21 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "5.10.2",
+        "bcrypt": "^4.0.1",
         "bootstrap": "4.3.1",
         "chart.js": "2.8.0",
+        "cookie-parser": "^1.4.5",
+        "crypto": "^1.0.1",
         "datatables.net-bs4": "1.10.19",
+        "dotenv": "^8.2.0",
+        "ejs": "^3.0.2",
+        "express": "^4.17.1",
+        "express-session": "^1.17.1",
+        "helmet": "^3.22.0",
         "jquery": "3.4.1",
-        "jquery.easing": "^1.4.1"
+        "jquery.easing": "^1.4.1",
+        "mysql": "^2.18.1",
+        "util": "^0.12.2"
     },
     "devDependencies": {
         "browser-sync": "2.26.7",

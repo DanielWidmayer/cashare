@@ -1,3 +1,10 @@
+<<<<<<< HEAD
 /node_modules
 npm-debug.log
 
+=======
+frontend_template
+/node_modules
+.env
+rand.js
+>>>>>>> e33b7683349ed236c5632aceaff34347a200ad90
