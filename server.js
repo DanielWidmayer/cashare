@@ -59,7 +59,7 @@ const redirectLogin = (req, res, next) => {
 // static folder where static files like html are stored
 app.use(express.static('public', { index: false }));
 // view folder for the template engine
-app.set('views', __dirname + '/public');
+app.set('views', __dirname + '/public/templates');
 // set the template engine to be ejs
 app.engine('html', require('ejs').renderFile);
 // usage of .html files
@@ -91,8 +91,9 @@ router.get('/home', redirectLogin, async function (req, res) {
   }
 });
 
-router.get('/blank', redirectLogin, function (req, res) {
-  return res.render('blank.html');
+router.get('/blank', redirectLogin, async function (req, res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  return res.render('blank.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
 router.get('/login', function (req, res) {
@@ -151,36 +152,44 @@ router.post('/register', async function (req, res) {
   }
 });
 
-router.get('/tables', redirectLogin, function (req, res) {
-  res.render('logs-tables.html');
+router.get('/tables', redirectLogin, async function (req, res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  res.render('logs-tables.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
-router.get('/income', redirectLogin, function (req, res) {
-  res.render('income.html');
+router.get('/income', redirectLogin, async function (req, res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  res.render('income.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
-router.get('/groups', redirectLogin, function (req, res) {
-  res.render('payment-groups.html');
+router.get('/groups', redirectLogin, async function (req, res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  res.render('payment-groups.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
-router.get('/profile', redirectLogin, function (req, res) {
-  res.render('profile.html');
+router.get('/profile', redirectLogin, async function (req, res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  res.render('profile.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
-router.get('/expenses', redirectLogin, function (req, res) {
-  res.render('expenses.html');
+router.get('/expenses', redirectLogin, async function (req, res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  res.render('expenses.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
-router.get('/chat', redirectLogin, function (req, res) {
-  res.render('chat.html');
+router.get('/chat', redirectLogin, async function (req, res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  res.render('chat.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
-router.get('/settings', redirectLogin, function (req, res) {
-  res.render('blank.html');
+router.get('/settings', redirectLogin, async function (req, res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  res.render('blank.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
-router.get('/alerts', redirectLogin, function (req, res) {
-  res.render('alerts.html');
+router.get('/alerts', redirectLogin, async function (req, res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  res.render('alerts.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
 router.get('/try', function (req, res) {
