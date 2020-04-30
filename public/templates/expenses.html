@@ -44,7 +44,8 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-primary font-weight-bold">Expenses</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+                            data-toggle="modal" data-target="#exampleModalCenter"><i
                                 class="fas fa-plus fa-sm text-white-50"></i> New Expense</a>
                     </div>
 
@@ -346,6 +347,54 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="./logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Income Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add New Income</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Value of transaction"
+                                aria-label="Transaction Value" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">$</span>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <select class="custom-select" id="inputGroupSelect04">
+                                <option selected>Choose Category</option>
+                                <option value="1">Food</option>
+                                <option value="2">Social</option>
+                                <option value="3">Trips</option>
+                            </select>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button">
+                                    <i class="fas fa-plus fa-sm text-gray-50"></i>
+                                    New Category</button>
+                            </div>
+                        </div>
+                        <hr>
+                        <!-- Button Add new Expense-->
+                        <a href="#" class="btn btn-success btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-check"></i>
+                            </span>
+                            <span class="text">Add new Expense</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
