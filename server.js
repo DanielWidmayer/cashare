@@ -82,9 +82,10 @@ router.get('/', function (req, res) {
 
 router.get('/home', redirectLogin, async function (req, res) {
   try {
-    let q_user = await dbsql.db_user.getNameByID(req.session.userID);
-    return res.render('index.html', { user: q_user });
-  } catch (err) {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    return res.render('index.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  }
+  catch (err) {
     console.log(err);
     return res.redirect('/login');
   }
