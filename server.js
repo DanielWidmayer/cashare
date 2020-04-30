@@ -126,7 +126,7 @@ router.get('/logout', redirectLogin, (req, res) => {
       return res.redirect('/home');
     }
     res.clearCookie(process.env.SESS_NAME);
-    res.redirect('/login');
+    return res.redirect('/login');
   });
 });
 
@@ -155,31 +155,31 @@ router.post('/register', async function(req, res){
 
 
 router.get('/tables', redirectLogin, function(req, res) {
-  res.render('logs-tables.html');
+  return res.render('logs-tables.html');
 });
 
 router.get('/income', redirectLogin, function(req, res) {
-  res.render('income.html');
+  return res.render('income.html');
 });
 
 router.get('/groups', redirectLogin, function(req, res) {
-  res.render('payment-groups.html');
+  return res.render('payment-groups.html');
 });
 
 router.get('/profile', redirectLogin, function(req, res) {
-  res.render('profile.html');
+  return res.render('profile.html');
 });
 
 router.get('/expenses', redirectLogin, function(req, res) {
-  res.render('expenses.html');
+  return res.render('expenses.html');
 });
 
 router.get('/chat', redirectLogin, function(req, res) {
-  res.render('chat.html');
+  return res.render('chat.html');
 });
 
 router.get('/settings', redirectLogin, function(req, res) {
-  res.render('blank.html');
+  return res.render('blank.html');
 });
 
 router.get('/try', function (req, res) {
@@ -202,7 +202,7 @@ app.use('*', redirectLogin, function(req, res, next) {
 app.use(function(err, req, res, next) {
   console.log("Error handler");
   console.error(err);
-  res.status(500).send({ error: err.message });
+  return res.status(500).send({ error: err.message });
 });
 
 
