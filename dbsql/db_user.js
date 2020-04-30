@@ -8,7 +8,8 @@ const COLS = [
     'mail',
     'password',
     'phone',
-    'balance'
+    'balance',
+    'picture'
 ];
 module.exports.TBNAME = TBNAME;
 module.exports.COLS = COLS;
@@ -31,7 +32,8 @@ module.exports.create_table = async function() {
               + COLS[3] + " VARCHAR(255) not null,"
               + COLS[4] + " varchar(255) not null,"
               + COLS[5] + " varchar(255),"
-              + COLS[6] + " decimal(10,2) not null default('0')"
+              + COLS[6] + " decimal(10,2) not null default('0'),"
+              + COLS[7] + " varchar(100)"
               + ");"
         try {
             await query(sql);
@@ -68,13 +70,16 @@ module.exports.getDataByMail = async function(mail) {
     }
 }
 
-module.exports.getNameByID = async function(user_id) {
-    var sql, res;
-    sql = `SELECT ${COLS[1]}, ${COLS[2]} FROM ${TBNAME} WHERE ${COLS[0]} = '${user_id}';`
+module.exports.getDataByID = async function(user_id) {
+    var sql = `SELECT * FROM ${TBNAME} WHERE ${COLS[0]} = '${user_id}';`
     try {
-        res = await query(sql);
-        res = res[0];
-        return [res[COLS[1]], res[COLS[2]]];
+        let q_res = await query(sql);
+        let res = [];
+        q_res = q_res[0];
+        for (i in q_res) {
+            if(i != COLS[4]) res.push(q_res[i]);
+        }
+        return res;
     }
     catch(err) {
         throw err;
