@@ -159,7 +159,11 @@ router.get('/tables', redirectLogin, async function (req, res) {
 
 router.get('/income', redirectLogin, async function (req, res) {
   let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('income.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  console.log(q_user);
+  let q_cat = await dbsql.db_cat.getCategoryByID(req.session.userID, false);
+  var q_categorys = JSON.parse(JSON.stringify(q_cat));
+  console.log(q_categorys[0]);
+  res.render('income.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], categorys: q_categorys});
 });
 
 router.post('/income', redirectLogin, async function (req, res){
@@ -167,7 +171,7 @@ router.post('/income', redirectLogin, async function (req, res){
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
     console.log(req.body);
     let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory,false,q_user[0]);
-    console.log(sqlret);
+
     res.send(q_user[1] + " " + req.body.transactionValue);
   } catch (err) {
     console.log(err);
@@ -179,7 +183,7 @@ router.post('/addCategory', redirectLogin, async function (req, res){
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
     console.log(req.body);
 
-    let ret = await dbsql.db_cat.addCategory(req.body.newCategory, req.body.description, req.body.category_isExpense);
+    let ret = await dbsql.db_cat.addCategory(req.body.newCategory, req.body.description, req.body.category_isExpense, q_user[0]);
     res.send(q_user[1] + " " + req.body.newCategory);
   } catch (err) {
     console.log(err);
@@ -203,7 +207,10 @@ router.get('/profile', redirectLogin, async function (req, res) {
 
 router.get('/expenses', redirectLogin, async function (req, res) {
   let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('expenses.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  let q_cat = await dbsql.db_cat.getCategoryByID(req.session.userID, true);
+  var q_categorys = JSON.parse(JSON.stringify(q_cat));
+  console.log(q_categorys[0]);
+  res.render('expenses.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], categorys: q_categorys });
 });
 
 router.post('/expenses', redirectLogin, async function (req, res){

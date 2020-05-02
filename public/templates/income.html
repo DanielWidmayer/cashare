@@ -234,9 +234,9 @@
                                         <div class="input-group mb-3">
                                             <select class="custom-select" id="chooseCategory">
                                                 <option selected>Choose Category</option>
-                                                <option value="1">Food</option>
-                                                <option value="2">Social</option>
-                                                <option value="3">Trips</option>
+                                            <% categorys.forEach(function(cat){ %>
+                                                <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
+                                            <% }); %>
                                             </select>
                                             <div class="input-group-append">
 
@@ -377,9 +377,9 @@
                         <div class="input-group mb-3">
                             <select class="custom-select" id="chooseCategoryModal">
                                 <option selected>Choose Category</option>
-                                <option value="1">Food</option>
-                                <option value="2">Social</option>
-                                <option value="3">Trips</option>
+                                <% categorys.forEach(function(cat){ %>
+                                    <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
+                                <% }); %>
                             </select>
                             <div class="input-group-append">
                                 <button type="button" id="CategoryModalButton" class="btn btn-outline-secondary" data-toggle="modal" data-target="#CategoryModal">

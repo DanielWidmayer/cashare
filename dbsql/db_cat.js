@@ -52,14 +52,14 @@ module.exports.create_table = async function(db_user) {
     }
 }
 
-module.exports.addCategory = async function(name, description, isExpense) {
+module.exports.addCategory = async function(name, description, isExpense, user_id) {
     var sql, res;
 
     var toBool = (isExpense == 'true');
     try {
         console.log(isExpense);
-        sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}) `
-                + `VALUES ('${name}', '${description}', ${isExpense});`;
+        sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}) `
+                + `VALUES ('${name}', '${description}', ${isExpense}, ${user_id});`;
             
         res = await query(sql);
         console.log("addedorno");
@@ -67,5 +67,39 @@ module.exports.addCategory = async function(name, description, isExpense) {
     }
     catch(err) {
         throw err;
+    }
+}
+
+module.exports.getCategoryByID = async function(user_id, isExpense) {
+    
+    if(isExpense)
+    {
+        var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[4]} = '${user_id}' AND ${COLS[3]} = true) OR (${COLS[4]} IS NULL AND ${COLS[3]} = true);`
+        try {
+            let q_res = await query(sql);
+            let res = [];
+            for (i in q_res) {
+                res.push(q_res[i]);
+            }
+            return res;
+        }
+        catch(err) {
+             throw err;
+        }
+    }
+    else
+    {
+        var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[4]} = '${user_id}' AND ${COLS[3]} = false) OR (${COLS[4]} IS NULL AND ${COLS[3]} = false);`
+        try {
+            let q_res = await query(sql);
+            let res = [];
+            for (i in q_res) {
+                res.push(q_res[i]);
+            }
+            return res;
+        }
+        catch(err) {
+             throw err;
+        }
     }
 }
