@@ -484,8 +484,9 @@
         $("#addNewCategory").click(function(){
             var newCategory = $("#newCategory").val();
             var description = $("#CategoryDescription").val();
+            var category_isExpense = false;
 
-            var category = {'newCategory': newCategory, 'description': description};
+            var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
             $.post( "/addCategory", category ) 
             .done(function( data ) {
                 console.log( "Data Loaded: " + data );
@@ -497,8 +498,9 @@
         $("#addNewCategoryModal").click(function(){
             var newCategory = $("#newCategoryModal").val();
             var description = $("#CategoryDescriptionModal").val();
+            var category_isExpense = false;
 
-            var category = {'newCategory': newCategory, 'description': description};
+            var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
             $.post( "/addCategory", category ) 
             .done(function( data ) {
                 console.log( "Data Loaded: " + data );
