@@ -162,9 +162,34 @@ router.get('/income', redirectLogin, async function (req, res) {
   res.render('income.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
+router.post('/income', redirectLogin, async function (req, res){
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    console.log(req.body);
+    res.send(q_user[1] + " " + req.body.transactionValue);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post('/addCategory', redirectLogin, async function (req, res){
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    console.log(req.body);
+    res.send(q_user[1] + " " + req.body.newCategory);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 router.get('/groups', redirectLogin, async function (req, res) {
   let q_user = await dbsql.db_user.getDataByID(req.session.userID);
   res.render('payment-groups.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+});
+
+router.get('/groups-shareboard', redirectLogin, async function(req,res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  res.render('paymentgroup-shareboard.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
 router.get('/profile', redirectLogin, async function (req, res) {
