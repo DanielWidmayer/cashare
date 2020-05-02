@@ -52,3 +52,34 @@ module.exports.create_table = async function(db_user, db_cat, db_group) {
 module.exports.trialtrans = function () {
     console.log("trial function triggered");
 }
+
+module.exports.insertTransaction = async function(value, isPeriodic, category, isExpense, userID) {
+    var sql, res;
+
+    try {
+        
+        if(isExpense){
+            value = value - (value * 2);
+        }
+        var currenttime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        if(isPeriodic == 0){
+            sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}) `
+            + `VALUES ('${value}', '${currenttime}', '${userID}', '${category}');`;
+        }
+        else{
+            sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[3]}, ${COLS[4]}) `
+            + `VALUES ('${value}', '${userID}', '${category}');`;
+        }
+    
+
+    
+
+
+        res = await query(sql);
+        return res;
+        
+    }
+    catch(err) {
+        throw err;
+    }
+}

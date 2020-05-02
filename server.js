@@ -166,6 +166,8 @@ router.post('/income', redirectLogin, async function (req, res){
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
     console.log(req.body);
+    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory,false,q_user[0]);
+    console.log(sqlret);
     res.send(q_user[1] + " " + req.body.transactionValue);
   } catch (err) {
     console.log(err);
