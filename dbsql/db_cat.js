@@ -22,8 +22,8 @@ module.exports.create_table = async function() {
         sql = "create table " + TBNAME + " ("
             + COLS[0] + " int not null auto_increment primary key," 
             + COLS[1] + " varchar(255) not null,"
-            + COLS[2] + " varchar(500) "
-            + COLS[3] + "boolean not null"
+            + COLS[2] + " varchar(500), "
+            + COLS[3] + " boolean not null"
             +");"
         try {
             await query(sql);

@@ -33,7 +33,7 @@ module.exports.create_table = async function(db_user, db_cat, db_group) {
             //+`Foreign Key (${COLS[5]}) REFERENCES ${db_cat.TBNAME}(${db_cat.COLS[0]}),`
             //+ COLS[6] + " int,"
             //+`Foreign Key (${COLS[6]}) REFERENCES ${db_group.TBNAME}(${db_group.COLS[0]}) `
-            +//"ON DELETE CASCADE,"
+            //"ON DELETE CASCADE,"
             //+ COLS[7] + " int,"
             //+`Foreign Key (${COLS[7]}) REFERENCES ${db_user.TBNAME}(${db_user.COLS[0]}),`
             //+ COLS[8] + " varchar(255)"
