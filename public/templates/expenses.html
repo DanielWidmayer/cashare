@@ -45,7 +45,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-primary font-weight-bold">Expenses</h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-                            data-toggle="modal" data-target="#exampleModalCenter"><i
+                            data-toggle="modal" data-target="#ExpenseModal"><i
                                 class="fas fa-plus fa-sm text-white-50"></i> New Expense</a>
                     </div>
 
@@ -269,7 +269,7 @@
                                 <div class="card-body">
                                     <div class="text-center">
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Value of transaction"
+                                            <input type="text" class="form-control" placeholder="Value of transaction" id="transactionValue"
                                                 aria-label="Transaction Value" aria-describedby="basic-addon2">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon2">$</span>
@@ -277,26 +277,62 @@
                                         </div>
 
                                         <div class="input-group">
-                                            <select class="custom-select" id="inputGroupSelect04">
+                                            <select class="custom-select" id="chooseCategory">
                                                 <option selected>Choose Category</option>
                                                 <option value="1">Food</option>
                                                 <option value="2">Social</option>
                                                 <option value="3">Trips</option>
                                             </select>
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary" type="button">
-                                                    <i class="fas fa-plus fa-sm text-gray-50"></i>
-                                                    New Category</button>
+                                            <div class="input-group-append"> <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#Category">
+                                                <i class="fas fa-plus fa-sm text-gray-50"></i>
+                                                New Category
+                                              </button>
+                                              
+                                              <!-- Modal new Category-->
+                                              <div class="modal fade" id="Category" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style = "display: none; z-index: 1999;" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <h5 class="modal-title" id="exampleModalLabel">Add New Category</h5>
+                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                      </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="text-center">
+                                                            <div class="input-group mb-3">
+                                                                <input type="text" class="form-control" placeholder="Category"
+                                                                    aria-label="New Category" aria-describedby="basic-addon2" id="newCategory">
+                                                            </div>
+                                                                                                                    
+                                                            <div class="input-group mb-3">
+                                                                <textarea class="form-control" id="CategoryDescription" rows="3" placeholder = "Description"></textarea>
+                                                            </div>
+                                                            <hr>
+                                                            <!-- Button Add new Income-->
+                                                            <button class="btn btn-success btn-icon-split" id="addNewCategory">
+                                                                <span class="icon text-white-50">
+                                                                    <i class="fas fa-check"></i>
+                                                                </span>
+                                                                <span class="text">Add new Category</span>
+                                                            </button>
+                                                        </div>
+
+                                                  </div>
+                                                </div>
+                                              </div>
+
+                                             </div>
                                             </div>
                                         </div>
                                         <hr>
                                         <!-- Button Add new Expense-->
-                                        <a href="#" class="btn btn-success btn-icon-split">
+                                        <button class="btn btn-success btn-icon-split" id = "addExpense">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-check"></i>
                                             </span>
                                             <span class="text">Add new Expense</span>
-                                        </a>
+                                        </button>
                                     </div>
 
                                 </div>
@@ -353,7 +389,7 @@
     </div>
 
     <!-- New Income Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+    <div class="modal fade" id="ExpenseModal" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -366,7 +402,7 @@
                 <div class="modal-body">
                     <div class="text-center">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Value of transaction"
+                            <input type="text" class="form-control" placeholder="Value of transaction" id="transactionValueModal"
                                 aria-label="Transaction Value" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <span class="input-group-text" id="basic-addon2">$</span>
@@ -374,26 +410,63 @@
                         </div>
 
                         <div class="input-group">
-                            <select class="custom-select" id="inputGroupSelect04">
+                            <select class="custom-select" id="chooseCategoryModal">
                                 <option selected>Choose Category</option>
                                 <option value="1">Food</option>
                                 <option value="2">Social</option>
                                 <option value="3">Trips</option>
                             </select>
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button">
+                                <button type="button" id="CategoryModalButton" class="btn btn-outline-secondary" data-toggle="modal" data-target="#CategoryModal">
                                     <i class="fas fa-plus fa-sm text-gray-50"></i>
-                                    New Category</button>
+                                    New Category
+                                  </button>
+                                  
+                                  <!-- Modal new Category-->
+                                  <div class="modal fade" id="CategoryModal" tabindex="-1" style = "display: none; z-index: 2000;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Add New Category</h5>
+                                          <button type="button" class="close" data-dismiss-modal="modal2" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="text-center">
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" placeholder="Category"
+                                                        aria-label="New Category" aria-describedby="basic-addon2" id="newCategoryModal">
+                                                </div>
+                                                                                                        
+                                                <div class="input-group mb-3">
+                                                    <textarea class="form-control" id="CategoryDescriptionModal" rows="3" placeholder = "Description"></textarea>
+                                                </div>
+                                                <hr>
+                                                <!-- Button Add new Income-->
+                                                <button class="btn btn-success btn-icon-split" id="addNewCategoryModal">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-check"></i>
+                                                    </span>
+                                                    <span class="text">Add new Category</span>
+                                                </button>
+                                            </div>
+
+                                      </div>
+                                    </div>
+                                  </div>
+
+                            </div>
                             </div>
                         </div>
                         <hr>
                         <!-- Button Add new Expense-->
-                        <a href="#" class="btn btn-success btn-icon-split">
+                        <button class="btn btn-success btn-icon-split" id = "addExpenseModal">
                             <span class="icon text-white-50">
                                 <i class="fas fa-check"></i>
                             </span>
                             <span class="text">Add new Expense</span>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -418,6 +491,67 @@
     <script src="js/demo/chart-pie-demo.js"></script>
     <script src="js/demo/chart-bar-demo.js"></script>
 
+    <script>
+
+        $("#addExpense").click(function(){
+            var transactionValue = $("#transactionValue").val();
+            var chooseCategory = $("#chooseCategory").val();
+
+            var transaction = {'transactionValue':transactionValue, 'chooseCategory':chooseCategory};
+
+            $.post( "/expenses", transaction ) 
+            .done(function( data ) {
+                console.log( "Data Loaded: " + data );
+                
+            });
+        });
+
+        $("#addExpenseModal").click(function(){
+            var transactionValue = $("#transactionValueModal").val();
+            var chooseCategory = $("#chooseCategoryModal").val();
+
+            var transaction = {'transactionValue':transactionValue, 'chooseCategory':chooseCategory};
+
+            $.post( "/expenses", transaction ) 
+            .done(function( data ) {
+                console.log( "Data Loaded: " + data );
+                
+                $('#ExpenseModal').modal('hide');
+            });
+        });
+
+        $("#addNewCategory").click(function(){
+            var newCategory = $("#newCategory").val();
+            var description = $("#CategoryDescription").val();
+            var category_isExpense = true;
+
+            var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
+            $.post( "/addCategory", category ) 
+            .done(function( data ) {
+                console.log( "Data Loaded: " + data );
+                
+                $('#Category').modal('hide');
+            });
+        });
+
+        $("#addNewCategoryModal").click(function(){
+            var newCategory = $("#newCategoryModal").val();
+            var description = $("#CategoryDescriptionModal").val();
+            var category_isExpense = true;
+
+            var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
+            $.post( "/addCategory", category ) 
+            .done(function( data ) {
+                console.log( "Data Loaded: " + data );
+                $('#CategoryModal').modal('hide');
+            });
+        });
+
+        $("button[data-dismiss-modal=modal2]").click(function(){
+            $('#CategoryModal').modal('hide');
+        });
+
+    </script>
 
 </body>
 
