@@ -4,17 +4,17 @@ const COLS = [
     'category_id',
     'category_name',
     'category_description',
-    'category_isExpense'
+    'category_isExpense',
+    'category_userID'
 ];
 module.exports.TBNAME = TBNAME;
 module.exports.COLS = COLS;
 
-module.exports.create_table = async function() {
+module.exports.create_table = async function(db_user) {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
     var sql2;
     try {
         await query(sql);
-        await query(sql2);
         console.log("table category_table allready exists!");
     }
     catch(err) {
@@ -25,7 +25,10 @@ module.exports.create_table = async function() {
             + COLS[0] + " int not null auto_increment primary key," 
             + COLS[1] + " varchar(255) not null,"
             + COLS[2] + " varchar(500), "
-            + COLS[3] + " boolean not null"
+            + COLS[3] + " boolean not null,"
+            + COLS[4] + " int,"
+            +`Foreign Key (${COLS[4]}) References ${db_user.TBNAME}(${db_user.COLS[0]}) `
+            + "ON DELETE CASCADE"
             +");"
         
             sql2 = "INSERT INTO "+ TBNAME +"("

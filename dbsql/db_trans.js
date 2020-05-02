@@ -26,9 +26,11 @@ module.exports.create_table = async function(db_user, db_cat, db_group) {
             + COLS[1] + " decimal(10,2) not null,"
             + COLS[2] + " datetime,"
             + COLS[3] + " int not null,"
-            + COLS[4] + " int not null,"
-            +`Foreign Key (${COLS[4]}) REFERENCES ${db_user.TBNAME}(${db_user.COLS[0]}) `
-            +"ON DELETE CASCADE"
+            +`Foreign Key (${COLS[3]}) REFERENCES ${db_user.TBNAME}(${db_user.COLS[0]}) `
+            +"ON DELETE CASCADE,"
+            + COLS[4] + " int ,"
+            +`Foreign Key (${COLS[4]}) REFERENCES ${db_cat.TBNAME}(${db_cat.COLS[0]}) `
+            +"ON DELETE SET NULL"
             //+ COLS[5] + " int,"
             //+`Foreign Key (${COLS[5]}) REFERENCES ${db_cat.TBNAME}(${db_cat.COLS[0]}),`
             //+ COLS[6] + " int,"
@@ -53,7 +55,7 @@ module.exports.trialtrans = function () {
     console.log("trial function triggered");
 }
 
-module.exports.insertTransaction = async function(value, isPeriodic, category, isExpense, userID) {
+module.exports.insertTransaction = async function(value, transonce, category, isExpense, userID) {
     var sql, res;
 
     try {
@@ -62,11 +64,11 @@ module.exports.insertTransaction = async function(value, isPeriodic, category, i
             value = value - (value * 2);
         }
         var currenttime = new Date().toISOString().slice(0, 19).replace('T', ' ');
-        if(isPeriodic == 0){
+        if(transonce == 1){
             sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}) `
             + `VALUES ('${value}', '${currenttime}', '${userID}', '${category}');`;
         }
-        else{
+        else if (transonce > 1){
             sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[3]}, ${COLS[4]}) `
             + `VALUES ('${value}', '${userID}', '${category}');`;
         }

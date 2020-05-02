@@ -38,10 +38,10 @@ app.use(
 // Database Connection
 dbsql.createConnection(process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASSWORD, process.env.DB_PORT, process.env.DB_NAME);
 dbsql.db_user.create_table();
-dbsql.db_cat.create_table();
+dbsql.db_cat.create_table(dbsql.db_user);
 dbsql.db_group.create_table();
 dbsql.db_user_group.create_table(dbsql.db_user, dbsql.db_group);
-dbsql.db_user_cat.create_table(dbsql.db_user, dbsql.db_cat);
+//dbsql.db_user_cat.create_table(dbsql.db_user, dbsql.db_cat);
 dbsql.db_goal.create_table(dbsql.db_cat, dbsql.db_group, dbsql.db_user);
 dbsql.db_msg.create_table(dbsql.db_user, dbsql.db_group);
 dbsql.db_trans.create_table(dbsql.db_user, dbsql.db_cat, dbsql.db_group);
