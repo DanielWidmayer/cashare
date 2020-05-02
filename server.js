@@ -210,6 +210,7 @@ router.post('/expenses', redirectLogin, async function (req, res){
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
     console.log(req.body);
+    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, 1, req.body.chooseCategory,true,q_user[0]);
     res.send(q_user[1] + " " + req.body.transactionValue);
   } catch (err) {
     console.log(err);
