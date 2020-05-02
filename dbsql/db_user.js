@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const crypto = require('crypto-js');
 
 const TBNAME = 'user_table';
 const COLS = [
@@ -7,6 +8,8 @@ const COLS = [
     'lastname',
     'mail',
     'password',
+    'isVerified',
+    'pw_reset',
     'phone',
     'balance',
     'picture'
@@ -31,9 +34,11 @@ module.exports.create_table = async function() {
               + COLS[2] + " varchar(255) not null,"
               + COLS[3] + " VARCHAR(255) not null,"
               + COLS[4] + " varchar(255) not null,"
-              + COLS[5] + " varchar(255),"
-              + COLS[6] + " decimal(10,2) not null default('0'),"
-              + COLS[7] + " varchar(100)"
+              + COLS[5] + " boolean default(false),"
+              + COLS[6] + " varchar(255),"
+              + COLS[7] + " varchar(255),"
+              + COLS[8] + " decimal(10,2) not null default('0'),"
+              + COLS[9] + " varchar(100)"
               + ");"
         try {
             await query(sql);
@@ -74,10 +79,18 @@ module.exports.getDataByID = async function(user_id) {
     var sql = `SELECT * FROM ${TBNAME} WHERE ${COLS[0]} = '${user_id}';`
     try {
         let q_res = await query(sql);
-        let res = [];
+        let res = [];   
         q_res = q_res[0];
+        if (!q_res) throw "This User does not exist!";
+
         for (i in q_res) {
-            if(i != COLS[4]) res.push(q_res[i]);
+            switch(i) {
+                case COLS[4]: break;
+                case COLS[5]: break;
+                case COLS[6]: break;
+                default: res.push(q_res[i]);
+            }
+            //if(i != COLS[4]) res.push(q_res[i]);
         }
         return res;
     }
@@ -110,7 +123,7 @@ module.exports.registerUser = async function(firstname, lastname, mail, password
         res = await this.getDataByMail(mail);
         if(res) throw "Mail is already used!";
         else {
-            let phone_namespace = phone ? `, ${COLS[5]}` : ``;
+            let phone_namespace = phone ? `, ${COLS[7]}` : ``;
             let phone_value = phone ? `, '${phone}'` : ``;
             password = await bcrypt.hash(password,10);
 

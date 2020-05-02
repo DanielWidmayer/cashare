@@ -87,13 +87,18 @@ router.get('/home', redirectLogin, async function (req, res) {
   }
   catch (err) {
     console.log(err);
-    return res.redirect('/login');
+    return res.redirect('/logout');
   }
 });
 
 router.get('/blank', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  return res.render('blank.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    return res.render('blank.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  } catch (err) {
+    console.log(err);
+    return res.redirect('/logout');
+  }
 });
 
 router.get('/login', function (req, res) {
@@ -153,43 +158,83 @@ router.post('/register', async function (req, res) {
 });
 
 router.get('/tables', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('logs-tables.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    res.render('logs-tables.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  } catch(err) {
+    console.log(err);
+    return res.redirect('/logout');
+  }
 });
 
 router.get('/income', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('income.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    res.render('income.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  } catch(err) {
+    console.log(err);
+    return res.redirect('/logout');
+  }
 });
 
 router.get('/groups', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('payment-groups.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    res.render('payment-groups.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  } catch(err) {
+    console.log(err);
+    return res.redirect('/logout');
+  }
 });
 
 router.get('/profile', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('profile.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    res.render('profile.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  } catch(err) {
+    console.log(err);
+    return res.redirect('/logout');
+  }
 });
 
 router.get('/expenses', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('expenses.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    res.render('expenses.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  } catch (err) {
+    console.log(err);
+    return res.redirect('/logout');
+  }
 });
 
 router.get('/chat', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('chat.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    return res.render('chat.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  } catch(err) {
+    console.log(err);
+    return res.redirect('/logout');
+  }
 });
 
 router.get('/settings', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('blank.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    return res.render('blank.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  } catch(err) {
+    console.log(err);
+    return res.redirect('/logout');
+  }
 });
 
 router.get('/alerts', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('alerts.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    return res.render('alerts.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+  } catch(err) {
+    console.log(err);
+    return res.redirect('/logout');
+  }
 });
 
 router.get('/try', function (req, res) {
@@ -205,7 +250,7 @@ app.use(function (req, res, next) {
 
 // handle error 404 - page not found
 app.use('*', redirectLogin, function (req, res, next) {
-  if (req.originalUrl != '/favicon.ico') return res.render('404.html');
+  if (req.originalUrl != '/favicon.ico') return res.render('404.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
 // handle any server error
