@@ -38,7 +38,7 @@ module.exports.create_table = async function() {
               + COLS[6] + " varchar(255),"
               + COLS[7] + " varchar(255),"
               + COLS[8] + " decimal(10,2) not null default('0'),"
-              + COLS[9] + " varchar(100)"
+              + COLS[9] + " varchar(255)"
               + ");"
         try {
             await query(sql);
@@ -97,6 +97,31 @@ module.exports.getDataByID = async function(user_id) {
     catch(err) {
         throw err;
     }
+}
+
+module.exports.changeProfileImg = async function(user_id) {
+    var sql = `UPDATE ${TBNAME} SET ${COLS[9]} = 'user${user_id}pic.jpg' WHERE ${COLS[0]} = '${user_id}';`
+    try {
+        await query(sql);
+    } catch(err) {
+        throw err;
+    }
+    return true;
+}
+
+module.exports.changeNameAndMail = async function(user_id, firstname, lastname, mail) {
+    var sql = `UPDATE ${TBNAME} SET ${COLS[1]} = '${firstname}', ${COLS[2]} = '${lastname}', ${COLS[3]} = '${mail}' WHERE ${COLS[0]} = '${user_id}';`;
+    try {
+        let res = await this.getDataByMail(mail);
+        console.log(res);
+        if(res) throw "Mail is already used!";
+        else {
+            await query(sql);
+        }
+    }catch(err) {
+        throw err;
+    }
+    return true;
 }
 
 module.exports.login = async function(mail, password) {

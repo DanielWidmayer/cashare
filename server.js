@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const router = express.Router();
 const app = express();
 const dbsql = require('./dbsql');
+const upload = require('./routes/pic_upload');
 
 if (dotenv.error) throw dotenv.error;
 
@@ -190,11 +191,29 @@ router.get('/groups', redirectLogin, async function (req, res) {
 router.get('/profile', redirectLogin, async function (req, res) {
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-    res.render('profile.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+    res.render('profile.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userpic: q_user[6] });
   } catch(err) {
     console.log(err);
     return res.redirect('/logout');
   }
+});
+
+router.post('/profile', redirectLogin, upload.single('pic'), async function(req, res) {
+  try {
+    if(req.file) {
+      await dbsql.db_user.changeProfileImg(req.session.userID);
+    }
+    else {
+      if(!req.body.firstname || !req.body.lastname || !req.body.mail) {
+        await dbsql.db_user.changeNameAndMail(req.session.userID, req.body.firstname, req.body.lastname, req.body.mail);
+      } else {
+        throw "Invalid Input!";
+      }
+    }
+  } catch(err) {
+    console.log(err);
+  }
+  return res.redirect(req.originalUrl);
 });
 
 router.get('/expenses', redirectLogin, async function (req, res) {
@@ -249,8 +268,16 @@ app.use(function (req, res, next) {
 });
 
 // handle error 404 - page not found
-app.use('*', redirectLogin, function (req, res, next) {
-  if (req.originalUrl != '/favicon.ico') return res.render('404.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+app.use('*', redirectLogin, async function (req, res, next) {
+  if (req.originalUrl != '/favicon.ico') {
+    try {
+      let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+      return res.render('404.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+    } catch(err) {
+      console.log(err);
+      return res.redirect('/logout');
+    }
+  }
 });
 
 // handle any server error
