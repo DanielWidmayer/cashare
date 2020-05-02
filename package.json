@@ -21,7 +21,7 @@
         "url": "git+https://github.com/PhilemonWeber/cashare.git"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "5.10.2",
+        "@fortawesome/fontawesome-free": "5.13",
         "bootstrap": "4.3.1",
         "chart.js": "2.8.0",
         "datatables.net-bs4": "1.10.19",

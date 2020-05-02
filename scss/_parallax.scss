@@ -1,17 +1,18 @@
 .parallax {
-    height: 500px; /* fallback for older browsers */
-    height: 100vh;
+    height: 500px; /* fallback */
+    height: 90vh;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-perspective: 300px;
     perspective: 300px;
     -webkit-perspective-origin-x: 100%;
     perspective-origin-x: 100%;
+    scroll-behavior: smooth;
 }
 
 .parallax__group {
     position: relative;
-    height: 500px; /* fallback for older browsers */
+    height: 500px; /* fallback */
     height: 100vh;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
@@ -65,15 +66,13 @@
     transform: translate(-50%, -50%);
 }
 
-/* style the groups
-  --------------------------------------------- */
+/* group styling */
 
 #group1 {
     z-index: 5; /* slide over group 2 */
 }
 #group1 .parallax__layer--base {
-    background: $white;
-    //rgb(102, 204, 102);
+    font-weight: bold;
 }
 
 #group2 {
@@ -82,14 +81,13 @@
 #group2 .parallax__layer--back {
     background-image: url('https://wallpapercave.com/wp/wp2514440.jpg');
     background-size: cover;
-    //rgb(123, 210, 102);
 }
 
 #group3 {
     z-index: 4; /* slide over group 2 and 4 */
 }
 #group3 .parallax__layer--base {
-    background: rgb(153, 216, 101);
+    // if needed style it here
 }
 
 #group4 {
@@ -98,29 +96,28 @@
 #group4 .parallax__layer--deep {
     background-image: url('http://getwallpapers.com/wallpaper/full/5/9/2/972321-full-size-money-backgrounds-2560x1440.jpg');
     background-size: cover;
-
-    //background: rgb(184, 223, 101);
 }
 
 #group5 {
     z-index: 3; /* slide over group 4 and 6 */
 }
 #group5 .parallax__layer--base {
-    background: rgb(214, 229, 100);
+    // if needed style it here
 }
 
 #group6 {
     z-index: 2; /* slide under group 5 and 7 */
 }
 #group6 .parallax__layer--back {
-    background: rgb(245, 235, 100);
+    background: url('https://assets.entrepreneur.com/content/3x2/1300/20160802130444-Cyber-security.jpeg');
+    background-size: cover;
 }
 
 #group7 {
     z-index: 3; /* slide over group 7 */
 }
 #group7 .parallax__layer--base {
-    background: rgb(255, 241, 100);
+    background: $white;
 }
 
 /* misc
@@ -133,4 +130,30 @@
     font-size: 80%;
     text-align: center;
     width: 100%;
+}
+
+.marg-helper {
+    margin-top: 15vh !important;
+}
+
+.pos-abs-right {
+    position: absolute;
+    margin-top: 5%;
+    margin-right: 1rem;
+    z-index: -1;
+    right: 0;
+}
+.pos-abs-left {
+    position: absolute;
+    margin-left: 1rem;
+    margin-top: 5%;
+    z-index: -1;
+}
+
+.text-home {
+    position: absolute;
+    text-align: center;
+    margin-top: 35vh;
+    max-width: 800px;
+    z-index: 0;
 }
