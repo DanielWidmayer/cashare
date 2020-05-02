@@ -178,6 +178,8 @@ router.post('/addCategory', redirectLogin, async function (req, res){
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
     console.log(req.body);
+
+    let ret = await dbsql.db_cat.addCategory(req.body.newCategory, req.body.description, req.body.category_isExpense);
     res.send(q_user[1] + " " + req.body.newCategory);
   } catch (err) {
     console.log(err);
@@ -204,6 +206,15 @@ router.get('/expenses', redirectLogin, async function (req, res) {
   res.render('expenses.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
+router.post('/expenses', redirectLogin, async function (req, res){
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    console.log(req.body);
+    res.send(q_user[1] + " " + req.body.transactionValue);
+  } catch (err) {
+    console.log(err);
+  }
+});
 router.get('/chat', redirectLogin, async function (req, res) {
   let q_user = await dbsql.db_user.getDataByID(req.session.userID);
   res.render('chat.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });

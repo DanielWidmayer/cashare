@@ -48,3 +48,21 @@ module.exports.create_table = async function() {
         await query(sql2);
     }
 }
+
+module.exports.addCategory = async function(name, description, isExpense) {
+    var sql, res;
+
+    var toBool = (isExpense == 'true');
+    try {
+        console.log(isExpense);
+        sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}) `
+                + `VALUES ('${name}', '${description}', ${isExpense});`;
+            
+        res = await query(sql);
+        console.log("addedorno");
+        return res;
+    }
+    catch(err) {
+        throw err;
+    }
+}
