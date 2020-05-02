@@ -166,6 +166,8 @@ router.post('/income', redirectLogin, async function (req, res){
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
     console.log(req.body);
+    
+    
     res.send(q_user[1] + " " + req.body.transactionValue);
   } catch (err) {
     console.log(err);
@@ -176,6 +178,8 @@ router.post('/addCategory', redirectLogin, async function (req, res){
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
     console.log(req.body);
+
+    let ret = await dbsql.db_cat.addCategory(req.body.newCategory, req.body.description, false);
     res.send(q_user[1] + " " + req.body.newCategory);
   } catch (err) {
     console.log(err);
