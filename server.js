@@ -204,7 +204,7 @@ router.post('/profile', redirectLogin, upload.single('pic'), async function(req,
       await dbsql.db_user.changeProfileImg(req.session.userID);
     }
     else {
-      if(!req.body.firstname || !req.body.lastname || !req.body.mail) {
+      if(req.body.firstname && req.body.lastname && req.body.mail) {
         await dbsql.db_user.changeNameAndMail(req.session.userID, req.body.firstname, req.body.lastname, req.body.mail);
       } else {
         throw "Invalid Input!";

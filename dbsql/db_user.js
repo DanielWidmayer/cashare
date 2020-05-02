@@ -113,8 +113,7 @@ module.exports.changeNameAndMail = async function(user_id, firstname, lastname, 
     var sql = `UPDATE ${TBNAME} SET ${COLS[1]} = '${firstname}', ${COLS[2]} = '${lastname}', ${COLS[3]} = '${mail}' WHERE ${COLS[0]} = '${user_id}';`;
     try {
         let res = await this.getDataByMail(mail);
-        console.log(res);
-        if(res) throw "Mail is already used!";
+        if(res && res[COLS[0]] != user_id) throw "Mail is already used!";
         else {
             await query(sql);
         }
