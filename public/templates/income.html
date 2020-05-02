@@ -489,17 +489,6 @@
             $.post( "/addCategory", category ) 
             .done(function( data ) {
                 console.log( "Data Loaded: " + data );
-            });
-        });
-
-        $("#addNewCategory").click(function(){
-            var newCategory = $("#newCategory").val();
-            var description = $("#CategoryDescription").val();
-
-            var category = {'newCategory': newCategory, 'description': description};
-            $.post( "/addCategory", category ) 
-            .done(function( data ) {
-                console.log( "Data Loaded: " + data );
                 
                 $('#Category').modal('hide');
             });
