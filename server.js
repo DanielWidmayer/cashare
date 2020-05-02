@@ -179,7 +179,7 @@ router.post('/addCategory', redirectLogin, async function (req, res){
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
     console.log(req.body);
 
-    let ret = await dbsql.db_cat.addCategory(req.body.newCategory, req.body.description, false);
+    let ret = await dbsql.db_cat.addCategory(req.body.newCategory, req.body.description, req.body.category_isExpense);
     res.send(q_user[1] + " " + req.body.newCategory);
   } catch (err) {
     console.log(err);
