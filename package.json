@@ -3,7 +3,7 @@
   "name": "startbootstrap-cashare",
   "version": "4.0.7",
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "description": "A finance managing tool.",
   "keywords": [
@@ -37,6 +37,7 @@
     "jquery": "3.4.1",
     "jquery.easing": "^1.4.1",
     "mysql": "^2.18.1",
+    "nodemon": "^2.0.3",
     "popper.js": "^1.16.1",
     "util": "^0.12.2"
   },
