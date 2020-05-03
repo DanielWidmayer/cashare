@@ -345,52 +345,58 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-primary font-weight-bold">$hareboard</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-download fa-sm text-white-50"></i> Generate $Report</a>
+          <div class="d-md-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 text-primary font-weight-bold">$hareboard</h1>
+            <div>
+              <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                  class="fas fa-plus fa-sm text-white-50"></i> New Income</a>
+              <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                  class="fas fa-plus fa-sm text-white-50"></i> New Expense</a>
+              <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                  class="fas fa-plus fa-sm text-white-50"></i> New Todo</a>
+            </div>
           </div>
 
           <!-- Content Row -->
           <div class="row">
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-4 col-md-6 mb-4">
+              <button class="card border-left-primary shadow h-100 text-left py-2 w-100">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Earnings (Monthly)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">New Messages</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">7</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-600"></i>
+                      <i class="fas fa-comments fa-2x text-gray-600"></i>
                     </div>
                   </div>
                 </div>
-              </div>
+              </button>
             </div>
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-4 col-md-6 mb-4">
+              <button class="card border-left-primary shadow h-100 text-left py-2 w-100">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Earnings (Annual)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Activity Feed</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">21</div>
                     </div>
                     <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-600"></i>
+                      <i class="fas fa-comments fa-2x text-gray-600"></i>
                     </div>
                   </div>
                 </div>
-              </div>
+              </button>
             </div>
 
             <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
+            <div class="col-xl-4 col-md-6 mb-4">
+              <button class="card border-left-primary text-left shadow h-100 w-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
@@ -412,12 +418,12 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </button>
             </div>
 
             <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
+            <div class="col-xl-4 col-md-6 mb-4">
+              <button class="card border-left-primary shadow h-100 text-left py-2 w-100">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
@@ -429,8 +435,43 @@
                     </div>
                   </div>
                 </div>
+              </button>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-4 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Earnings (Monthly)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-600"></i>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-4 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Earnings (Annual)</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-600"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <!-- Content Row -->
@@ -526,11 +567,6 @@
                     <div class="progress-bar bg-primary" role="progressbar" style="width: 10%" aria-valuenow="20"
                       aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
-                  <h4 class="small font-weight-bold">Buy eggs <span class="float-right">0%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: 0%" aria-valuenow="40"
-                      aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
                   <h4 class="small font-weight-bold">Do nice stuff <span class="float-right">60%</span></h4>
                   <div class="progress mb-4">
                     <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0"
@@ -610,6 +646,107 @@
 
           </div>
 
+          <!-- Content Row -->
+          <div class="row">
+            <div class="col-lg-6 mb-4">
+
+              <!-- Illustrations -->
+              <div class="card border-left-primary shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-secondary">Add new Income</h6>
+                </div>
+                <div class="card-body">
+                  <div class="text-center">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" placeholder="Income Value" aria-label="Transaction Value"
+                        aria-describedby="basic-addon2">
+                      <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">$</span>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      <select class="custom-select" id="inputGroupSelect04">
+                        <option selected>Choose Time period</option>
+                        <option value="1">Single Income</option>
+                        <option value="2">Monthly Income</option>
+                        <option value="3">Other..</option>
+                      </select>
+                    </div>
+                    <div class="input-group mb-3">
+                      <select class="custom-select" id="inputGroupSelect04">
+                        <option selected>Choose Category</option>
+                        <option value="1">Food</option>
+                        <option value="2">Social</option>
+                        <option value="3">Trips</option>
+                      </select>
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">
+                          <i class="fas fa-plus fa-sm text-gray-50"></i>
+                          New Category</button>
+                      </div>
+                    </div>
+                    <hr>
+                    <!-- Button Add new Income-->
+                    <a href="#" class="btn btn-success btn-icon-split">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-check"></i>
+                      </span>
+                      <span class="text">Add new Income</span>
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-lg-6 mb-4">
+
+              <!-- Illustrations -->
+              <div class="card border-left-primary shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-secondary">Add new Expense</h6>
+                </div>
+                <div class="card-body">
+                  <div class="text-center">
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" placeholder="Value of transaction"
+                        aria-label="Transaction Value" aria-describedby="basic-addon2">
+                      <div class="input-group-append">
+                        <span class="input-group-text" id="basic-addon2">$</span>
+                      </div>
+                    </div>
+
+                    <div class="input-group">
+                      <select class="custom-select" id="inputGroupSelect04">
+                        <option selected>Choose Category</option>
+                        <option value="1">Food</option>
+                        <option value="2">Social</option>
+                        <option value="3">Trips</option>
+                      </select>
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button">
+                          <i class="fas fa-plus fa-sm text-gray-50"></i>
+                          New Category</button>
+                      </div>
+                    </div>
+                    <hr>
+                    <!-- Button Add new Expense-->
+                    <a href="#" class="btn btn-success btn-icon-split">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-check"></i>
+                      </span>
+                      <span class="text">Add new Expense</span>
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <!-- End of row-->
         </div>
         <!-- /.container-fluid -->
 
