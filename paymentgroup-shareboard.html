@@ -348,19 +348,21 @@
           <div class="d-md-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 text-primary font-weight-bold">$hareboard</h1>
             <div>
-              <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                  class="fas fa-plus fa-sm text-white-50"></i> New Income</a>
-              <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                  class="fas fa-plus fa-sm text-white-50"></i> New Expense</a>
-              <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                  class="fas fa-plus fa-sm text-white-50"></i> New Todo</a>
+              <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal"
+                data-target="#incomeModal"><i class="fas fa-plus fa-sm text-white-50"></i> New Income</a>
+              <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal"
+                data-target="#expenseModal"><i class="fas fa-plus fa-sm text-white-50"></i> New Expense</a>
+              <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal"
+                data-target="#todoModal"><i class="fas fa-plus fa-sm text-white-50"></i> New Todo</a>
             </div>
           </div>
 
           <!-- Content Row -->
           <div class="row">
-
-            <!-- Pending Requests Card Example -->
+            <!-- member count? + Account Balance?-->
+            <!-- member count? + Account Balance?-->
+            <!-- member count? + Account Balance?-->
+            <!-- Unread Messages Card Example -->
             <div class="col-xl-4 col-md-6 mb-4">
               <button class="card border-left-primary shadow h-100 text-left py-2 w-100">
                 <div class="card-body">
@@ -379,7 +381,8 @@
 
             <!-- Pending Requests Card Example -->
             <div class="col-xl-4 col-md-6 mb-4">
-              <button class="card border-left-primary shadow h-100 text-left py-2 w-100">
+              <button class="card border-left-primary shadow h-100 text-left py-2 w-100" data-toggle="modal"
+                data-target="#feedModal">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
@@ -630,7 +633,7 @@
                       </div>
                     </div>
                     <hr>
-                    <!-- Button Add new Expense-->
+                    <!-- Button Add new Todo-->
                     <a href="#" class="btn btn-success btn-icon-split">
                       <span class="icon text-white-50">
                         <i class="fas fa-check"></i>
@@ -789,6 +792,264 @@
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Income Modal -->
+  <div class="modal fade" id="incomeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Add new Income</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Income Value" aria-label="Transaction Value"
+                aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">$</span>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <select class="custom-select" id="inputGroupSelect04">
+                <option selected>Choose Time period</option>
+                <option value="1">Single Income</option>
+                <option value="2">Monthly Income</option>
+                <option value="3">Other..</option>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <select class="custom-select" id="inputGroupSelect04">
+                <option selected>Choose Category</option>
+                <option value="1">Food</option>
+                <option value="2">Social</option>
+                <option value="3">Trips</option>
+              </select>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">
+                  <i class="fas fa-plus fa-sm text-gray-50"></i>
+                  New Category</button>
+              </div>
+            </div>
+            <hr>
+            <!-- Button Add new Income-->
+            <a href="#" class="btn btn-success btn-icon-split">
+              <span class="icon text-white-50">
+                <i class="fas fa-check"></i>
+              </span>
+              <span class="text">Add new Income</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Expense Modal -->
+  <div class="modal fade" id="expenseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Add new Expense</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Value of transaction" aria-label="Transaction Value"
+                aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">$</span>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <select class="custom-select" id="inputGroupSelect04">
+                <option selected>Choose Category</option>
+                <option value="1">Food</option>
+                <option value="2">Social</option>
+                <option value="3">Trips</option>
+              </select>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">
+                  <i class="fas fa-plus fa-sm text-gray-50"></i>
+                  New Category</button>
+              </div>
+            </div>
+            <hr>
+            <!-- Button Add new Expense-->
+            <a href="#" class="btn btn-success btn-icon-split">
+              <span class="icon text-white-50">
+                <i class="fas fa-check"></i>
+              </span>
+              <span class="text">Add new Expense</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Todo Modal -->
+  <div class="modal fade" id="todoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Add new Todo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Todo Title" aria-label="Todo Title"
+                aria-describedby="basic-addon2">
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Value Goal" aria-label="Value Goal"
+                    aria-describedby="basic-addon2">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Current Value" aria-label="Current Value"
+                    aria-describedby="basic-addon2">
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <select class="custom-select" id="inputGroupSelect04">
+                <option selected>Choose Category</option>
+                <option value="0">None</option>
+                <option value="1">Food</option>
+                <option value="2">Social</option>
+                <option value="3">Trips</option>
+              </select>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">
+                  <i class="fas fa-plus fa-sm text-gray-50"></i>
+                  New Category</button>
+              </div>
+            </div>
+            <hr>
+            <!-- Button Add new Todo-->
+            <a href="#" class="btn btn-success btn-icon-split">
+              <span class="icon text-white-50">
+                <i class="fas fa-check"></i>
+              </span>
+              <span class="text">Add new Todo</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actvity Feed Modal -->
+  <div class="modal fade" id="feedModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Activity Feed</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <!-- Alert Card -->
+          <div class="card mb-4 py-3 rounded border-left-primary">
+            <div class="row">
+              <div class=" ml-4 mr-3 mt-1">
+                <div class="icon-circle bg-primary">
+                  <i class="fas fa-file-alt text-white"></i>
+                </div>
+              </div>
+              <div>
+                <span class="font-weight-bold">A new payment task has been added!</span>
+                <div class="text-gray-500">December 12, 2019</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alert Card -->
+          <div class="card mb-4 py-3 rounded border-left-success">
+            <div class="row">
+              <div class="ml-4 mr-3 mt-1">
+                <div class="icon-circle bg-success">
+                  <i class="fas fa-donate text-white"></i>
+                </div>
+              </div>
+              <div>
+                You have made a transaction over $70.00!
+                <div class="text-gray-500">December 7, 2019</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alert Card -->
+          <div class="card mb-4 py-3 rounded border-left-warning">
+            <div class="row">
+              <div class="ml-4 mr-3 mt-1">
+                <div class="icon-circle bg-warning">
+                  <i class="fas fa-exclamation-triangle text-white"></i>
+                </div>
+              </div>
+              <div>
+                Spending Alert: We've noticed unusually high spending from your group.
+                <div class="text-gray-500">December 2, 2019</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error Card -->
+          <div class="card mb-4 py-3 rounded border-left-danger">
+            <div class="row">
+              <div class="ml-4 mr-3 mt-1">
+                <div class="icon-circle bg-danger">
+                  <i class="fas fa-exclamation text-white"></i>
+                </div>
+              </div>
+              <div>
+                Error: Your expense exceeds the group spending limit.
+                <div class="text-gray-500">December 1, 2019</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info Card -->
+          <div class="card mb-4 py-3 rounded border-left-info">
+            <div class="row">
+              <div class="ml-4 mr-3 mt-1">
+                <div class="icon-circle bg-info">
+                  <i class="fas fa-info text-white"></i>
+                </div>
+              </div>
+              <div>
+                Jens Bühler has payed you $123.45 bucks!
+                <div class="text-gray-500">Novembre 29, 2019</div>
+              </div>
+            </div>
+          </div>
+
+
         </div>
       </div>
     </div>
