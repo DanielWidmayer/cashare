@@ -77,7 +77,6 @@ module.exports.getDataByID = async function(user_id) {
         let res = [];
         q_res = q_res[0];
         for (i in q_res) {
-            console.log(i);
             if(i != COLS[4]) res.push(q_res[i]);
         }
         return res;

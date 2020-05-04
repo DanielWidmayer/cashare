@@ -484,7 +484,7 @@
         $("#addNewCategory").click(function(){
             var newCategory = $("#newCategory").val();
             var description = $("#CategoryDescription").val();
-            var category_isExpense = false;
+            var category_isExpense = 0; // false
 
             var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
             $.post( "/addCategory", category ) 
@@ -492,19 +492,23 @@
                 console.log( "Data Loaded: " + data );
                 
                 $('#Category').modal('hide');
+                $( ' <option value="' + data[0].category_id + '">' + data[0].category_name + '</option>' ).appendTo( "#chooseCategoryModal" );
+                $( ' <option value="' + data[0].category_id + '">' + data[0].category_name + '</option>' ).appendTo( "#chooseCategory" );
             });
         });
 
         $("#addNewCategoryModal").click(function(){
             var newCategory = $("#newCategoryModal").val();
             var description = $("#CategoryDescriptionModal").val();
-            var category_isExpense = false;
+            var category_isExpense = 0; // false
 
-            var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
+            var category = {'newCategory': newCategory, 'description': description, 'category_isExpense': category_isExpense};
             $.post( "/addCategory", category ) 
             .done(function( data ) {
                 console.log( "Data Loaded: " + data );
                 $('#CategoryModal').modal('hide');
+                $( ' <option value="' + data[0].category_id + '">' + data[0].category_name + '</option>' ).appendTo( "#chooseCategoryModal" );
+                $( ' <option value="' + data[0].category_id + '">' + data[0].category_name + '</option>' ).appendTo( "#chooseCategory" );
             });
         });
         

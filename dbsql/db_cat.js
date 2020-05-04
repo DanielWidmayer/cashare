@@ -57,12 +57,10 @@ module.exports.addCategory = async function(name, description, isExpense, user_i
 
     var toBool = (isExpense == 'true');
     try {
-        console.log(isExpense);
         sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}) `
                 + `VALUES ('${name}', '${description}', ${isExpense}, ${user_id});`;
             
         res = await query(sql);
-        console.log("addedorno");
         return res;
     }
     catch(err) {
@@ -70,11 +68,10 @@ module.exports.addCategory = async function(name, description, isExpense, user_i
     }
 }
 
-module.exports.getCategoryByID = async function(user_id, isExpense) {
-    
-    if(isExpense)
+module.exports.getCategorysByUserID = async function(user_id, isExpense) {
+    if(isExpense == true)
     {
-        var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[4]} = '${user_id}' AND ${COLS[3]} = true) OR (${COLS[4]} IS NULL AND ${COLS[3]} = true);`
+        var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[4]} = '${user_id}' AND ${COLS[3]} = true) OR (${COLS[4]} IS NULL AND ${COLS[3]} = true);`;
         try {
             let q_res = await query(sql);
             let res = [];
@@ -89,11 +86,48 @@ module.exports.getCategoryByID = async function(user_id, isExpense) {
     }
     else
     {
-        var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[4]} = '${user_id}' AND ${COLS[3]} = false) OR (${COLS[4]} IS NULL AND ${COLS[3]} = false);`
+        var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[4]} = '${user_id}' AND ${COLS[3]} = false) OR (${COLS[4]} IS NULL AND ${COLS[3]} = false);`;
         try {
             let q_res = await query(sql);
             let res = [];
             for (i in q_res) {
+                res.push(q_res[i]);
+            }
+            return res;
+        }
+        catch(err) {
+             throw err;
+        }
+    }
+}
+
+module.exports.getCategoryByCatNameAndUserID = async function(user_id, cat_name, isExpense) {
+
+    if(isExpense == true)
+    {  
+        console.log("Get Category ID expense....");
+        var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[4]} = '${user_id}' AND ${COLS[3]} = true AND ${COLS[1]} = '${cat_name}');`;
+        try {
+            let q_res = await query(sql);
+            let res = [];
+            for (i in q_res) {
+                res.push(q_res[i]);
+            }
+            return res;
+        }
+        catch(err) {
+             throw err;
+        }
+    }
+    else
+    {
+        console.log("Get Category ID income....");
+        var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[4]} = '${user_id}' AND ${COLS[3]} = false AND ${COLS[1]} = '${cat_name}');`;
+        try {
+            let q_res = await query(sql);
+            let res = [];
+            for (i in q_res) {
+                console.log(i);
                 res.push(q_res[i]);
             }
             return res;

@@ -159,8 +159,7 @@ router.get('/tables', redirectLogin, async function (req, res) {
 
 router.get('/income', redirectLogin, async function (req, res) {
   let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  console.log(q_user);
-  let q_cat = await dbsql.db_cat.getCategoryByID(req.session.userID, false);
+  let q_cat = await dbsql.db_cat.getCategorysByUserID(req.session.userID, 0);
   var q_categorys = JSON.parse(JSON.stringify(q_cat));
   console.log(q_categorys[0]);
   res.render('income.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], categorys: q_categorys});
@@ -169,9 +168,7 @@ router.get('/income', redirectLogin, async function (req, res) {
 router.post('/income', redirectLogin, async function (req, res){
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-    console.log(req.body);
-    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory,false,q_user[0]);
-
+    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory,0,q_user[0]);
     res.send(q_user[1] + " " + req.body.transactionValue);
   } catch (err) {
     console.log(err);
@@ -180,11 +177,17 @@ router.post('/income', redirectLogin, async function (req, res){
 
 router.post('/addCategory', redirectLogin, async function (req, res){
   try {
-    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    console.log("Category in Datenbank schreiben..");
     console.log(req.body);
-
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
     let ret = await dbsql.db_cat.addCategory(req.body.newCategory, req.body.description, req.body.category_isExpense, q_user[0]);
-    res.send(q_user[1] + " " + req.body.newCategory);
+    
+    console.log("Category auslesen..");
+    let q_cat = await dbsql.db_cat.getCategoryByCatNameAndUserID(q_user[0], req.body.newCategory,req.body.category_isExpense);
+    var q_categorys = JSON.parse(JSON.stringify(q_cat));
+    
+    console.log(q_categorys);
+    res.send(q_categorys);
   } catch (err) {
     console.log(err);
   }
@@ -207,7 +210,7 @@ router.get('/profile', redirectLogin, async function (req, res) {
 
 router.get('/expenses', redirectLogin, async function (req, res) {
   let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  let q_cat = await dbsql.db_cat.getCategoryByID(req.session.userID, true);
+  let q_cat = await dbsql.db_cat.getCategorysByUserID(req.session.userID, 1);
   var q_categorys = JSON.parse(JSON.stringify(q_cat));
   console.log(q_categorys[0]);
   res.render('expenses.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], categorys: q_categorys });
@@ -217,14 +220,14 @@ router.post('/expenses', redirectLogin, async function (req, res){
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
     console.log(req.body);
-    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, 1, req.body.chooseCategory,true,q_user[0]);
+    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, 1, req.body.chooseCategory,1,q_user[0]);
     res.send(q_user[1] + " " + req.body.transactionValue);
   } catch (err) {
     console.log(err);
   }
 });
 router.get('/chat', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  let q_user = await dbsql.db_user.getDataByUserID(req.session.userID);
   res.render('chat.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
