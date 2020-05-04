@@ -63,7 +63,7 @@
             </div>
           </div>
 
-          <form action="/profile" method="POST">
+          <form action="/profile" method="POST" id="data_form">
             <!-- Content Row -->
             <div class="row">
 
@@ -74,7 +74,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Vorname</span>
                   </div>
-                  <input type="text" class="form-control" aria-label="Vorname" value="<%= username[0] %>"
+                  <input id="firstname" type="text" class="form-control" aria-label="Vorname" value="<%= username[0] %>"
                     name="firstname" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
@@ -86,7 +86,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Nachname</span>
                   </div>
-                  <input type="text" class="form-control" aria-label="Default" value="<%= username[1] %>"
+                  <input id="lastname" type="text" class="form-control" aria-label="Default" value="<%= username[1] %>"
                     name="lastname" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
@@ -104,7 +104,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Mail-Adresse</span>
                   </div>
-                  <input type="text" class="form-control" value="<%= usermail %>" name="mail"
+                  <input id="mail" type="text" class="form-control" value="<%= usermail %>" name="mail"
                     aria-label="Recipient's username" aria-describedby="basic-addon2">
                 </div>
               </div>
@@ -122,7 +122,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Old Password</span>
                   </div>
-                  <input type="password" class="form-control" aria-label="Vorname" placeholder="Enter Password"
+                  <input id="pw_old" type="password" class="form-control" aria-label="Vorname" placeholder="Enter Password" name="old_password" 
                     aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
@@ -136,8 +136,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">New Password</span>
                   </div>
-                  <input type="password" class="form-control" aria-label="Default" placeholder="Enter Password"
-                    name="lastname" aria-describedby="inputGroup-sizing-default">
+                  <input id="pw_new" type="password" class="form-control" aria-label="Default" placeholder="Enter Password"
+                    name="new_password" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
               <!-- Content Column -->
@@ -147,14 +147,14 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Repeat Password</span>
                   </div>
-                  <input type="password" class="form-control" aria-label="Default" placeholder="Repeat Password"
-                    name="lastname" aria-describedby="inputGroup-sizing-default">
+                  <input id="pw_conf" type="password" class="form-control" aria-label="Default" placeholder="Repeat Password"
+                    name="password_confirm" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
             </div>
             <!-- end of row-->
 
-            <button type="submit" class="btn btn-success btn-icon-split">
+            <button type="button" class="btn btn-success btn-icon-split" onclick="changeData()">
               <span class="icon text-white-50">
                 <i class="fas fa-check"></i>
               </span>
@@ -254,6 +254,43 @@
       var nextSibling = e.target.nextElementSibling;
       nextSibling.innerText = fileName;
     });
+
+    function checkpw_re(el_id) {
+      var regexp = /^([a-zA-Z0-9@*#_+]{8,15}$)/;
+      return regexp.test($(el_id).val());
+    }
+
+    function checkpw_conf() {
+      return ($('#pw_new').val() == $('#pw_conf').val()) ? true : false;
+    }
+
+    function changeData() {
+      if($('#firstname').val() != "" && $('#lastname').val() != "" && $('#mail').val() != "") {
+        if(checkpw_conf()) {
+          $('#data_form').submit();
+        }
+      }
+    }
+
+    $('#pw_new').on('keyup', function() {
+      if(checkpw_re('#pw_new')) {
+        $("#pw_new").css("border-color", "green");
+        $("#pw_new").css("box-shadow", "0 0 0 1px rgba(0, 100, 0, 0.3)");
+      } else {
+        $("#pw_new").css("border-color", "red");
+        $("#pw_new").css("box-shadow", "0 0 0 1px rgba(255, 0, 0, 0.3)");
+      }
+    })
+
+    $('#pw_conf').on('keyup', function() {
+      if(!checkpw_conf()) {
+        $("#pw_conf").css("border-color", "red");
+        $("#pw_conf").css("box-shadow", "0 0 0 1px rgba(255, 0, 0, 0.3)");
+      } else {
+        $("#pw_conf").css("border-color", "green");
+        $("#pw_conf").css("box-shadow", "0 0 0 1px rgba(0, 100, 0, 0.3)");
+      }
+    })
   </script>
 
 </body>

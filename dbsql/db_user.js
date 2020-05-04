@@ -123,9 +123,30 @@ module.exports.changeNameAndMail = async function(user_id, firstname, lastname, 
     return true;
 }
 
+module.exports.changePassword = async function(user_id, old_pw, new_pw) {
+    var sql, res;
+    sql = `SELECT ${COLS[4]} FROM ${TBNAME} WHERE ${COLS[0]} = '${user_id}';`;
+    try {
+        let res = await query(sql);
+        if(res[0]) {
+            let f1 = await bcrypt.compare(old_pw, res[0][COLS[4]]);
+            if(f1) {
+                new_pw = await bcrypt.hash(new_pw,10);
+                sql = `UPDATE ${TBNAME} SET ${COLS[4]} = '${new_pw}' WHERE ${COLS[0]} = '${user_id}';`
+                await query(sql);
+                return true;
+            }
+            else throw "Invalid Input!";
+        }
+        else throw "Invalid Input!";
+    } catch (err) {
+        throw err;
+    }
+}
+
 module.exports.login = async function(mail, password) {
     var sql, res;
-    sql = `SELECT ${COLS[0]}, ${COLS[4]} FROM ${TBNAME} WHERE ${COLS[3]} = '${mail}';`
+    sql = `SELECT ${COLS[0]}, ${COLS[4]} FROM ${TBNAME} WHERE ${COLS[3]} = '${mail}';`;
     try {
         res = await query(sql);
         res = res[0];
@@ -134,6 +155,7 @@ module.exports.login = async function(mail, password) {
             if(f1) return res[COLS[0]];
             else return false;
         }
+        else throw "Invalid Input!";
     }
     catch(err) {
         throw err;
