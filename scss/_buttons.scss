@@ -51,6 +51,9 @@
     }
 }
 
-.custom-file-input ~ .custom-file-label::after {
-    content: 'Button Text';
+.btn-link {
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    text-decoration: none !important;
 }
