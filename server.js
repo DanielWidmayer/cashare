@@ -167,6 +167,11 @@ router.get('/groups', redirectLogin, async function (req, res) {
   res.render('payment-groups.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
 });
 
+router.get('/groups/certaingroup', redirectLogin, async function (req, res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  res.render('paymentgroup-shareboard.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+});
+
 router.get('/profile', redirectLogin, async function (req, res) {
   let q_user = await dbsql.db_user.getDataByID(req.session.userID);
   res.render('profile.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
