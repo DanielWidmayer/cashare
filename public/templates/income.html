@@ -450,13 +450,9 @@
 
     <!-- Page level plugins -->
     <script src="vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-    <script src="js/demo/chart-bar-demo.js"></script>
     
     <script>
+        var transactions = <%- JSON.stringify(transactions)%>;
         $("#addIncome").click(function(){
             var transactionValue = $("#transactionValue").val();
             var timePeriod = $("#timePeriod").val();
@@ -466,6 +462,7 @@
             $.post( "/income", transaction ) 
             .done(function( data ) {
                 console.log( "Data Loaded: " + data );
+                location.reload();
             });
         });
 
@@ -478,6 +475,8 @@
             $.post( "/income", transaction ) 
             .done(function( data ) {
                 console.log( "Data Loaded: " + data );
+                $('#IncomeModal').modal('hide');
+                location.reload;
             });
         });
 
@@ -517,6 +516,11 @@
         });
       
     </script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="js/chart-bar.js"></script>
 
 
 </body>

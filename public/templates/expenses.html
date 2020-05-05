@@ -486,13 +486,8 @@
     <!-- Page level plugins -->
     <script src="vendor/chart.js/Chart.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-    <script src="js/demo/chart-bar-demo.js"></script>
-
     <script>
-
+         var transactions = <%- JSON.stringify(transactions)%>;
         $("#addExpense").click(function(){
             var transactionValue = $("#transactionValue").val();
             var chooseCategory = $("#chooseCategory").val();
@@ -502,7 +497,7 @@
             $.post( "/expenses", transaction ) 
             .done(function( data ) {
                 console.log( "Data Loaded: " + data );
-                
+                location.reload();
             });
         });
 
@@ -515,8 +510,8 @@
             $.post( "/expenses", transaction ) 
             .done(function( data ) {
                 console.log( "Data Loaded: " + data );
-                
                 $('#ExpenseModal').modal('hide');
+                location.reload();
             });
         });
 
@@ -558,6 +553,13 @@
         });
 
     </script>
+
+     <!-- Page level custom scripts -->
+     <script src="js/demo/chart-area-demo.js"></script>
+     <script src="js/demo/chart-pie-demo.js"></script>
+     <script src="js/chart-bar.js"></script>
+ 
+  
 
 </body>
 

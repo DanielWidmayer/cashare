@@ -85,3 +85,36 @@ module.exports.insertTransaction = async function(value, transonce, category, is
         throw err;
     }
 }
+
+module.exports.getTransactionsByUserID = async function(user_id, isExpense) {
+    if(isExpense == true)
+    {
+        var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value < 0);`;
+        try {
+            let q_res = await query(sql);
+            let res = [];
+            for (i in q_res) {
+                res.push(q_res[i]);
+            }
+            return res;
+        }
+        catch(err) {
+             throw err;
+        }
+    }
+    else
+    {
+        var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value > 0);`;
+        try {
+            let q_res = await query(sql);
+            let res = [];
+            for (i in q_res) {
+                res.push(q_res[i]);
+            }
+            return res;
+        }
+        catch(err) {
+             throw err;
+        }
+    }
+}

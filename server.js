@@ -160,9 +160,11 @@ router.get('/tables', redirectLogin, async function (req, res) {
 router.get('/income', redirectLogin, async function (req, res) {
   let q_user = await dbsql.db_user.getDataByID(req.session.userID);
   let q_cat = await dbsql.db_cat.getCategorysByUserID(req.session.userID, 0);
-  var q_categorys = JSON.parse(JSON.stringify(q_cat));
-  console.log(q_categorys[0]);
-  res.render('income.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], categorys: q_categorys});
+  let q_trans = await dbsql.db_trans.getTransactionsByUserID(req.session.userID, 0);
+  //var q_categorys = JSON.parse(JSON.stringify(q_cat));
+  //var q_transactions = JSON.parse(JSON.stringify(q_trans));
+  //console.log(q_cat[0]);
+  res.render('income.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], categorys: q_cat, transactions: q_trans});
 });
 
 router.post('/income', redirectLogin, async function (req, res){
@@ -211,9 +213,8 @@ router.get('/profile', redirectLogin, async function (req, res) {
 router.get('/expenses', redirectLogin, async function (req, res) {
   let q_user = await dbsql.db_user.getDataByID(req.session.userID);
   let q_cat = await dbsql.db_cat.getCategorysByUserID(req.session.userID, 1);
-  var q_categorys = JSON.parse(JSON.stringify(q_cat));
-  console.log(q_categorys[0]);
-  res.render('expenses.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], categorys: q_categorys });
+  let q_trans = await dbsql.db_trans.getTransactionsByUserID(req.session.userID, 1);
+  res.render('expenses.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], categorys: q_cat, transactions: q_trans});
 });
 
 router.post('/expenses', redirectLogin, async function (req, res){
