@@ -1,4 +1,5 @@
 /node_modules
+/public/img/profiles
 npm-debug.log
 .env
 rand.js

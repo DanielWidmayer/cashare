@@ -12,7 +12,9 @@ const COLS = [
     'pw_reset',
     'phone',
     'balance',
-    'picture'
+    'picture',
+    'last_alert',
+    'last_msg'
 ];
 module.exports.TBNAME = TBNAME;
 module.exports.COLS = COLS;
@@ -38,7 +40,11 @@ module.exports.create_table = async function() {
               + COLS[6] + " varchar(255),"
               + COLS[7] + " varchar(255),"
               + COLS[8] + " decimal(10,2) not null default('0'),"
-              + COLS[9] + " varchar(255)"
+              + COLS[9] + " varchar(255),"
+              + COLS[10] + " int default(0),"
+              //+ `FOREIGN KEY (${COLS[10]}) REFERENCES ${db_msg}(${db_msg.COLS[0]}),`
+              + COLS[11] + " int default(0)"
+              //+ `FOREIGN KEY (${COLS[11]}) REFRENCES ${db_msg}(${db_msg.COLS[0]})`
               + ");"
         try {
             await query(sql);

@@ -5,14 +5,18 @@ const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const router = express.Router();
+//const passport = require('passport');
+//const initializePassPort = require('./modules/passport-config');
 const app = express();
 const dbsql = require('./dbsql');
-const upload = require('./routes/pic_upload');
+const upload = require('./modules/pic_upload');
 
 if (dotenv.error) throw dotenv.error;
 
 const IN_PROD = process.env.NODE_ENV === 'production';
-const TWO_HOURS = process.env.SESS_LIFETIME * 60 * 60 * 2;
+const TWO_HOURS = process.env.SESS_LIFETIME * 60 * 2;
+
+//initializePassPort(passport);
 
 // Helmet
 app.use(helmet());
@@ -37,7 +41,7 @@ app.use(
 );
 
 // Database Connection
-dbsql.createConnection(process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASSWORD, process.env.DB_PORT, process.env.DB_NAME);
+var con = dbsql.createConnection(process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASSWORD, process.env.DB_PORT, process.env.DB_NAME);
 dbsql.db_user.create_table();
 dbsql.db_cat.create_table();
 dbsql.db_group.create_table();
@@ -47,9 +51,12 @@ dbsql.db_goal.create_table(dbsql.db_cat, dbsql.db_group, dbsql.db_user);
 dbsql.db_msg.create_table(dbsql.db_user, dbsql.db_group);
 dbsql.db_trans.create_table(dbsql.db_user, dbsql.db_cat, dbsql.db_group);
 
+
+// auth middleware
 const redirectLogin = (req, res, next) => {
   //console.log("authentication");
   //console.log(req.originalUrl);
+  console.log(req.sessionID);
   if (!req.session.userID && req.originalUrl != '/favicon.ico') {
     res.redirect('/login');
   } else {
@@ -103,6 +110,7 @@ router.get('/blank', redirectLogin, async function (req, res) {
 });
 
 router.get('/login', function (req, res) {
+  console.log(req.session.sid);
   if (req.session.userID) return res.redirect('/home');
   return res.render('login.html');
 });

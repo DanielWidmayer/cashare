@@ -24,6 +24,7 @@ module.exports.createConnection = function( env_host, env_user, env_password, en
         database: env_dbname
     });
     query = util.promisify(con.query).bind(con);
+    return con;
 }
 
 module.exports.query = async function(sql_query){
