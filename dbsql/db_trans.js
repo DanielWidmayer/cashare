@@ -23,7 +23,7 @@ module.exports.create_table = async function(db_user, db_cat, db_group) {
         console.log("create table..");
         sql = "create table " + TBNAME + " ("
             + COLS[0] + " int not null auto_increment primary key,"
-            + COLS[1] + " decimal(10,2) not null,"
+            + COLS[1] + " decimal(20,2) not null,"
             + COLS[2] + " datetime,"
             + COLS[3] + " int not null,"
             +`Foreign Key (${COLS[3]}) REFERENCES ${db_user.TBNAME}(${db_user.COLS[0]}) `
@@ -59,7 +59,6 @@ module.exports.insertTransaction = async function(value, transonce, category, is
     var sql, res;
 
     try {
-        
         if(isExpense){
             value = value - (value * 2);
         }

@@ -1,5 +1,5 @@
 $("#addExpense").click(function(){
-    var transactionValue = $("#transactionValue").val();
+    var transactionValue = ($("#transactionValue").val()).replace(',', '.');
     var chooseCategory = $("#chooseCategory").val();
 
     var transaction = {'transactionValue':transactionValue, 'chooseCategory':chooseCategory};
@@ -12,7 +12,8 @@ $("#addExpense").click(function(){
 });
 
 $("#addExpenseModal").click(function(){
-    var transactionValue = $("#transactionValueModal").val();
+    
+    var transactionValue = ($("#transactionValueModal").val()).replace(',', '.');
     var chooseCategory = $("#chooseCategoryModal").val();
 
     var transaction = {'transactionValue':transactionValue, 'chooseCategory':chooseCategory};

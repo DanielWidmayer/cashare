@@ -1,5 +1,5 @@
 $("#addIncome").click(function(){
-    var transactionValue = $("#transactionValue").val();
+    var transactionValue = ($("#transactionValue").val()).replace(',', '.');
     var timePeriod = $("#timePeriod").val();
     var chooseCategory = $("#chooseCategory").val();
 
@@ -12,7 +12,7 @@ $("#addIncome").click(function(){
 });
 
 $("#addIncomeModal").click(function(){
-    var transactionValue = $("#transactionValueModal").val();
+    var transactionValue = ($("#transactionValueModal").val()).replace(',', '.');
     var timePeriod = $("#timePeriodModal").val();
     var chooseCategory = $("#chooseCategoryModal").val();
 
@@ -21,7 +21,7 @@ $("#addIncomeModal").click(function(){
     .done(function( data ) {
         console.log( "Data Loaded: " + data );
         $('#IncomeModal').modal('hide');
-        location.reload;
+        location.reload();
     });
 });
 

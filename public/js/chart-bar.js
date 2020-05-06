@@ -2,8 +2,9 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
+var maxValue = 10;
+
 function number_format(number, decimals, dec_point, thousands_sep) {
-    console.log(transactions);
   // *     example: number_format(1234.56, 2, ',', ' ');
   // *     return: '1 234,56'
   number = (number + '').replace(',', '').replace(' ', '');
@@ -28,6 +29,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
+// Get transaction Value for specific month
 function getValue(val){
     var sum = 0;
     transactions.forEach(transaction => {
@@ -45,10 +47,28 @@ function getValue(val){
          }
         }
     });
+
+    // Check whether maxValue has been exceeded, if so then update maxValue 
+    if(sum >= maxValue)
+    {
+      var x = 1;
+      var i = 1;
+
+      while (sum > x * Math.pow(10,i)) {
+        if(x <= 9){
+          x++;
+        }
+        else{
+          x = 1
+          i++;
+        }
+      }
+      maxValue = x * Math.pow(10,i);
+    }
     return sum;
 }
 
-// Bar Chart Example
+// Bar Chart
 var ctx = document.getElementById("myBarChart");
 var myBarChart = new Chart(ctx, {
   type: 'bar',
@@ -89,7 +109,7 @@ var myBarChart = new Chart(ctx, {
       yAxes: [{
         ticks: {
           min: 0,
-          max: 15000,
+          max: maxValue,
           maxTicksLimit: 5,
           padding: 10,
           // Include a dollar sign in the ticks
