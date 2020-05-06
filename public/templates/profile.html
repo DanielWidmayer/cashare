@@ -122,8 +122,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Old Password</span>
                   </div>
-                  <input id="pw_old" type="password" class="form-control" aria-label="Vorname" placeholder="Enter Password" name="old_password" 
-                    aria-describedby="inputGroup-sizing-default">
+                  <input id="pw_old" type="password" class="form-control" aria-label="Vorname"
+                    placeholder="Enter Password" name="old_password" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
             </div>
@@ -136,8 +136,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">New Password</span>
                   </div>
-                  <input id="pw_new" type="password" class="form-control" aria-label="Default" placeholder="Enter Password"
-                    name="new_password" aria-describedby="inputGroup-sizing-default">
+                  <input id="pw_new" type="password" class="form-control" aria-label="Default"
+                    placeholder="Enter Password" name="new_password" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
               <!-- Content Column -->
@@ -147,8 +147,8 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Repeat Password</span>
                   </div>
-                  <input id="pw_conf" type="password" class="form-control" aria-label="Default" placeholder="Repeat Password"
-                    name="password_confirm" aria-describedby="inputGroup-sizing-default">
+                  <input id="pw_conf" type="password" class="form-control" aria-label="Default"
+                    placeholder="Repeat Password" name="password_confirm" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
             </div>
@@ -248,50 +248,8 @@
   <!-- Custom scripts for all pages-->
   <script src="js/cashare.min.js"></script>
 
-  <script>
-    document.querySelector('.custom-file-input').addEventListener('change', function (e) {
-      var fileName = document.getElementById("inputGroupFile01").files[0].name;
-      var nextSibling = e.target.nextElementSibling;
-      nextSibling.innerText = fileName;
-    });
-
-    function checkpw_re(el_id) {
-      var regexp = /^([a-zA-Z0-9@*#_+]{8,15}$)/;
-      return regexp.test($(el_id).val());
-    }
-
-    function checkpw_conf() {
-      return ($('#pw_new').val() == $('#pw_conf').val()) ? true : false;
-    }
-
-    function changeData() {
-      if($('#firstname').val() != "" && $('#lastname').val() != "" && $('#mail').val() != "") {
-        if(checkpw_conf()) {
-          $('#data_form').submit();
-        }
-      }
-    }
-
-    $('#pw_new').on('keyup', function() {
-      if(checkpw_re('#pw_new')) {
-        $("#pw_new").css("border-color", "green");
-        $("#pw_new").css("box-shadow", "0 0 0 1px rgba(0, 100, 0, 0.3)");
-      } else {
-        $("#pw_new").css("border-color", "red");
-        $("#pw_new").css("box-shadow", "0 0 0 1px rgba(255, 0, 0, 0.3)");
-      }
-    })
-
-    $('#pw_conf').on('keyup', function() {
-      if(!checkpw_conf()) {
-        $("#pw_conf").css("border-color", "red");
-        $("#pw_conf").css("box-shadow", "0 0 0 1px rgba(255, 0, 0, 0.3)");
-      } else {
-        $("#pw_conf").css("border-color", "green");
-        $("#pw_conf").css("box-shadow", "0 0 0 1px rgba(0, 100, 0, 0.3)");
-      }
-    })
-  </script>
+  <!-- Custom script for profile -->
+  <script src="../js/profile.js"></script>
 
 </body>
 
