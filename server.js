@@ -91,7 +91,7 @@ router.get('/', function (req, res) {
 router.get('/home', redirectLogin, async function (req, res) {
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-    return res.render('index.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+    return res.render('index.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], pagename: 'index' });
   }
   catch (err) {
     console.log(err);
@@ -102,7 +102,7 @@ router.get('/home', redirectLogin, async function (req, res) {
 router.get('/blank', redirectLogin, async function (req, res) {
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-    return res.render('blank.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+    return res.render('blank.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], pagename: 'index' });
   } catch (err) {
     console.log(err);
     return res.redirect('/logout');
@@ -169,8 +169,8 @@ router.post('/register', async function (req, res) {
 router.get('/tables', redirectLogin, async function (req, res) {
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-    res.render('logs-tables.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
-  } catch(err) {
+    res.render('logs-tables.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], pagename: 'logs' });
+  } catch (err) {
     console.log(err);
     return res.redirect('/logout');
   }
@@ -179,8 +179,8 @@ router.get('/tables', redirectLogin, async function (req, res) {
 router.get('/income', redirectLogin, async function (req, res) {
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-    res.render('income.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
-  } catch(err) {
+    res.render('income.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], pagename: 'income' });
+  } catch (err) {
     console.log(err);
     return res.redirect('/logout');
   }
@@ -189,8 +189,8 @@ router.get('/income', redirectLogin, async function (req, res) {
 router.get('/groups', redirectLogin, async function (req, res) {
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-    res.render('payment-groups.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
-  } catch(err) {
+    res.render('payment-groups.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], pagename: 'groups' });
+  } catch (err) {
     console.log(err);
     return res.redirect('/logout');
   }
@@ -199,25 +199,25 @@ router.get('/groups', redirectLogin, async function (req, res) {
 router.get('/profile', redirectLogin, async function (req, res) {
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-    res.render('profile.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userpic: q_user[6] });
-  } catch(err) {
+    res.render('profile.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userpic: q_user[6], pagename: 'profile' });
+  } catch (err) {
     console.log(err);
     return res.redirect('/logout');
   }
 });
 
-router.post('/profile', redirectLogin, upload.single('pic'), async function(req, res) {
+router.post('/profile', redirectLogin, upload.single('pic'), async function (req, res) {
   try {
-    if(req.file) {
+    if (req.file) {
       await dbsql.db_user.changeProfileImg(req.session.userID);
     }
     else {
       await dbsql.db_user.changeNameAndMail(req.session.userID, req.body.firstname, req.body.lastname, req.body.mail);
-      if(req.body.old_password && req.body.new_password) {
+      if (req.body.old_password && req.body.new_password) {
         await dbsql.db_user.changePassword(req.session.userID, req.body.old_password, req.body.new_password);
       }
     }
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
   return res.redirect(req.originalUrl);
@@ -226,7 +226,7 @@ router.post('/profile', redirectLogin, upload.single('pic'), async function(req,
 router.get('/expenses', redirectLogin, async function (req, res) {
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-    res.render('expenses.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+    res.render('expenses.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], pagename: 'expenses' });
   } catch (err) {
     console.log(err);
     return res.redirect('/logout');
@@ -236,8 +236,8 @@ router.get('/expenses', redirectLogin, async function (req, res) {
 router.get('/chat', redirectLogin, async function (req, res) {
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-    return res.render('chat.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
-  } catch(err) {
+    return res.render('chat.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], pagename: 'chat' });
+  } catch (err) {
     console.log(err);
     return res.redirect('/logout');
   }
@@ -246,8 +246,8 @@ router.get('/chat', redirectLogin, async function (req, res) {
 router.get('/settings', redirectLogin, async function (req, res) {
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-    return res.render('blank.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
-  } catch(err) {
+    return res.render('blank.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], pagename: 'blank' });
+  } catch (err) {
     console.log(err);
     return res.redirect('/logout');
   }
@@ -256,8 +256,8 @@ router.get('/settings', redirectLogin, async function (req, res) {
 router.get('/alerts', redirectLogin, async function (req, res) {
   try {
     let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-    return res.render('alerts.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
-  } catch(err) {
+    return res.render('alerts.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], pagename: 'alerts' });
+  } catch (err) {
     console.log(err);
     return res.redirect('/logout');
   }
@@ -279,8 +279,8 @@ app.use('*', redirectLogin, async function (req, res, next) {
   if (req.originalUrl != '/favicon.ico') {
     try {
       let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-      return res.render('404.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
-    } catch(err) {
+      return res.render('404.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], pagename: '404' });
+    } catch (err) {
       console.log(err);
       return res.redirect('/logout');
     }
