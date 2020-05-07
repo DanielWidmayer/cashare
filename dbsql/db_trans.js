@@ -71,8 +71,8 @@ module.exports.insertTransaction = async function(value, transonce, category, is
         }
         // event scheduled income (here: monthly)
         else if (transonce > 1){
-            //sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[3]}, ${COLS[4]}) `
-            //+ `VALUES ('${value}', '${userID}', '${category}');`; // CURRENT_TIMESTAMP
+
+            // scheduled event durch auth wahrscheinlich zerstört????
             await query(`SET GLOBAL event_scheduler = on;`);
             sql = `CREATE EVENT IF NOT EXISTS period_event
                     ON SCHEDULE EVERY '1' SECOND

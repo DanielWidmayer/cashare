@@ -1,3 +1,29 @@
+$.getScript("chart-bar.js", function() {
+    $(document).ready(function(){
+        let sum = 0;
+        let div_val = 0;
+
+        // iterate through each income entry in database and calculate the avg, annual and last_month income
+        for (let i = 1; i <= 12; i++)
+        {
+            if (getValue(i) != 0){
+                sum = sum + getValue(i);
+                div_val++;
+            }
+        }
+        if (div_val == 0)
+        {
+            $("#average_income").text("no income");
+        }
+        else {
+            $("#average_income").text('$'+sum / div_val);
+        }
+        $("#annual_income").text('$'+sum);
+        $("#last_month_income").text('$'+getValue(new Date().getMonth().toString()));
+    });
+ });
+
+
 $("#transactionValue").on("keypress keyup blur", function (event) {
     $(this).val($(this).val().replace(/[^0-9\.|\,]/g,''));
     if(event.which == 44)

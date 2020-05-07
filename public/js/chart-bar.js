@@ -33,7 +33,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 function getValue(val){
     var sum = 0;
     transactions.forEach(transaction => {
-        if(transaction.transaction_date != null)
+        if(transaction.transaction_date != null) // ????
         {
          var datetime = new Date(transaction.transaction_date);
          var month = datetime.getMonth() + 1;
