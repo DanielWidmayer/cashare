@@ -4,7 +4,6 @@ var checkLastName = false;
 
 $('#FirstName, #LastName').on('keyup', function () {
     var letters = /^[A-Za-z]+$/;
-    console.log($("#FirstName").val());
     if (letters.test($("#FirstName").val())) {
         $("#FirstName").css("border-color", "green");
         $("#FirstName").css("box-shadow", "0 0 0 3px rgba(0, 100, 0, 0.5)");
