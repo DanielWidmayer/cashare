@@ -2,16 +2,21 @@
     position: absolute;
     top: 50%;
     margin-right: 24px;
+    z-index: 1;
 }
 
 .popover-header {
     background-color: #f8f9fc;
     background-image: linear-gradient(180deg, #f8f9fc 10%, #c2cbe5 100%);
     background-size: cover;
-    color: #e74a3b;
+    color: #3493ff;
     font-weight: bold;
 }
 .popover-body {
     background-color: #f8f9fc;
-    color: #e74a3b;
+    color: #3493ff;
+}
+
+#img_alert{
+    display: none;
 }
