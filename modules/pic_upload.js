@@ -8,7 +8,7 @@ var storage = multer.diskStorage({
       cb(null, './public/img/profiles')
     },
     filename: function (req, file, cb) {
-      cb(null, "user" + req.session.userID + "pic.jpg"); // modified here  or user file.mimetype
+      cb(null, "user" + req.user[0] + "pic.jpg"); // modified here  or user file.mimetype
     }
 });
 

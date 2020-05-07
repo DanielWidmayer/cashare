@@ -1,14 +1,25 @@
 const mysql = require('mysql');
 const util = require('util');
 
-module.exports.db_user = require('./db_user');
-module.exports.db_cat = require('./db_cat');
-module.exports.db_group = require('./db_group');
-module.exports.db_user_group = require('./db_user_group');
-module.exports.db_goal = require('./db_goal');
-module.exports.db_user_cat = require('./db_user_cat');
-module.exports.db_trans = require('./db_trans');
-module.exports.db_msg = require('./db_message');
+const db_user = require('./db_user');
+const db_cat = require('./db_cat');
+const db_group = require('./db_group');
+const db_user_group = require('./db_user_group');
+const db_goal = require('./db_goal');
+const db_user_cat = require('./db_user_cat');
+const db_trans = require('./db_trans');
+const db_msg = require('./db_message');
+const db_alerts = require('./db_alerts');
+
+module.exports.db_user = db_user;
+module.exports.db_cat = db_cat;
+module.exports.db_group = db_group;
+module.exports.db_user_group = db_user_group;
+module.exports.db_goal = db_goal;
+module.exports.db_user_cat = db_user_cat;
+module.exports.db_trans = db_trans;
+module.exports.db_msg = db_msg;
+module.exports.db_alerts = db_alerts;
 
 
 // Connect to database
@@ -24,7 +35,6 @@ module.exports.createConnection = function( env_host, env_user, env_password, en
         database: env_dbname
     });
     query = util.promisify(con.query).bind(con);
-    return con;
 }
 
 module.exports.query = async function(sql_query){
@@ -37,7 +47,7 @@ module.exports.query = async function(sql_query){
     return res;
 }
 
-/*module.exports.connect = async function() {
+module.exports.connect = async function() {
     con.connect(async function(err) {
         if (err) throw err;
         console.log("Connected to database!");
@@ -65,8 +75,14 @@ module.exports.query = async function(sql_query){
 
         // create TABLE transaction_table
         await db_trans.create_table(db_user, db_cat, db_group);
+
+        // create TABLE alert_table
+        await db_alerts.create_table(db_user);
+
+        // add FOREIGN KEYS to user_table
+        await db_user.link(db_msg, db_alerts);
     });
-}*/
+}
 
 
 
