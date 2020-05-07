@@ -20,6 +20,8 @@
 
   <!-- Custom styles for this template-->
   <link href="css/cashare.min.css" rel="stylesheet">
+  <!-- Custom styles Alerts -->
+  <link href="../css/alerts.css" rel="stylesheet">
 
 </head>
 
@@ -68,7 +70,7 @@
             <div class="row">
 
               <!-- Content Column -->
-              <div class="col-lg-4 mb-4">
+              <div class="col-lg-5 mb-4">
 
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
@@ -80,7 +82,7 @@
               </div>
 
               <!-- Content Column -->
-              <div class="col-lg-4 mb-4">
+              <div class="col-lg-5 mb-4">
 
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
@@ -98,13 +100,13 @@
             <div class="row">
 
               <!-- Content Column -->
-              <div class="col-lg-8 mb-4">
+              <div class="col-lg-10 mb-4">
 
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Mail-Adresse</span>
                   </div>
-                  <input id="mail" type="text" class="form-control" value="<%= usermail %>" name="mail"
+                  <input id="mail" type="email" class="form-control" value="<%= usermail %>" name="mail"
                     aria-label="Recipient's username" aria-describedby="basic-addon2">
                 </div>
               </div>
@@ -116,7 +118,7 @@
             <div class="row">
 
               <!-- Content Column -->
-              <div class="col-lg-8 mb-4">
+              <div class="col-lg-10 mb-4">
 
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
@@ -130,7 +132,7 @@
             <!-- Content Row -->
             <div class="row">
               <!-- Content Column -->
-              <div class="col-lg-4 mb-4">
+              <div class="col-lg-5 mb-4">
 
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
@@ -141,7 +143,7 @@
                 </div>
               </div>
               <!-- Content Column -->
-              <div class="col-lg-4 mb-4">
+              <div class="col-lg-5 mb-4">
 
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
@@ -160,7 +162,11 @@
               </span>
               <span class="text">Save Changes</span>
             </button>
+
           </form>
+
+
+
         </div>
         <!-- /.container-fluid -->
 
@@ -230,6 +236,13 @@
               </div>
             </div>
         </div>
+        <!-- Alert Popup -->
+        <div id="img_alert" class="alert alert-danger alert-dismissible fade show ml-3 mr-3" role="alert">
+          <strong>Invalid Picture</strong> Please try again!
+          <button type="button" class="close" onclick="$('#img_alert').toggle('slow');" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div class="modal-footer">
           <button type="reset" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary" onclick="changepic()">Save changes</button>
@@ -238,6 +251,9 @@
       </div>
     </div>
   </div>
+
+
+
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -250,6 +266,8 @@
 
   <!-- Custom script for profile -->
   <script src="../js/profile.js"></script>
+
+
 
 </body>
 

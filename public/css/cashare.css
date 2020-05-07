@@ -10721,8 +10721,11 @@ a:focus {
   padding: 0.5rem 1rem;
 }
 
-.custom-file-input ~ .custom-file-label::after {
-  content: 'Button Text';
+.btn-link {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  text-decoration: none !important;
 }
 
 .card .card-header .dropdown {
@@ -11354,12 +11357,11 @@ img {
   margin: 1em;
 }
 
-@media only screen and (max-width: 1200px) {
-  #toggleChat {
-    display: none;
-  }
-}
-
+/*@media only screen and (max-width: 1200px) {
+    #toggleChat {
+        display: none;
+    }
+}*/
 .parallax {
   height: 500px;
   /* fallback */
@@ -11521,6 +11523,7 @@ img {
   z-index: 0;
 }
 
-.custom-file-input ~ .custom-file-label::after {
-  content: 'Button Text';
+.checkbox-triple {
+  float: right;
+  margin-top: 1em;
 }

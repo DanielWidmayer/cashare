@@ -62,7 +62,6 @@ app.use(
 // support parsing of application/json post data
 app.use(express.json());
 
-
 //passport
 app.use(passport.initialize());
 app.use(passport.session());
@@ -77,13 +76,15 @@ const isAuthenticated = function (req, res, next) {
   return res.redirect('/login');
 }
 
-
+// base route
 app.use('/', router);
 
+// Base Page
 router.get('/', function (req, res) {
   return res.render('home.html');
 });
 
+// Home - Cashboard
 router.get('/home', isAuthenticated, async function (req, res) {
   return res.render('index.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
 });
@@ -92,12 +93,13 @@ router.get('/blank', isAuthenticated, async function (req, res) {
   return res.render('blank.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
 });
 
+// Login
 router.get('/login', function (req, res) {
   if (req.user) return res.redirect('/home');
   return res.render('login.html', { errflash: req.flash() });
 });
 
-router.post('/login', passport.authenticate('local', { failureRedirect: '/login' , failureFlash: true }), function(req, res) {
+router.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), function (req, res) {
   return res.redirect('/home');
 });
 
@@ -124,30 +126,67 @@ router.post('/register', async function (req, res) {
   console.log(req.body);
   try {
     user_res = await dbsql.db_user.registerUser(req.body.firstName, req.body.lastName, req.body.eMail, req.body.password);
-    //req.session.userID = user_res;
-    //console.log('redirecting from register to login');
     return res.redirect('/login');
   } catch (err) {
     console.log(err);
-    //console.log('redirecting back to register');
     return res.redirect('/register');
   }
 });
 
 router.get('/tables', isAuthenticated, async function (req, res) {
-    return res.render('logs-tables.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'logs' });
+  return res.render('logs-tables.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'logs' });
 });
 
-router.get('/income', isAuthenticated, async function (req, res) {
-    return res.render('income.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'income' });
-});
 
 router.get('/groups', isAuthenticated, async function (req, res) {
-    return res.render('payment-groups.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'groups' });
+  return res.render('payment-groups.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'groups' });
 });
 
+// Income
+router.get('/income', isAuthenticated, async function (req, res) {
+  try {
+    var q_cat = await dbsql.db_cat.getCategorysByUserID(req.user[0], 0);
+    var q_trans = await dbsql.db_trans.getTransactionsByUserID(req.user[0], 0);
+  } catch (err) {
+    console.log(err);
+  }
+  return res.render('income.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'income', categorys: q_cat, transactions: q_trans });
+});
+
+router.post('/income', isAuthenticated, async function (req, res) {
+  try {
+    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 0, req.user[0]);
+    res.send(req.user[1] + " " + sqlret);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post('/addCategory', isAuthenticated, async function (req, res) {
+  try {
+    console.log("Category in Datenbank schreiben..");
+    console.log(req.body);
+    let ret = await dbsql.db_cat.addCategory(req.body.newCategory, req.body.description, req.body.category_isExpense, req.user[0]);
+
+    console.log("Category auslesen..");
+    let q_cat = await dbsql.db_cat.getCategoryByCatNameAndUserID(req.user[0], req.body.newCategory, req.body.category_isExpense);
+    var q_categorys = JSON.parse(JSON.stringify(q_cat));
+
+    console.log(q_categorys);
+    res.send(q_categorys);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.get('/groups/certaingroup', isAuthenticated, async function (req, res) {
+  res.render('paymentgroup-shareboard.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'profile' });
+});
+
+
+
 router.get('/profile', isAuthenticated, async function (req, res) {
-    return res.render('profile.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userpic: req.user[6], pagename: 'profile' });
+  return res.render('profile.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userpic: req.user[6], pagename: 'profile' });
 });
 
 router.post('/profile', isAuthenticated, upload.single('pic'), async function (req, res) {
@@ -171,20 +210,39 @@ router.post('/profile', isAuthenticated, upload.single('pic'), async function (r
   })
 });
 
-router.get('/expenses', isAuthenticated, async function (req, res) {
-    return res.render('expenses.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'expenses' });
-});
 
 router.get('/chat', isAuthenticated, async function (req, res) {
-    return res.render('chat.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'chat' });
+  return res.render('chat.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'chat' });
+});
+
+
+
+router.get('/expenses', isAuthenticated, async function (req, res) {
+  try {
+    var q_cat = await dbsql.db_cat.getCategorysByUserID(req.user[0], 1);
+    var q_trans = await dbsql.db_trans.getTransactionsByUserID(req.user[0], 1);
+  } catch (err) {
+    console.log(err);
+  }
+  return res.render('expenses.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'expenses', categorys: q_cat, transactions: q_trans });
+});
+
+router.post('/expenses', isAuthenticated, async function (req, res) {
+  try {
+    console.log(req.body);
+    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, 1, req.body.chooseCategory, 1, req.user[0]);
+    res.send(req.user[1] + " " + sqlret);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 router.get('/settings', isAuthenticated, async function (req, res) {
-    return res.render('blank.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'blank' });
+  return res.render('blank.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'blank' });
 });
 
 router.get('/alerts', isAuthenticated, async function (req, res) {
-    return res.render('alerts.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'alerts' });
+  return res.render('alerts.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'alerts' });
 });
 
 router.get('/try', isAuthenticated, function (req, res) {
@@ -199,9 +257,9 @@ app.use(function (req, res, next) {
 });
 
 // handle error 404 - page not found
-app.use('*', async function (req, res, next) {
+app.use('*', function (req, res, next) {
   if (req.originalUrl != '/favicon.ico') {
-      return res.render('404.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: '404' });
+    return res.render('404.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: '404' });
   }
 });
 
