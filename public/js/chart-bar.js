@@ -42,7 +42,7 @@ function getValue(val){
          {
             if(month == val)
             {
-                sum += Math.sqrt(Math.pow(transaction.transaction_value, 2));
+                sum += Math.abs(transaction.transaction_value);
             }
          }
         }

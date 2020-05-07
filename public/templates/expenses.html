@@ -269,7 +269,7 @@
                                 <div class="card-body">
                                     <div class="text-center">
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Value of transaction" id="transactionValue"
+                                            <input type="number" step="0.01" min="0" lang="en" class="form-control" placeholder="Value of transaction" id="transactionValue"
                                                 aria-label="Transaction Value" aria-describedby="basic-addon2">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon2">$</span>
@@ -402,7 +402,7 @@
                 <div class="modal-body">
                     <div class="text-center">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Value of transaction" id="transactionValueModal"
+                            <input type="number" step="0.01" min="0" lang="en" class="form-control" placeholder="Value of transaction" id="transactionValueModal"
                                 aria-label="Transaction Value" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <span class="input-group-text" id="basic-addon2">$</span>
@@ -488,6 +488,7 @@
 
     <script>
          var transactions = <%- JSON.stringify(transactions)%>;
+         var categorys = <%- JSON.stringify(categorys)%>;
     </script>
 
     <script src="../js/expenses.js"></script>
