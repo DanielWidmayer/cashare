@@ -8,8 +8,7 @@ function changepic() {
   if ($('#inputGroupFile01').val() != "") $('#pic_form').submit();
   else {
     // TODO error-popup
-    manualShowPopover('#inputGroupFile01');
-    //alert("Please provide a valid picture!");
+    $('#img_alert').toggle("slow");
   }
 }
 
@@ -107,8 +106,6 @@ $(document).ready(function () {
     $('#firstname').popover({ trigger: 'manual', placement: 'bottom', title: 'Enter your Firstname', content: "Firstname is invalid. Please make sure to enter your Firstname without special Characters." });
     $('#lastname').popover({ trigger: 'manual', placement: 'bottom', title: 'Enter your Lastname', content: "Lastname is invalid. Please make sure to enter your Lastname without special Characters." });
     $('#mail').popover({ trigger: 'manual', placement: 'bottom', title: 'Enter the new Mail-Adress', content: "This Mail Adress is invalid. Please try again." });
-    $('#inputGroupFile01').popover({ trigger: 'manual', placement: 'right', title: 'Invalid Picture', content: "Please try again!" });
-
   });
 
   $('.alert').alert();
