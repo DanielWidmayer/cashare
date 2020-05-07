@@ -44,6 +44,8 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-primary font-weight-bold">Payment Groups</h1>
+            <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal"
+              data-target="#newGroupModal"><i class="fas fa-plus fa-sm text-white-50"></i> New Payment Group</a>
           </div>
 
           <!-- Content Row -->
@@ -55,8 +57,7 @@
               <!-- Payment Group -->
               <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <a class="m-0 font-weight-bold text-secondary" href="paymentgroup-shareboard.html">Payment Group
-                    title</a>
+                  <a class="m-0 font-weight-bold text-secondary" href="/groups/certaingroup">Project Eagle</a>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
@@ -65,10 +66,13 @@
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                       aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" href="#">Edit</a>
-                      <a class="dropdown-item" href="#">Another action</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editGroupModal"><i
+                          class="fas fa-edit text-gray-600 mr-1"></i>Edit</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#inviteModal"><i
+                          class="fas fa-plus text-gray-600 mr-1"></i>Invite</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteGroupModal"><i class="
+                          fas fa-trash text-gray-600 mr-1"></i>Delete</a>
                     </div>
                   </div>
                 </div>
@@ -80,56 +84,56 @@
 
                     <!-- Member Count Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <div class="card border-primary shadow h-100 py-2">
+                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#usersModal">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                               <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Member count
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">7</div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-user fa-2x text-gray-600"></i>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
 
                     <!-- Pending Requests Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <div class="card border-primary shadow h-100 py-2">
+                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#feedModal">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Pending Requests
+                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Activity Feed
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">17</div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-comments fa-2x text-gray-600"></i>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
 
                     <!-- Account Balance Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <div class="card border-primary shadow h-100 py-2">
+                      <a class="card border-primary shadow btn-link py-2" href="paymentgroup-shareboard.html">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                               <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Account Balance
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">$270.18</div>
+                              <div class="h5 mb-0 font-weight-bold text-success">$1298.64</div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-dollar-sign fa-2x text-gray-600"></i>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
 
 
@@ -150,8 +154,7 @@
               <!-- Payment Group -->
               <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <a class="m-0 font-weight-bold text-secondary" href="paymentgroup-shareboard.html">Payment Group
-                    title</a>
+                  <a class="m-0 font-weight-bold text-secondary" href="paymentgroup-shareboard.html">City WG</a>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
@@ -160,10 +163,13 @@
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                       aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" href="#">Edit</a>
-                      <a class="dropdown-item" href="#">Another action</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editGroupModal"><i
+                          class="fas fa-edit text-gray-600 mr-1"></i>Edit</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#inviteModal"><i
+                          class="fas fa-plus text-gray-600 mr-1"></i>Invite</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteGroupModal"><i class="
+                          fas fa-trash text-gray-600 mr-1"></i>Delete</a>
                     </div>
                   </div>
                 </div>
@@ -175,7 +181,7 @@
 
                     <!-- Member Count Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <div class="card border-primary shadow h-100 py-2">
+                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#usersModal">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -188,43 +194,43 @@
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
 
                     <!-- Pending Requests Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <div class="card border-primary shadow h-100 py-2">
+                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#feedModal">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Pending Requests
+                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Activity Feed
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">21</div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-comments fa-2x text-gray-600"></i>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
 
                     <!-- Account Balance Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <div class="card border-primary shadow h-100 py-2">
+                      <a class="card border-primary shadow btn-link py-2" href="paymentgroup-shareboard.html">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                               <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Account Balance
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">$270.18</div>
+                              <div class="h5 mb-0 font-weight-bold text-danger">$30.18</div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-dollar-sign fa-2x text-gray-600"></i>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
 
 
@@ -235,9 +241,9 @@
 
                 </div>
               </div>
+              <!-- end of Payment Group -->
 
             </div>
-            <!-- end of Payment Group -->
 
           </div>
           <!-- end of Content row -->
@@ -252,8 +258,8 @@
               <!-- Payment Group -->
               <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <a class="m-0 font-weight-bold text-secondary" href="paymentgroup-shareboard.html">Payment Group
-                    title</a>
+                  <a class="m-0 font-weight-bold text-secondary" href="paymentgroup-shareboard.html">Charity
+                    Donations</a>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
@@ -262,10 +268,13 @@
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                       aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" href="#">Edit</a>
-                      <a class="dropdown-item" href="#">Another action</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editGroupModal"><i
+                          class="fas fa-edit text-gray-600 mr-1"></i>Edit</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#inviteModal"><i
+                          class="fas fa-plus text-gray-600 mr-1"></i>Invite</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteGroupModal"><i class="
+                                    fas fa-trash text-gray-600 mr-1"></i>Delete</a>
                     </div>
                   </div>
                 </div>
@@ -277,56 +286,56 @@
 
                     <!-- Member Count Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <div class="card border-primary shadow h-100 py-2">
+                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#usersModal">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                               <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Member count
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">15</div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-user fa-2x text-gray-600"></i>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
 
                     <!-- Pending Requests Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <div class="card border-primary shadow h-100 py-2">
+                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#feedModal">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Pending Requests
+                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Activity Feed
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">57</div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-comments fa-2x text-gray-600"></i>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
 
                     <!-- Account Balance Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <div class="card border-primary shadow h-100 py-2">
+                      <a class="card border-primary shadow btn-link py-2" href="paymentgroup-shareboard.html">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                               <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Account Balance
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">$270.18</div>
+                              <div class="h5 mb-0 font-weight-bold text-success">$5246.35</div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-dollar-sign fa-2x text-gray-600"></i>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
 
 
@@ -347,8 +356,8 @@
               <!-- Payment Group -->
               <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <a class="m-0 font-weight-bold text-secondary" href="paymentgroup-shareboard.html">Payment Group
-                    title</a>
+                  <a class="m-0 font-weight-bold text-secondary" href="paymentgroup-shareboard.html">Vacation
+                    Italyyy</a>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
@@ -357,10 +366,13 @@
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                       aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" href="#">Edit</a>
-                      <a class="dropdown-item" href="#">Another action</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editGroupModal"><i
+                          class="fas fa-edit text-gray-600 mr-1"></i>Edit</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#inviteModal"><i
+                          class="fas fa-plus text-gray-600 mr-1"></i>Invite</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteGroupModal"><i class="
+                                    fas fa-trash text-gray-600 mr-1"></i>Delete</a>
                     </div>
                   </div>
                 </div>
@@ -372,66 +384,69 @@
 
                     <!-- Member Count Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <div class="card border-primary shadow h-100 py-2">
+                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#usersModal">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                               <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Member count
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-user fa-2x text-gray-600"></i>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
 
                     <!-- Pending Requests Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <div class="card border-primary shadow h-100 py-2">
+                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#feedModal">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Pending Requests
+                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Activity Feed
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">7</div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-comments fa-2x text-gray-600"></i>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
 
                     <!-- Account Balance Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <div class="card border-primary shadow h-100 py-2">
+                      <a class="card border-primary shadow btn-link py-2" href="paymentgroup-shareboard.html">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                               <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Account Balance
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">$270.18</div>
+                              <div class="h5 mb-0 font-weight-bold text-danger">$3780.25</div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-dollar-sign fa-2x text-gray-600"></i>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
+
 
                     <!-- end of row -->
                   </div>
 
+
+
                 </div>
               </div>
+              <!-- end of Payment Group -->
 
             </div>
-            <!-- end of Payment Group -->
 
           </div>
           <!-- end of Content row -->
@@ -446,7 +461,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2020</span>
+            <span>Copyright &copy; Your Website 2019</span>
           </div>
         </div>
       </footer>
@@ -464,12 +479,11 @@
   </a>
 
   <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <h5 class="modal-title">Ready to Leave?</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
@@ -477,7 +491,334 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="./logout">Logout</a>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Payment Group Modal -->
+  <div class="modal fade" id="newGroupModal" tabindex="-1" role="dialog" aria-labelledby="newGroupModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add new Payment Group</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Payment Group Title" aria-label="Payment Group Title"
+                aria-describedby="basic-addon2">
+            </div>
+            <hr>
+            <!-- Button Add new Payment Group-->
+            <a href="#" class="btn btn-success btn-icon-split">
+              <span class="icon text-white-50">
+                <i class="fas fa-check"></i>
+              </span>
+              <span class="text">Add new Payment Group</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invite Modal -->
+  <div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="inviteModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Invite users</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Search for User" aria-label="Payment Group Title"
+                aria-describedby="basic-addon2">
+            </div>
+            <hr>
+            <!-- Button Add new Payment Group-->
+            <a href="#" class="btn btn-success btn-icon-split">
+              <span class="icon text-white-50">
+                <i class="fas fa-check"></i>
+              </span>
+              <span class="text">Send Invite</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Edit Payment Group Modal -->
+  <div class="modal fade" id="editGroupModal" tabindex="-1" role="dialog" aria-labelledby="editGroupModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Payment Group</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" value="Payment Group Title" aria-label="Payment Group Title"
+              aria-describedby="basic-addon2">
+          </div>
+          <hr>
+          <div class="flex-row">
+            <p class="font-weight-bold d-inline-flex m-0">Manage User rights</p>
+            <p class="d-inline-flex m-0" style="float: right;">Write Invite Edit</p>
+          </div>
+          <hr>
+          <div class="flex-row">
+            <img class="img-profile rounded-circle" height="50" width="50"
+              src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Marlene Musterfrau</span>
+            <div class="checkbox-triple">
+              <input type="checkbox" class="mr-3">
+              <input type="checkbox" class="mr-3">
+              <input type="checkbox" class="mr-2">
+            </div>
+          </div>
+          <hr>
+
+          <div class="flex-row">
+            <img class="img-profile rounded-circle" height="50" width="50"
+              src="https://source.unsplash.com/CS2uCrpNzJY/60x60">
+            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Jens Bühler</span>
+            <div class="checkbox-triple">
+              <input type="checkbox" class="mr-3">
+              <input type="checkbox" class="mr-3">
+              <input type="checkbox" class="mr-2">
+            </div>
+          </div>
+          <hr>
+
+          <div class="flex-row">
+            <img class="img-profile rounded-circle" height="50" width="50"
+              src="https://source.unsplash.com/Mv9hjnEUHR4/60x60">
+            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Dawg</span>
+            <div class="checkbox-triple">
+              <input type="checkbox" class="mr-3">
+              <input type="checkbox" class="mr-3">
+              <input type="checkbox" class="mr-2">
+            </div>
+          </div>
+          <hr>
+
+          <div class="flex-row">
+            <img class="img-profile rounded-circle" height="50" width="50"
+              src="https://source.unsplash.com/random/60x60">
+            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Maximilian Musterman</span>
+            <div class="checkbox-triple">
+              <input type="checkbox" class="mr-3">
+              <input type="checkbox" class="mr-3">
+              <input type="checkbox" class="mr-2">
+            </div>
+          </div>
+          <hr>
+          <div class="text-center">
+            <!-- Save changes-->
+            <a href="#" class="btn btn-success btn-icon-split">
+              <span class="icon text-white-50">
+                <i class="fas fa-check"></i>
+              </span>
+              <span class="text">Save Changes</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Group Modal -->
+  <div id="deleteGroupModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger">Confirm to Delete Payment Group</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="text-center">
+            <p class="text-danger">Select "Delete" below if you are sure you wanr to delete the Group "Payment Group
+              Title". Warning: This can not be undone!
+            </p>
+            <hr>
+            <!-- Delete confirm-->
+            <a href="#" class="btn btn-danger btn-icon-split">
+              <span class="icon text-white-50">
+                <i class="fas fa-trash"></i>
+              </span>
+              <span class="text">Delete</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Count Modal -->
+  <div class="modal fade" id="usersModal" tabindex="-1" role="dialog" aria-labelledby="usersModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Users</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="flex-row">
+            <img class="img-profile rounded-circle" height="50" width="50"
+              src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Marlene Musterfrau</span>
+          </div>
+          <hr>
+
+          <div class="flex-row">
+            <img class="img-profile rounded-circle" height="50" width="50"
+              src="https://source.unsplash.com/CS2uCrpNzJY/60x60">
+            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Jens Bühler</span>
+          </div>
+          <hr>
+
+          <div class="flex-row">
+            <img class="img-profile rounded-circle" height="50" width="50"
+              src="https://source.unsplash.com/Mv9hjnEUHR4/60x60">
+            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Dawg</span>
+          </div>
+          <hr>
+
+          <div class="flex-row">
+            <img class="img-profile rounded-circle" height="50" width="50"
+              src="https://source.unsplash.com/random/60x60">
+            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Maximilian Musterman</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Actvity Feed Modal -->
+  <div class="modal fade" id="feedModal" tabindex="-1" role="dialog" aria-labelledby="feedModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Activity Feed</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <!-- Alert Card -->
+          <div class="card mb-4 py-3 rounded flex-row border-left-primary">
+            <div class=" ml-4 mr-3 mt-1">
+              <div class="icon-circle bg-primary">
+                <i class="fas fa-file-alt text-white"></i>
+              </div>
+            </div>
+            <div>
+              <span class="font-weight-bold">A new payment task has been added!</span>
+              <div class="text-gray-500">December 12, 2019</div>
+            </div>
+          </div>
+
+          <!-- Alert Card -->
+          <div class="card mb-4 py-3 rounded flex-row border-left-success">
+            <div class="ml-4 mr-3 mt-1">
+              <div class="icon-circle bg-success">
+                <i class="fas fa-donate text-white"></i>
+              </div>
+            </div>
+            <div>
+              You have made a transaction over $70.00!
+              <div class="text-gray-500">December 7, 2019</div>
+            </div>
+          </div>
+
+          <!-- Alert Card -->
+          <div class="card mb-4 py-3 rounded flex-row border-left-warning">
+            <div class="ml-4 pr-0 mt-1">
+              <div class="icon-circle bg-warning">
+                <i class="fas fa-exclamation-triangle text-white"></i>
+              </div>
+            </div>
+            <div class="ml-3">
+              Spending Alert: We've noticed unusually high spending from your group.
+              <div class="text-gray-500">December 2, 2019</div>
+            </div>
+          </div>
+
+          <!-- Error Card -->
+          <div class="card mb-4 py-3 rounded flex-row border-left-danger">
+            <div class="ml-4 mr-3 mt-1">
+              <div class="icon-circle bg-danger">
+                <i class="fas fa-exclamation text-white"></i>
+              </div>
+            </div>
+            <div>
+              Error: Your expense exceeds the group spending limit.
+              <div class="text-gray-500">December 1, 2019</div>
+            </div>
+          </div>
+
+          <!-- Info Card -->
+          <div class="card mb-4 py-3 rounded flex-row border-left-info">
+            <div class="ml-4 mr-3 mt-1">
+              <div class="icon-circle bg-info">
+                <i class="fas fa-info text-white"></i>
+              </div>
+            </div>
+            <div>
+              Jens Bühler has payed you $123.45 bucks!
+              <div class="text-gray-500">Novembre 29, 2019</div>
+            </div>
+          </div>
+
+
         </div>
       </div>
     </div>
