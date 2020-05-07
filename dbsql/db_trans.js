@@ -63,13 +63,30 @@ module.exports.insertTransaction = async function(value, transonce, category, is
             value = value - (value * 2);
         }
         var currenttime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        // single income
         if(transonce == 1){
             sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}) `
             + `VALUES ('${value}', '${currenttime}', '${userID}', '${category}');`;
         }
+        // event scheduled income (here: monthly)
         else if (transonce > 1){
-            sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[3]}, ${COLS[4]}) `
-            + `VALUES ('${value}', '${userID}', '${category}');`;
+            //sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[3]}, ${COLS[4]}) `
+            //+ `VALUES ('${value}', '${userID}', '${category}');`; // CURRENT_TIMESTAMP
+            await query(`SET GLOBAL event_scheduler = on;`);
+            sql = `CREATE EVENT IF NOT EXISTS period_event
+                    ON SCHEDULE EVERY '1' SECOND
+                    STARTS CONCAT(adddate(last_day(curdate()), 1), ' 00:00:00')
+                    DO
+                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]})
+                    VALUES ('${value}', NOW(), '${userID}', '${category}');`;
+            try {
+                await query(sql);
+                console.log("sql event created!");
+            }
+            catch(err) {
+                console.log("cannot create event...");
+                console.log(err);
+            }
         }
     
 
