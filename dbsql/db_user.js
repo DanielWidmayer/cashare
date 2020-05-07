@@ -41,9 +41,9 @@ module.exports.create_table = async function() {
               + COLS[7] + " varchar(255),"
               + COLS[8] + " decimal(10,2) not null default('0'),"
               + COLS[9] + " varchar(255),"
-              + COLS[10] + " int default(0),"
+              + COLS[10] + " int,"
               //+ `FOREIGN KEY (${COLS[10]}) REFERENCES ${db_msg}(${db_msg.COLS[0]}),`
-              + COLS[11] + " int default(0)"
+              + COLS[11] + " int"
               //+ `FOREIGN KEY (${COLS[11]}) REFRENCES ${db_msg}(${db_msg.COLS[0]})`
               + ");"
         try {
@@ -54,6 +54,18 @@ module.exports.create_table = async function() {
             console.log("cannot create table...");
             console.log(err);
         }    
+    }
+}
+
+module.exports.link = async function(db_msg, db_alert) {
+    var sql1 = `ALTER TABLE ${TBNAME} ADD FOREIGN KEY (${COLS[10]}) REFERENCES ${db_alert.TBNAME} (${db_alert.COLS[0]});`
+    var sql2 = `ALTER TABLE ${TBNAME} ADD FOREIGN KEY (${COLS[11]}) REFERENCES ${db_msg.TBNAME}(${db_msg.COLS[0]});`
+    try {
+        await query(sql1);
+        await query(sql2);
+    }
+    catch(err) {
+        console.log(err);
     }
 }
 
@@ -73,8 +85,19 @@ module.exports.getDataByMail = async function(mail) {
     var sql, res;
     sql = `SELECT * FROM ${TBNAME} WHERE ${COLS[3]} = '${mail}';`
     try {
-        res = await query(sql);
-        return res[0];
+        let q_res = await query(sql);
+        let res = [];
+        q_res = q_res[0];
+
+        for (i in q_res) {
+            switch(i) {
+                case COLS[4]: break;
+                case COLS[5]: break;
+                case COLS[6]: break;
+                default: res.push(q_res[i]);
+            }
+        }
+        return res;
     }
     catch(err) {
         throw err;
@@ -87,7 +110,6 @@ module.exports.getDataByID = async function(user_id) {
         let q_res = await query(sql);
         let res = [];   
         q_res = q_res[0];
-        if (!q_res) throw "This User does not exist!";
 
         for (i in q_res) {
             switch(i) {
@@ -119,7 +141,7 @@ module.exports.changeNameAndMail = async function(user_id, firstname, lastname, 
     var sql = `UPDATE ${TBNAME} SET ${COLS[1]} = '${firstname}', ${COLS[2]} = '${lastname}', ${COLS[3]} = '${mail}' WHERE ${COLS[0]} = '${user_id}';`;
     try {
         let res = await this.getDataByMail(mail);
-        if(res && res[COLS[0]] != user_id) throw "Mail is already used!";
+        if(res.length && res[0] != user_id) throw "Mail is already used!";
         else {
             await query(sql);
         }
@@ -142,9 +164,9 @@ module.exports.changePassword = async function(user_id, old_pw, new_pw) {
                 await query(sql);
                 return true;
             }
-            else throw "Invalid Input!";
+            else throw "Invalid Password!";
         }
-        else throw "Invalid Input!";
+        else throw "Invalid Password!";
     } catch (err) {
         throw err;
     }
@@ -161,10 +183,9 @@ module.exports.login = async function(mail, password) {
             if(f1) return res[COLS[0]];
             else return false;
         }
-        else throw "Invalid Input!";
     }
     catch(err) {
-        throw err;
+        console.log(err);
     }
 }
 
@@ -173,7 +194,7 @@ module.exports.registerUser = async function(firstname, lastname, mail, password
 
     try {
         res = await this.getDataByMail(mail);
-        if(res) throw "Mail is already used!";
+        if(res.length) throw "Mail is already used!";
         else {
             let phone_namespace = phone ? `, ${COLS[7]}` : ``;
             let phone_value = phone ? `, '${phone}'` : ``;
