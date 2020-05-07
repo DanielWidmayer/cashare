@@ -39,23 +39,10 @@ app.use(
   })
 );
 
-//passport
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Database Connection
 dbsql.createConnection(process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASSWORD, process.env.DB_PORT, process.env.DB_NAME);
 dbsql.connect();
 
-
-// auth middleware
-const isAuthenticated = function (req, res, next) {
-  console.log("auth");
-  if(req.user && req.originalUrl != '/favicon.ico') {
-    return next();
-  }
-  return res.redirect('/login');
-}
 
 // static folder where static files like html are stored
 app.use(express.static('public', { index: false }));
@@ -75,6 +62,22 @@ app.use(
 // support parsing of application/json post data
 app.use(express.json());
 
+
+//passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+// auth middleware
+const isAuthenticated = function (req, res, next) {
+  console.log("auth");
+  if(req.user && req.originalUrl != '/favicon.ico') {
+    return next();
+  }
+  return res.redirect('/login');
+}
+
+
 app.use('/', router);
 
 router.get('/', function (req, res) {
@@ -82,11 +85,11 @@ router.get('/', function (req, res) {
 });
 
 router.get('/home', isAuthenticated, async function (req, res) {
-    return res.render('index.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
+  return res.render('index.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
 });
 
 router.get('/blank', isAuthenticated, async function (req, res) {
-    return res.render('blank.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
+  return res.render('blank.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
 });
 
 router.get('/login', function (req, res) {
@@ -196,7 +199,7 @@ app.use(function (req, res, next) {
 });
 
 // handle error 404 - page not found
-app.use('*', isAuthenticated, async function (req, res, next) {
+app.use('*', async function (req, res, next) {
   if (req.originalUrl != '/favicon.ico') {
       return res.render('404.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: '404' });
   }
