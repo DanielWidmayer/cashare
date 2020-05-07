@@ -5,14 +5,18 @@ const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const router = express.Router();
+const passport = require('./modules/passport-config');
+//const initializePassPort = require('./modules/passport-config');
 const app = express();
+const flash = require('express-flash');
 const dbsql = require('./dbsql');
+const upload = require('./modules/pic_upload');
 
 if (dotenv.error) throw dotenv.error;
 
 const IN_PROD = process.env.NODE_ENV === 'production';
-const TWO_HOURS = process.env.SESS_LIFETIME * 60 * 60 * 2;
-
+const TWO_HOURS = process.env.SESS_LIFETIME * 60 * 2;
+app.use(flash());
 // Helmet
 app.use(helmet());
 
@@ -35,26 +39,23 @@ app.use(
   })
 );
 
+//passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Database Connection
 dbsql.createConnection(process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASSWORD, process.env.DB_PORT, process.env.DB_NAME);
-dbsql.db_user.create_table();
-dbsql.db_cat.create_table();
-dbsql.db_group.create_table();
-dbsql.db_user_group.create_table(dbsql.db_user, dbsql.db_group);
-dbsql.db_user_cat.create_table(dbsql.db_user, dbsql.db_cat);
-dbsql.db_goal.create_table(dbsql.db_cat, dbsql.db_group, dbsql.db_user);
-dbsql.db_msg.create_table(dbsql.db_user, dbsql.db_group);
-dbsql.db_trans.create_table(dbsql.db_user, dbsql.db_cat, dbsql.db_group);
+dbsql.connect();
 
-const redirectLogin = (req, res, next) => {
-  //console.log("authentication");
-  //console.log(req.originalUrl);
-  if (!req.session.userID && req.originalUrl != '/favicon.ico') {
-    res.redirect('/login');
-  } else {
-    next();
+
+// auth middleware
+const isAuthenticated = function (req, res, next) {
+  console.log("auth");
+  if (req.user && req.originalUrl != '/favicon.ico') {
+    return next();
   }
-};
+  return res.redirect('/login');
+}
 
 // static folder where static files like html are stored
 app.use(express.static('public', { index: false }));
@@ -80,59 +81,37 @@ router.get('/', function (req, res) {
   return res.render('home.html');
 });
 
-router.get('/home', redirectLogin, async function (req, res) {
-  try {
-    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-    return res.render('index.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
-  }
-  catch (err) {
-    console.log(err);
-    return res.redirect('/login');
-  }
+router.get('/home', isAuthenticated, async function (req, res) {
+  return res.render('index.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
 });
 
-router.get('/blank', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  return res.render('blank.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+router.get('/blank', isAuthenticated, async function (req, res) {
+  return res.render('blank.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
 });
 
 router.get('/login', function (req, res) {
-  if (req.session.userID) return res.redirect('/home');
-  return res.render('login.html');
+  if (req.user) return res.redirect('/home');
+  return res.render('login.html', { errflash: req.flash() });
 });
 
-router.post('/login', async function (req, res) {
-  let mail = req.body.email;
-  let pass = req.body.password;
-  //console.log(mail + pass);
-  try {
-    let user = await dbsql.db_user.login(mail, pass);
-    if (user) {
-      req.session.userID = user;
-      return res.redirect('/home');
-    } else {
-      return res.redirect('/login');
-    }
-  } catch (err) {
-    console.log(err);
-    return res.redirect('/login');
-  }
+router.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), function (req, res) {
+  return res.redirect('/home');
 });
 
-router.get('/logout', redirectLogin, (req, res) => {
+
+router.get('/logout', isAuthenticated, (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.log(err);
       return res.redirect('/home');
     }
     res.clearCookie(process.env.SESS_NAME);
+    req.logout();
     return res.redirect('/login');
   });
 });
 
 router.get('/register', function (req, res) {
-  //console.log(req);
-  //console.log(res);
   return res.render('register.html');
 });
 
@@ -142,62 +121,76 @@ router.post('/register', async function (req, res) {
   console.log(req.body);
   try {
     user_res = await dbsql.db_user.registerUser(req.body.firstName, req.body.lastName, req.body.eMail, req.body.password);
-    req.session.userID = user_res;
-    console.log('redirecting from register to home');
-    return res.redirect('/home');
+    //req.session.userID = user_res;
+    //console.log('redirecting from register to login');
+    return res.redirect('/login');
   } catch (err) {
     console.log(err);
-    console.log('redirecting back to register');
+    //console.log('redirecting back to register');
     return res.redirect('/register');
   }
 });
 
-router.get('/tables', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('logs-tables.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+router.get('/tables', isAuthenticated, async function (req, res) {
+  return res.render('logs-tables.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'logs' });
 });
 
-router.get('/income', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('income.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+router.get('/income', isAuthenticated, async function (req, res) {
+  return res.render('income.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'income' });
 });
 
-router.get('/groups', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('payment-groups.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+router.get('/groups', isAuthenticated, async function (req, res) {
+  return res.render('payment-groups.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'groups' });
 });
 
-router.get('/groups/certaingroup', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('paymentgroup-shareboard.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+router.get('/groups/certaingroup', isAuthenticated, async function (req, res) {
+  res.render('paymentgroup-shareboard.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'profile' });
 });
 
-router.get('/profile', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('profile.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+
+
+router.get('/profile', isAuthenticated, async function (req, res) {
+  return res.render('profile.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userpic: req.user[6], pagename: 'profile' });
 });
 
-router.get('/expenses', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('expenses.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+router.post('/profile', isAuthenticated, upload.single('pic'), async function (req, res) {
+  try {
+    if (req.file) {
+      await dbsql.db_user.changeProfileImg(req.user[0]);
+    }
+    else {
+      await dbsql.db_user.changeNameAndMail(req.user[0], req.body.firstname, req.body.lastname, req.body.mail);
+      if (req.body.old_password && req.body.new_password) {
+        await dbsql.db_user.changePassword(req.user[0], req.body.old_password, req.body.new_password);
+      }
+    }
+  } catch (err) {
+    console.log(err);
+  }
+  let temp = await dbsql.db_user.getDataByID(req.user[0]);
+  req.login(temp, (err) => {
+    if (err) return next(err);
+    return res.redirect(req.originalUrl);
+  })
 });
 
-router.get('/chat', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('chat.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+router.get('/expenses', isAuthenticated, async function (req, res) {
+  return res.render('expenses.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'expenses' });
 });
 
-router.get('/settings', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('blank.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+router.get('/chat', isAuthenticated, async function (req, res) {
+  return res.render('chat.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'chat' });
 });
 
-router.get('/alerts', redirectLogin, async function (req, res) {
-  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
-  res.render('alerts.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+router.get('/settings', isAuthenticated, async function (req, res) {
+  return res.render('blank.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'blank' });
 });
 
-router.get('/try', function (req, res) {
+router.get('/alerts', isAuthenticated, async function (req, res) {
+  return res.render('alerts.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'alerts' });
+});
+
+router.get('/try', isAuthenticated, function (req, res) {
   throw new Error('this was a test, and you failed!');
 });
 
@@ -209,8 +202,10 @@ app.use(function (req, res, next) {
 });
 
 // handle error 404 - page not found
-app.use('*', redirectLogin, function (req, res, next) {
-  if (req.originalUrl != '/favicon.ico') return res.render('404.html');
+app.use('*', isAuthenticated, async function (req, res, next) {
+  if (req.originalUrl != '/favicon.ico') {
+    return res.render('404.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: '404' });
+  }
 });
 
 // handle any server error

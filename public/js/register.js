@@ -4,7 +4,6 @@ var checkLastName = false;
 
 $('#FirstName, #LastName').on('keyup', function () {
     var letters = /^[A-Za-z]+$/;
-    console.log($("#FirstName").val());
     if (letters.test($("#FirstName").val())) {
         $("#FirstName").css("border-color", "green");
         $("#FirstName").css("box-shadow", "0 0 0 3px rgba(0, 100, 0, 0.5)");
@@ -53,7 +52,9 @@ $("#exampleInputEmail").on('keyup', function () {
 
 //check password
 $('#password, #confirm_password').on('keyup', function () {
-    if ($('#password').val() == $('#confirm_password').val() && $('#password').val() != 0 && $('#confirm_password').val() != null) {
+    let regexp = /^([a-zA-Z0-9@*#_+]{8,15}$)/;
+
+    if ($('#password').val() == $('#confirm_password').val() && $('#password').val() != 0 && regexp.test($('#password').val())) {
         $("#password").css("box-shadow", "0 0 0 3px rgba(0, 100, 0, 0.5)");
         $("#confirm_password").css("box-shadow", "0 0 0 3px rgba(0, 100, 0, 0.5)");
         $('#password').css('border-color', 'green');
