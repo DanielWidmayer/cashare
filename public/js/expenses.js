@@ -3,7 +3,7 @@ $.getScript("chart-bar.js", function() {
         let sum = 0;
         let div_val = 0;
 
-        // iterate through each income entry in database and calculate the avg, annual and last_month income
+        // iterate through each expense entry in database and calculate the avg, annual and last_month expense
         for (let i = 1; i <= 12; i++)
         {
             if (getValue(i) != 0){
@@ -13,13 +13,14 @@ $.getScript("chart-bar.js", function() {
         }
         if (div_val == 0)
         {
-            $("#average_expenses").text("no expenses");
+            $("#average_expenses").text("no income");
         }
         else {
-            $("#average_expenses").text('$'+sum / div_val);
+            $("#average_expenses").text('$' + Math.round(((sum / div_val) + Number.EPSILON) * 100) / 100);
         }
-        $("#annual_expenses").text('$'+sum);
-        $("#last_month_expenses").text('$'+getValue(new Date().getMonth().toString()));
+        // in the financial world, the numbers have to be right, hence they are rounded exactly
+        $("#annual_expenses").text('$'+Math.round(((sum) + Number.EPSILON) * 100) / 100);
+        $("#last_month_expenses").text('$'+Math.round(((getValue(new Date().getMonth()) + Number.EPSILON) * 100) / 100).toString());
     });
  });
 

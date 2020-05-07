@@ -16,10 +16,11 @@ $.getScript("chart-bar.js", function() {
             $("#average_income").text("no income");
         }
         else {
-            $("#average_income").text('$'+sum / div_val);
+            $("#average_income").text('$' + Math.round(((sum / div_val) + Number.EPSILON) * 100) / 100);
         }
-        $("#annual_income").text('$'+sum);
-        $("#last_month_income").text('$'+getValue(new Date().getMonth().toString()));
+        // in the financial world, the numbers have to be right, hence they are rounded exactly
+        $("#annual_income").text('$'+Math.round(((sum) + Number.EPSILON) * 100) / 100);
+        $("#last_month_income").text('$'+Math.round(((getValue(new Date().getMonth()) + Number.EPSILON) * 100) / 100).toString());
     });
  });
 
