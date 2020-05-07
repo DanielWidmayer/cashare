@@ -39,12 +39,11 @@ app.use(
   })
 );
 
-//passport
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Database Connection
 dbsql.createConnection(process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASSWORD, process.env.DB_PORT, process.env.DB_NAME);
+
+
+// TODO
 dbsql.connect();
 
 
@@ -56,6 +55,25 @@ const isAuthenticated = function (req, res, next) {
   }
   return res.redirect('/login');
 }
+dbsql.db_user.create_table();
+dbsql.db_cat.create_table(dbsql.db_user);
+dbsql.db_group.create_table();
+dbsql.db_user_group.create_table(dbsql.db_user, dbsql.db_group);
+//dbsql.db_user_cat.create_table(dbsql.db_user, dbsql.db_cat);
+dbsql.db_goal.create_table(dbsql.db_cat, dbsql.db_group, dbsql.db_user);
+dbsql.db_msg.create_table(dbsql.db_user, dbsql.db_group);
+dbsql.db_trans.create_table(dbsql.db_user, dbsql.db_cat, dbsql.db_group);
+
+// const redirectLogin = (req, res, next) => {
+//   //console.log("authentication");
+//   //console.log(req.originalUrl);
+//   if (!req.session.userID && req.originalUrl != '/favicon.ico') {
+//     res.redirect('/login');
+//   } else {
+//     next();
+//   }
+//   return res.redirect('/login');
+// }
 
 // static folder where static files like html are stored
 app.use(express.static('public', { index: false }));
@@ -74,6 +92,22 @@ app.use(
 );
 // support parsing of application/json post data
 app.use(express.json());
+
+
+//passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+// auth middleware
+const isAuthenticated = function (req, res, next) {
+  console.log("auth");
+  if (req.user && req.originalUrl != '/favicon.ico') {
+    return next();
+  }
+  return res.redirect('/login');
+}
+
 
 app.use('/', router);
 
@@ -143,6 +177,44 @@ router.get('/groups', isAuthenticated, async function (req, res) {
   return res.render('payment-groups.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'groups' });
 });
 
+router.get('/income', redirectLogin, async function (req, res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  let q_cat = await dbsql.db_cat.getCategorysByUserID(req.session.userID, 0);
+  let q_trans = await dbsql.db_trans.getTransactionsByUserID(req.session.userID, 0);
+  //var q_categorys = JSON.parse(JSON.stringify(q_cat));
+  //var q_transactions = JSON.parse(JSON.stringify(q_trans));
+  //console.log(q_cat[0]);
+  res.render('income.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], categorys: q_cat, transactions: q_trans });
+});
+
+router.post('/income', redirectLogin, async function (req, res) {
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 0, q_user[0]);
+    res.send(q_user[1] + " " + req.body.transactionValue);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.post('/addCategory', redirectLogin, async function (req, res) {
+  try {
+    console.log("Category in Datenbank schreiben..");
+    console.log(req.body);
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    let ret = await dbsql.db_cat.addCategory(req.body.newCategory, req.body.description, req.body.category_isExpense, q_user[0]);
+
+    console.log("Category auslesen..");
+    let q_cat = await dbsql.db_cat.getCategoryByCatNameAndUserID(q_user[0], req.body.newCategory, req.body.category_isExpense);
+    var q_categorys = JSON.parse(JSON.stringify(q_cat));
+
+    console.log(q_categorys);
+    res.send(q_categorys);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 router.get('/groups/certaingroup', isAuthenticated, async function (req, res) {
   res.render('paymentgroup-shareboard.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'profile' });
 });
@@ -174,12 +246,33 @@ router.post('/profile', isAuthenticated, upload.single('pic'), async function (r
   })
 });
 
-router.get('/expenses', isAuthenticated, async function (req, res) {
-  return res.render('expenses.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'expenses' });
-});
 
 router.get('/chat', isAuthenticated, async function (req, res) {
   return res.render('chat.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'chat' });
+});
+
+router.get('/groups-shareboard', redirectLogin, async function (req, res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  res.render('paymentgroup-shareboard.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6] });
+});
+
+
+router.get('/expenses', redirectLogin, async function (req, res) {
+  let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+  let q_cat = await dbsql.db_cat.getCategorysByUserID(req.session.userID, 1);
+  let q_trans = await dbsql.db_trans.getTransactionsByUserID(req.session.userID, 1);
+  res.render('expenses.html', { username: [q_user[1], q_user[2]], usermail: q_user[3], userphone: q_user[4], userbalance: q_user[5], userpic: q_user[6], categorys: q_cat, transactions: q_trans });
+});
+
+router.post('/expenses', redirectLogin, async function (req, res) {
+  try {
+    let q_user = await dbsql.db_user.getDataByID(req.session.userID);
+    console.log(req.body);
+    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, 1, req.body.chooseCategory, 1, q_user[0]);
+    res.send(q_user[1] + " " + req.body.transactionValue);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 router.get('/settings', isAuthenticated, async function (req, res) {
@@ -202,7 +295,7 @@ app.use(function (req, res, next) {
 });
 
 // handle error 404 - page not found
-app.use('*', isAuthenticated, async function (req, res, next) {
+app.use('*', async function (req, res, next) {
   if (req.originalUrl != '/favicon.ico') {
     return res.render('404.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: '404' });
   }
