@@ -15,7 +15,8 @@ const upload = require('./modules/pic_upload');
 if (dotenv.error) throw dotenv.error;
 
 const IN_PROD = process.env.NODE_ENV === 'production';
-const TWO_HOURS = process.env.SESS_LIFETIME * 60 * 2;
+const TTL = parseInt(process.env.SESS_LIFETIME);
+
 app.use(flash());
 // Helmet
 app.use(helmet());
@@ -32,10 +33,11 @@ app.use(
     secret: process.env.SESS_SECRET,
     cookie: {
       httpOnly: true,
-      maxAge: TWO_HOURS,
+      maxAge: TTL,
       sameSite: true,
       secure: IN_PROD,
     },
+    rolling: true
   })
 );
 
@@ -69,7 +71,7 @@ app.use(passport.session());
 
 // auth middleware
 const isAuthenticated = function (req, res, next) {
-  console.log("auth");
+  console.log("auth - " + req.originalUrl);
   if(req.user && req.originalUrl != '/favicon.ico') {
     return next();
   }
@@ -96,7 +98,7 @@ router.get('/blank', isAuthenticated, async function (req, res) {
 // Login
 router.get('/login', function (req, res) {
   if (req.user) return res.redirect('/home');
-  return res.render('login.html', { errflash: req.flash() });
+  return res.render('login.html', { errflash: req.flash('error') });
 });
 
 router.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), function (req, res) {
@@ -257,7 +259,7 @@ app.use(function (req, res, next) {
 });
 
 // handle error 404 - page not found
-app.use('*', function (req, res, next) {
+app.use('*', isAuthenticated, function (req, res, next) {
   if (req.originalUrl != '/favicon.ico') {
     return res.render('404.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: '404' });
   }

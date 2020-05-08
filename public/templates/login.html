@@ -12,6 +12,8 @@
   <title>CA$HARE - Login</title>
   <base href="http://localhost:3000/login">
 
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link
@@ -40,7 +42,12 @@
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Welcome Back! <%= errflash %></h1>
+                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                    <% if (errflash && errflash.length) { %>
+                      <div class="alert alert-danger" role="alert">
+                        <%= errflash %>
+                      </div>
+                    <% } %>
                   </div>
                   <form method="post" action="/login" class="user">
                     <div class="form-group">
