@@ -217,3 +217,12 @@
 .picker-switch{
   font-size: 17px !important;
 }
+#groupTimePeriod {
+  display: none;
+} 
+#groupCalendar {
+  display: none;
+}
+#timeUnit {
+  border-radius: 0 7px 7px 0 !important;
+}

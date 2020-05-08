@@ -215,7 +215,7 @@
                     <!-- Content Row -->
                     <div class="row">
 
-                        <div class="col-lg-6 mb-4">
+                        <div class="col-lg-8 mb-4">
 
                             <!-- Illustrations -->
                             <div class="card border-left-primary shadow mb-4">
@@ -233,18 +233,34 @@
                                             </div>
                                         </div>
                                         <div class="input-group mb-3">
-                                            <select class="custom-select" id="timePeriod">
-                                                <option selected>Choose Time period</option>
+                                            <select class="custom-select form-control" id="timePeriod">
+                                                <option selected>Choose Income Type</option>
                                                 <option value="1">Single Income</option>
                                                 <option value="2">Monthly Income</option>
                                                 <option value="3">Other..</option>
                                             </select>
                                         </div>
+                                        <div id="groupTimePeriod" class="input-group mb-3">
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" placeholder="Amount of Time">
+                                                <div class="input-group-append">
+                                                    <select class="custom-select form-control" id="timeUnit">
+                                                        <option selected>Choose Time unit</option>
+                                                        <option value="1">Years</option>
+                                                        <option value="2">Months</option>
+                                                        <option value="3">Hours</option>
+                                                        <option value="4">Minutes</option>
+                                                        <option value="5">Seconds</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!-- Calendar + Time Picker-->
-                                        <div class="form-group">
+                                        <div id="groupCalendar" class="form-group">
                                             <div class="input-group date" id="datetimepicker"
                                                 data-target-input="nearest">
-                                                <input type="text" class="form-control datetimepicker-input"
+                                                <input id="dateTimeID" type="text"
+                                                    class="form-control datetimepicker-input"
                                                     data-target="#datetimepicker" data-toggle="datetimepicker" />
                                                 <div class="input-group-append" data-target="#datetimepicker"
                                                     data-toggle="datetimepicker">
@@ -366,7 +382,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">�</span>
+                        <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
@@ -492,10 +508,10 @@
     <!-- Page level plugins -->
     <script src="vendor/chart.js/Chart.min.js"></script>
 
-    <!-- <script>
+    <script>
         var transactions = <% - JSON.stringify(transactions) %>;
         var categorys = <% - JSON.stringify(categorys) %>;
-    </script> -->
+    </script>
 
     <script src="../js/income.js"></script>
 

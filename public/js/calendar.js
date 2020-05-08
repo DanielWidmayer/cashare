@@ -8,3 +8,23 @@ $(function () {
         }
     });
 });
+
+$(document).ready(function () {
+    $.viewMap = {
+        '0': $([]),
+        '1': $('#groupCalendar'),
+        '2': $('#groupCalendar'),
+        '3': $('#groupTimePeriod, #groupCalendar')
+    };
+
+    $('#timePeriod').change(function () {
+        // hide all
+        $.each($.viewMap, function () { this.hide(); });
+        // show current
+        $.viewMap[$(this).val()].show();
+
+        // trick: double click the calendar so the current time and date is default in it
+        $('#dateTimeID').click();
+        $('#dateTimeID').click();
+    });
+});
