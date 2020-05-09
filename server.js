@@ -123,7 +123,7 @@ router.get('/logout', isAuthenticated, (req, res) => {
 });
 
 router.get('/register', function (req, res) {
-  return res.render('register.html');
+  return res.render('register.html', { errmsg: 0 });
 });
 
 router.post('/register', async function (req, res) {
@@ -135,7 +135,7 @@ router.post('/register', async function (req, res) {
     return res.redirect('/login');
   } catch (err) {
     console.log(err);
-    return res.redirect('/register');
+    return res.render('register.html', { errmsg: err });
   }
 });
 
