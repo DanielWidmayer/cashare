@@ -74,20 +74,14 @@ app.use(passport.session());
 // auth middleware
 const isAuthenticated = function (req, res, next) {
 
-  console.log("auth");
+  console.log("auth - " + req.originalUrl);
+
   if (req.user && req.originalUrl != '/favicon.ico') {
 
-    console.log("auth - " + req.originalUrl);
-    if (req.user && req.originalUrl != '/favicon.ico') {
-
-      console.log("auth");
-      if (req.user && req.originalUrl != '/favicon.ico') {
-
-        return next();
-      }
-      return res.redirect('/login');
-    }
+    return next();
   }
+  return res.redirect('/login');
+
 }
 app.use('/', router);
 
