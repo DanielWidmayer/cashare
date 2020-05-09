@@ -1,0 +1,20 @@
+login flash
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Author:    JBHRgm <62023324+JBHRgm@users.noreply.github.com>
+#
+# interactive rebase in progress; onto 3894a94
+# Last commands done (9 commands done):
+#    edit bb2d557 merge v.2.0
+#    pick ad44bcc login flash
+# Next commands to do (4 remaining commands):
+#    pick 74c2935 rm login.js isempty
+#    pick 070ec87 outsource redundance
+# You are currently rebasing branch 'develop-1.0.2' on '3894a94'.
+#
+# Changes to be committed:
+#	modified:   public/templates/login.html
+#	modified:   server.js
+#
