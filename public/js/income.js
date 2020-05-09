@@ -25,27 +25,48 @@ $.getScript("chart-bar.js", function() {
  });
 
 
+$('#repetition_value').on("keypress keyup blur",function (event) {
+       var regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
+       if (!regex.test(event.key) && event.keyCode != 46) {
+           event.preventDefault();
+           return false;
+       }
+});
+
+
+
+
 $("#transactionValue").on("keypress keyup blur", function (event) {
-    $(this).val($(this).val().replace(/[^0-9\.|\,]/g,''));
-    if(event.which == 44)
-    {
-    return true;
-    }
-    if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57  )) {
+    //$(this).val($(this).val().replace(/[^0-9\.]/g,''));
+    // if(event.which == 44)
+    // {
+    // return true;
+    // }
+    //if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57  )) {
     
-      event.preventDefault();
+    //  event.preventDefault();
+    //}
+    var regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
+    if (!regex.test(event.key) && event.keyCode != 46) {
+        event.preventDefault();
+        return false;
     }
 });
 
 $("#transactionValueModal").on("keypress keyup blur", function (event) {
-    $(this).val($(this).val().replace(/[^0-9\.|\,]/g,''));
-    if(event.which == 44)
-    {
-    return true;
-    }
-    if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57  )) {
+    // $(this).val($(this).val().replace(/[^0-9\.|\,]/g,''));
+    // if(event.which == 44)
+    // {
+    // return true;
+    // }
+    // if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57  )) {
     
-      event.preventDefault();
+    //   event.preventDefault();
+    // }
+    var regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
+    if (!regex.test(event.key) && event.keyCode != 46) {
+        event.preventDefault();
+        return false;
     }
 });
 
@@ -54,8 +75,12 @@ $("#addIncome").click(function(){
     var timePeriod = $("#timePeriod").val();
     var chooseCategory = $("#chooseCategory").val();
 
+    var repetitionValue = $("#repetition_value").val();
+    var timeUnit = $("#timeUnit").val();
+    var dateTimeID = $("#dateTimeID").val();
+
     // temporär bis einheitliches Fehlermanagment vorhanden ist..
-    if(chooseCategory == "Choose Category" || timePeriod == "Choose Time period" || transactionValue.charAt(0) == '.' || transactionValue == "")
+    if(chooseCategory == "Choose Category" || timePeriod == "Choose Income Type" || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) || transactionValue.charAt(0) == '.' || transactionValue == "")
     {
         if(transactionValue.charAt(0) == '.' || transactionValue == "")
         {
@@ -67,17 +92,27 @@ $("#addIncome").click(function(){
             $("#chooseCategory").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
             $('#chooseCategory').css('border-color', 'red');
         }
-        if(timePeriod == "Choose Time period")
+        if(timePeriod == "Choose Income Type")
         {
             $("#timePeriod").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
             $('#timePeriod').css('border-color', 'red');
+        }
+        if (timePeriod == "2" && timeUnit == "Choose Time unit")
+        {
+            $("#timeUnit").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#timeUnit').css('border-color', 'red');
+        }
+        if (timePeriod == "2" && repetitionValue == "")
+        {
+            $("#repetition_value").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#repetition_value').css('border-color', 'red');
         }
         return false;
     }
 
 
 
-    var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory};
+    var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID};
     $.post( "/income", transaction ) 
     .done(function( data ) {
         console.log( "Data Loaded: " + data );

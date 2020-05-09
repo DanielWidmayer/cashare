@@ -236,21 +236,21 @@
                                             <select class="custom-select form-control" id="timePeriod">
                                                 <option selected>Choose Income Type</option>
                                                 <option value="1">Single Income</option>
-                                                <option value="2">Monthly Income</option>
-                                                <option value="3">Other..</option>
+                                                <option value="2">Regular Income</option>
                                             </select>
                                         </div>
                                         <div id="groupTimePeriod" class="input-group mb-3">
                                             <div class="input-group">
-                                                <input type="number" class="form-control" placeholder="Amount of Time">
+                                                <input type="number" step="1" min="1" class="form-control" placeholder="Amount of Time" id = "repetition_value">
                                                 <div class="input-group-append">
                                                     <select class="custom-select form-control" id="timeUnit">
                                                         <option selected>Choose Time unit</option>
                                                         <option value="1">Years</option>
                                                         <option value="2">Months</option>
-                                                        <option value="3">Hours</option>
-                                                        <option value="4">Minutes</option>
-                                                        <option value="5">Seconds</option>
+                                                        <option value="3">Days</option>
+                                                        <option value="4">Hours</option>
+                                                        <option value="5">Minutes</option>
+                                                        <option value="6">Seconds</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -266,6 +266,9 @@
                                                     data-toggle="datetimepicker">
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
+                                                <div class="input-group-append">
+                                                    <label class="input-group-text" for="inputGroupSelect02">Start Time</label>
+                                                  </div>
                                             </div>
                                         </div>
                                         <div class="input-group mb-3">
@@ -509,9 +512,11 @@
     <script src="vendor/chart.js/Chart.min.js"></script>
 
     <script>
-        var transactions = <% - JSON.stringify(transactions) %>;
-        var categorys = <% - JSON.stringify(categorys) %>;
+        var transactions = <%- JSON.stringify(transactions) %>;
+        var categorys = <%- JSON.stringify(categorys) %>;
     </script>
+
+    <!-- <script src="../templates/income.ejs"></script>  outsource.=?  </script> -->
 
     <script src="../js/income.js"></script>
 

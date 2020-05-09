@@ -13,7 +13,7 @@ $.getScript("chart-bar.js", function() {
         }
         if (div_val == 0)
         {
-            $("#average_expenses").text("no income");
+            $("#average_expenses").text("no expenses");
         }
         else {
             $("#average_expenses").text('$' + Math.round(((sum / div_val) + Number.EPSILON) * 100) / 100);

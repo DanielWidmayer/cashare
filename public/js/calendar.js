@@ -12,9 +12,8 @@ $(function () {
 $(document).ready(function () {
     $.viewMap = {
         '0': $([]),
-        '1': $('#groupCalendar'),
-        '2': $('#groupCalendar'),
-        '3': $('#groupTimePeriod, #groupCalendar')
+        //'1': $('#groupCalendar'),
+        '2': $('#groupTimePeriod, #groupCalendar')
     };
 
     $('#timePeriod').change(function () {
