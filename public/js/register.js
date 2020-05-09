@@ -1,106 +1,69 @@
 // check first and last name
-var checkFirstName = false;
-var checkLastName = false;
-
-$('#FirstName, #LastName').on('keyup', function () {
-    var letters = /^[A-Za-z]+$/;
-    if (letters.test($("#FirstName").val())) {
-        $("#FirstName").css("border-color", "green");
-        $("#FirstName").css("box-shadow", "0 0 0 3px rgba(0, 100, 0, 0.5)");
-        checkFirstName = true;
+$('#firstname, #lastname').on('keyup', function () {
+    if (validateName($("#firstname").val())) {
+        pw_mark('#firstname', true);
     }
     else {
-        $("#FirstName").css("border-color", "red");
-        $("#FirstName").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-        checkFirstName = false;
+        pw_mark('#firstname', false);
     }
 
-    if (letters.test($("#LastName").val())) {
-        $("#LastName").css("border-color", "green");
-        $("#LastName").css("box-shadow", "0 0 0 3px rgba(0, 100, 0, 0.5)");
-        checkLastName = true;
+    if (validateName($("#lastname").val())) {
+        pw_mark('#lastname', true);
     }
     else {
-        $("#LastName").css("border-color", "red");
-        $("#LastName").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-        checkLastName = false;
+        pw_mark('#lastname', false);
     }
 });
 
 
 // check email    
-var checkEmail = false;
-var checkPassword = false;
-
-function validateEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-}
-
-$("#exampleInputEmail").on('keyup', function () {
-    var email = $("#exampleInputEmail").val();
+$("#mail").on('keyup', function () {
+    var email = $("#mail").val();
     if (validateEmail(email)) {
-        $("#exampleInputEmail").css("border-color", "green");
-        $("#exampleInputEmail").css("box-shadow", "0 0 0 3px rgba(0, 100, 0, 0.5)");
-        checkEmail = true;
+        pw_mark("#mail", true);
+        // Todo: check if mail is available
     } else {
-        $("#exampleInputEmail").css("border-color", "red");
-        $("#exampleInputEmail").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-        checkEmail = false;
-    }
-});
-
-//check password
-$('#password, #confirm_password').on('keyup', function () {
-    let regexp = /^([a-zA-Z0-9@*#_+]{8,15}$)/;
-
-    if ($('#password').val() == $('#confirm_password').val() && $('#password').val() != 0 && regexp.test($('#password').val())) {
-        $("#password").css("box-shadow", "0 0 0 3px rgba(0, 100, 0, 0.5)");
-        $("#confirm_password").css("box-shadow", "0 0 0 3px rgba(0, 100, 0, 0.5)");
-        $('#password').css('border-color', 'green');
-        $('#confirm_password').css('border-color', 'green');
-        checkPassword = true;
-    }
-    else {
-        $("#password").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-        $('#password').css('border-color', 'red');
-
-        $("#confirm_password").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-        $('#confirm_password').css('border-color', 'red');
-        checkPassword = false;
+        pw_mark("#mail", false);
     }
 });
 
 //register account
 $("#registerAccount").click(function () {
-    if (!checkFirstName) {
-        console.log("invalid First Name!");
-        return;
-    }
-
-    if (!checkLastName) {
-        console.log("invalid Last Name!");
-        return;
-    }
-
-    if (!checkEmail) {
-        console.log("invalid Email!");
-        return;
-    }
-
-    if (!checkPassword) {
-        console.log("invalid Passwords!");
-        return;
-    }
-    var firstName = $("#FirstName").val();
-    var lastName = $("#LastName").val();
-    var eMail = $("#exampleInputEmail").val();
-    var password = $("#password").val();
+    var firstName = $("#firstname").val();
+    var lastName = $("#lastname").val();
+    var eMail = $("#mail").val();
+    var password = $("#pw_new").val();
+    var password_confirm = $("#pw_conf").val();
 
     console.log(firstName);
     console.log(lastName);
     console.log(eMail);
     console.log(password);
+
+    if (!validateName(firstName)) {
+        manualShowPopover('#firstname');
+        return;
+    }
+
+    if (!validateName(lastName)) {
+        manualShowPopover('#lastname');
+        return;
+    }
+
+    if (!validateEmail(eMail)) {
+        manualShowPopover('#mail');
+        return;
+    }
+
+    if (!checkpw_re(password)) {
+        manualShowPopover('#pw_new');
+        return;
+    }
+
+    if (!checkpw_conf(password_confirm)) {
+        manualShowPopover('#pw_conf');
+        return;
+    }
 
     var user = { 'firstName': firstName, 'lastName': lastName, 'eMail': eMail, 'password': password }
 
