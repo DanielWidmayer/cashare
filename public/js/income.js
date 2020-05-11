@@ -1,24 +1,72 @@
+$.getScript("chart-bar.js", function() {
+    $(document).ready(function(){
+        let sum = 0;
+        let div_val = 0;
+
+        // iterate through each income entry in database and calculate the avg, annual and last_month income
+        for (let i = 1; i <= 12; i++)
+        {
+            if (getValue(i) != 0){
+                sum = sum + getValue(i);
+                div_val++;
+            }
+        }
+        if (div_val == 0)
+        {
+            $("#average_income").text("no income");
+        }
+        else {
+            $("#average_income").text('$' + Math.round(((sum / div_val) + Number.EPSILON) * 100) / 100);
+        }
+        // in the financial world, the numbers have to be right, hence they are rounded exactly
+        $("#annual_income").text('$'+Math.round(((sum) + Number.EPSILON) * 100) / 100);
+        $("#last_month_income").text('$'+Math.round(((getValue(new Date().getMonth()) + Number.EPSILON) * 100) / 100).toString());
+    });
+ });
+
+
+$('#repetition_value').on("keypress keyup blur",function (event) {
+       var regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
+       if (!regex.test(event.key) && event.keyCode != 46) {
+           event.preventDefault();
+           return false;
+       }
+});
+
+
+
+
 $("#transactionValue").on("keypress keyup blur", function (event) {
-    $(this).val($(this).val().replace(/[^0-9\.|\,]/g,''));
-    if(event.which == 44)
-    {
-    return true;
-    }
-    if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57  )) {
+    //$(this).val($(this).val().replace(/[^0-9\.]/g,''));
+    // if(event.which == 44)
+    // {
+    // return true;
+    // }
+    //if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57  )) {
     
-      event.preventDefault();
+    //  event.preventDefault();
+    //}
+    var regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
+    if (!regex.test(event.key) && event.keyCode != 46) {
+        event.preventDefault();
+        return false;
     }
 });
 
 $("#transactionValueModal").on("keypress keyup blur", function (event) {
-    $(this).val($(this).val().replace(/[^0-9\.|\,]/g,''));
-    if(event.which == 44)
-    {
-    return true;
-    }
-    if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57  )) {
+    // $(this).val($(this).val().replace(/[^0-9\.|\,]/g,''));
+    // if(event.which == 44)
+    // {
+    // return true;
+    // }
+    // if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57  )) {
     
-      event.preventDefault();
+    //   event.preventDefault();
+    // }
+    var regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
+    if (!regex.test(event.key) && event.keyCode != 46) {
+        event.preventDefault();
+        return false;
     }
 });
 
@@ -27,8 +75,12 @@ $("#addIncome").click(function(){
     var timePeriod = $("#timePeriod").val();
     var chooseCategory = $("#chooseCategory").val();
 
+    var repetitionValue = $("#repetition_value").val();
+    var timeUnit = $("#timeUnit").val();
+    var dateTimeID = $("#dateTimeID").val();
+
     // temporär bis einheitliches Fehlermanagment vorhanden ist..
-    if(chooseCategory == "Choose Category" || timePeriod == "Choose Time period" || transactionValue.charAt(0) == '.' || transactionValue == "")
+    if(chooseCategory == "Choose Category" || timePeriod == "Choose Income Type" || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) || transactionValue.charAt(0) == '.' || transactionValue == "")
     {
         if(transactionValue.charAt(0) == '.' || transactionValue == "")
         {
@@ -40,17 +92,27 @@ $("#addIncome").click(function(){
             $("#chooseCategory").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
             $('#chooseCategory').css('border-color', 'red');
         }
-        if(timePeriod == "Choose Time period")
+        if(timePeriod == "Choose Income Type")
         {
             $("#timePeriod").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
             $('#timePeriod').css('border-color', 'red');
+        }
+        if (timePeriod == "2" && timeUnit == "Choose Time unit")
+        {
+            $("#timeUnit").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#timeUnit').css('border-color', 'red');
+        }
+        if (timePeriod == "2" && repetitionValue == "")
+        {
+            $("#repetition_value").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#repetition_value').css('border-color', 'red');
         }
         return false;
     }
 
 
 
-    var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory};
+    var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID};
     $.post( "/income", transaction ) 
     .done(function( data ) {
         console.log( "Data Loaded: " + data );

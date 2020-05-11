@@ -56,21 +56,47 @@ module.exports.trialtrans = function () {
     console.log("trial function triggered");
 }
 
-module.exports.insertTransaction = async function(value, transonce, category, isExpense, userID) {
+module.exports.insertTransaction = async function(value, transonce, category, isExpense, userID, repetitionValue, timeUnit, dateTimeID) {
     var sql, res;
+
+    timeUnit = timeUnit.toString().replace("1", 'YEAR');
+    timeUnit = timeUnit.toString().replace("2", 'MONTH');
+    timeUnit = timeUnit.toString().replace("3", 'DAY');
+    timeUnit = timeUnit.toString().replace("4", 'HOUR');
+    timeUnit = timeUnit.toString().replace("5", 'MINUTE');
+    timeUnit = timeUnit.toString().replace("6", 'SECOND');
+    console.log(timeUnit.toString());
 
     try {
         if(isExpense){
             value = value - (value * 2);
         }
         var currenttime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        // single income
         if(transonce == 1){
             sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}) `
             + `VALUES ('${value}', '${currenttime}', '${userID}', '${category}');`;
         }
+        // event scheduled income (here: monthly)
         else if (transonce > 1){
-            sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[3]}, ${COLS[4]}) `
-            + `VALUES ('${value}', '${userID}', '${category}');`;
+
+            // //CONCAT(adddate(last_day(curdate()), 1), ' 00:00:00')
+            await query(`SET GLOBAL event_scheduler = on;`);
+            sql = `CREATE EVENT IF NOT EXISTS period_event
+                    ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
+                    STARTS CURRENT_TIMESTAMP
+                    DO
+                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]})
+                    VALUES ('${value}', NOW(), '${userID}', '${category}');`;
+            try {
+                await query(sql);
+                console.log("sql event created!");
+            }
+            catch(err) {
+                console.log("cannot create event...");
+                console.log(err);
+            }
+
         }
     
 

@@ -161,7 +161,7 @@ router.get('/income', isAuthenticated, async function (req, res) {
 
 router.post('/income', isAuthenticated, async function (req, res) {
   try {
-    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 0, req.user[0]);
+    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 0, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID);
     res.send(req.user[1] + " " + sqlret);
   } catch (err) {
     console.log(err);
@@ -236,7 +236,7 @@ router.get('/expenses', isAuthenticated, async function (req, res) {
 router.post('/expenses', isAuthenticated, async function (req, res) {
   try {
     console.log(req.body);
-    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, 1, req.body.chooseCategory, 1, req.user[0]);
+    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, 1, req.body.chooseCategory, 1, req.user[0], "", "", "");
     res.send(req.user[1] + " " + sqlret);
   } catch (err) {
     console.log(err);
