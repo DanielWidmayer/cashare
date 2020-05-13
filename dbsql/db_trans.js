@@ -77,6 +77,7 @@ module.exports.insertTransaction = async function(value, transonce, category, is
             sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}) `
             + `VALUES ('${value}', '${currenttime}', '${userID}', '${category}');`;
         }
+        //SELECT ${COLS[1]} FROM ${TBNAME} INTO OUTFILE 'dbtxt.txt';
         // event scheduled income (here: monthly)
         else if (transonce > 1){
 
@@ -91,6 +92,7 @@ module.exports.insertTransaction = async function(value, transonce, category, is
             try {
                 await query(sql);
                 console.log("sql event created!");
+                // 
             }
             catch(err) {
                 console.log("cannot create event...");
@@ -131,6 +133,41 @@ module.exports.getTransactionsByUserID = async function(user_id, isExpense) {
     else
     {
         var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value > 0);`;
+        try {
+            let q_res = await query(sql);
+            let res = [];
+            for (i in q_res) {
+                res.push(q_res[i]);
+            }
+            return res;
+        }
+        catch(err) {
+             throw err;
+        }
+    }
+}
+
+
+
+module.exports.getTransactionValueByUserID = async function(user_id, isExpense) {
+    if(isExpense == true)
+    {
+        var sql = `SELECT sum(${COLS[1]}) AS destination_value FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value < 0);`;
+        try {
+            let q_res = await query(sql);
+            let res = [];
+            for (i in q_res) {
+                res.push(q_res[i]);
+            }
+            return res;
+        }
+        catch(err) {
+             throw err;
+        }
+    }
+    else
+    {
+        var sql = `SELECT sum(${COLS[1]}) AS destination_value FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value > 0);`;
         try {
             let q_res = await query(sql);
             let res = [];

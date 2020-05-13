@@ -13,16 +13,45 @@ $.getScript("chart-bar.js", function() {
         }
         if (div_val == 0)
         {
-            $("#average_income").text("no income");
+            //$("#average_income").text("no income");
         }
         else {
-            $("#average_income").text('$' + Math.round(((sum / div_val) + Number.EPSILON) * 100) / 100);
+            //$("#average_income").text('$' + Math.round(((sum / div_val) + Number.EPSILON) * 100) / 100);
         }
         // in the financial world, the numbers have to be right, hence they are rounded exactly
         $("#annual_income").text('$'+Math.round(((sum) + Number.EPSILON) * 100) / 100);
         $("#last_month_income").text('$'+Math.round(((getValue(new Date().getMonth()) + Number.EPSILON) * 100) / 100).toString());
     });
  });
+
+
+function pollData() {
+    var poll = function(){
+        $.ajax({
+            url: '/jsondata',
+            dataType: 'json',
+            type: 'get',
+            success: function(data){
+                //alert(data.toString);
+                if (data[0].destination_value == null){
+                    $("#average_income").text("no income");
+                }
+                else {
+                    $('#average_income').text("$" + data[0].destination_value);
+                }
+            },
+            error: function(){
+                alert(data.toString);
+            }
+        })
+    };
+    poll();
+    setInterval(function(){
+        poll();
+    }, 2000);
+}
+
+pollData();
 
 
 $('#repetition_value').on("keypress keyup blur",function (event) {
@@ -32,9 +61,6 @@ $('#repetition_value').on("keypress keyup blur",function (event) {
            return false;
        }
 });
-
-
-
 
 $("#transactionValue").on("keypress keyup blur", function (event) {
     //$(this).val($(this).val().replace(/[^0-9\.]/g,''));
@@ -117,8 +143,10 @@ $("#addIncome").click(function(){
     .done(function( data ) {
         console.log( "Data Loaded: " + data );
         location.reload();
+        //document.getElementById("#average_income").contentWindow.location.reload(true);
     });
 });
+
 
 $("#addIncomeModal").click(function(){
     var transactionValue = ($("#transactionValueModal").val()).replace(',', '.');

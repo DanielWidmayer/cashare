@@ -14,7 +14,8 @@ const COLS = [
     'balance',
     'picture',
     'last_alert',
-    'last_msg'
+    'last_msg',
+    'registrationDate'
 ];
 module.exports.TBNAME = TBNAME;
 module.exports.COLS = COLS;
@@ -43,8 +44,9 @@ module.exports.create_table = async function() {
               + COLS[9] + " varchar(255),"
               + COLS[10] + " int,"
               //+ `FOREIGN KEY (${COLS[10]}) REFERENCES ${db_msg}(${db_msg.COLS[0]}),`
-              + COLS[11] + " int"
+              + COLS[11] + " int,"
               //+ `FOREIGN KEY (${COLS[11]}) REFRENCES ${db_msg}(${db_msg.COLS[0]})`
+              + COLS[12] + " date"
               + ");"
         try {
             await query(sql);
@@ -199,9 +201,11 @@ module.exports.registerUser = async function(firstname, lastname, mail, password
             let phone_namespace = phone ? `, ${COLS[7]}` : ``;
             let phone_value = phone ? `, '${phone}'` : ``;
             password = await bcrypt.hash(password,10);
+            registrationDate = await query(`SELECT CURRENT_TIMESTAMP();`);
 
-            sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}${phone_namespace}) `
-                + `VALUES ('${firstname}', '${lastname}', '${mail}', '${password}'${phone_value});`;
+
+            sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}${phone_namespace}, ${COLS[12]}) `
+                + `VALUES ('${firstname}', '${lastname}', '${mail}', '${password}'${phone_value}, CURRENT_TIMESTAMP);`;
             
             res = await query(sql);
             return res.insertId;

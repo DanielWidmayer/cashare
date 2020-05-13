@@ -12,6 +12,7 @@ const flash = require('express-flash');
 const dbsql = require('./dbsql');
 const upload = require('./modules/pic_upload');
 
+
 if (dotenv.error) throw dotenv.error;
 
 const IN_PROD = process.env.NODE_ENV === 'production';
@@ -47,7 +48,6 @@ dbsql.createConnection(process.env.DB_HOST, process.env.DB_USER, process.env.DB_
 // TODO
 dbsql.connect();
 
-
 // static folder where static files like html are stored
 app.use(express.static('public', { index: false }));
 // view folder for the template engine
@@ -55,8 +55,8 @@ app.set('views', __dirname + '/public/templates');
 // set the template engine to be ejs
 app.engine('html', require('ejs').renderFile);
 // usage of .html files
-app.set('view engine', 'html');
-
+//app.set('view engine', 'html');
+app.set('view engine', 'php');
 // support parsing of application/x-www-form-urlencoded post data
 app.use(
   express.urlencoded({
@@ -91,6 +91,12 @@ router.get('/', function (req, res) {
 router.get('/home', isAuthenticated, async function (req, res) {
   return res.render('index.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
 });
+
+router.get('/jsondata', isAuthenticated, async function (req, res) {
+  var q_trans = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 0);
+  res.json(q_trans);
+});
+
 
 router.get('/blank', isAuthenticated, async function (req, res) {
   return res.render('blank.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
@@ -135,6 +141,7 @@ router.post('/register', async function (req, res) {
     return res.redirect('/register');
   }
 });
+
 
 router.get('/tables', isAuthenticated, async function (req, res) {
   return res.render('logs-tables.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'logs' });
