@@ -4,9 +4,9 @@ const COLS = [
     'transaction_id',
     'transaction_value',
     'transaction_date',
-    'comment',
     'user_id',
-    'category_id'    
+    'category_id',   
+    'comment'
 ];
 module.exports.TBNAME = TBNAME;
 module.exports.COLS = COLS;
