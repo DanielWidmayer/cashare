@@ -32,7 +32,8 @@ module.exports.createConnection = function (env_host, env_user, env_password, en
         // Port muss evtl. bei euch angepasst werden..
         port: env_port,
         // Datenbank "cashare" vor dem starten angelegt werden mit "CREATE DATABASE cashare;"
-        database: env_dbname
+        database: env_dbname,
+        multipleStatements: true
     });
     query = util.promisify(con.query).bind(con);
 }

@@ -33,11 +33,20 @@ function pollData() {
             type: 'get',
             success: function(data){
                 //alert(data.toString);
-                if (data[0].destination_value == null){
-                    $("#average_income").text("no income");
+                if (data.average_income == null){
+                    $("#average_income").text("$0");
+                } else {
+                    $('#average_income').text("$" + data.average_income);
                 }
-                else {
-                    $('#average_income').text("$" + data[0].destination_value);
+                if(data.annual_income == null){
+                    $('#annual_income').text("$0");
+                } else {
+                    $('#annual_income').text("$" + data.annual_income);
+                }
+                if (data.lastMonth_income == null){
+                    $('#last_month_income').text("$0");
+                } else {
+                    $('#last_month_income').text("$" + data.lastMonth_income);
                 }
             },
             error: function(){
