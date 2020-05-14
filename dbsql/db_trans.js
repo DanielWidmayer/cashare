@@ -4,9 +4,9 @@ const COLS = [
     'transaction_id',
     'transaction_value',
     'transaction_date',
-    'comment',
     'user_id',
-    'category_id'    
+    'category_id',   
+    'comment'
 ];
 module.exports.TBNAME = TBNAME;
 module.exports.COLS = COLS;
@@ -65,7 +65,6 @@ module.exports.insertTransaction = async function(value, transonce, category, is
     timeUnit = timeUnit.toString().replace("4", 'HOUR');
     timeUnit = timeUnit.toString().replace("5", 'MINUTE');
     timeUnit = timeUnit.toString().replace("6", 'SECOND');
-    console.log(timeUnit.toString());
 
     try {
         if(isExpense){
@@ -77,6 +76,7 @@ module.exports.insertTransaction = async function(value, transonce, category, is
             sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}) `
             + `VALUES ('${value}', '${currenttime}', '${userID}', '${category}');`;
         }
+        //SELECT ${COLS[1]} FROM ${TBNAME} INTO OUTFILE 'dbtxt.txt';
         // event scheduled income (here: monthly)
         else if (transonce > 1){
 
@@ -91,6 +91,7 @@ module.exports.insertTransaction = async function(value, transonce, category, is
             try {
                 await query(sql);
                 console.log("sql event created!");
+                // 
             }
             catch(err) {
                 console.log("cannot create event...");
@@ -142,5 +143,84 @@ module.exports.getTransactionsByUserID = async function(user_id, isExpense) {
         catch(err) {
              throw err;
         }
+    }
+}
+
+
+
+module.exports.getTransactionValueByUserID = async function(user_id, isExpense) {
+    if(isExpense == true)
+    {
+        var sql = `SELECT sum(${COLS[1]}) AS destination_value FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value < 0);`;
+        try {
+            let q_res = await query(sql);
+            let res = [];
+            for (i in q_res) {
+                res.push(q_res[i]);
+            }
+            return res;
+        }
+        catch(err) {
+             throw err;
+        }
+    }
+    else
+    {
+        /* If the user is registred for less than one year, the average income is displayed for the time span the user is registred.
+           If the user is registred for more than one year, the average income for the last / recent 12 months is displayed.
+           To difference, the month span between today's date and the users registry date is calculated.
+        */
+
+        var span_months, average_income, annual_income, lastMonth_income;
+
+        // calc average income
+        var sql_getSpan = `SELECT PERIOD_DIFF(CONCAT((SELECT YEAR(CURDATE())), (SELECT LPAD(MONTH(CURDATE()), 2, 0))),CONCAT((SELECT YEAR(registrationDate) FROM user_table WHERE (${COLS[3]} = ${user_id})), (SELECT LPAD(MONTH(registrationDate), 2, 0) FROM user_table WHERE (${COLS[3]} = ${user_id})))) AS registr_month;`
+        try {
+            let q_res = await query(sql_getSpan);
+            span_months = q_res[0].registr_month;
+        }
+        catch (err) {
+            throw err;
+        }
+
+        var sql_get_average_income;
+        if (span_months <= 12 && span_months >= 1) {
+            sql_get_average_income = `SELECT (sum(${COLS[1]}) / '${span_months}') AS average_income FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value > 0);`;
+        } else if (span_months > 12) {
+            sql_get_average_income = `SELECT (sum(${COLS[1]}) / 12) AS average_income FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value > 0 AND transaction_date > (SELECT DATE_SUB(CURDATE(), INTERVAL 12 MONTH)));`;
+        } else if (span_months == 0) {
+            sql_get_average_income = `SELECT sum(${COLS[1]}) AS average_income FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value > 0);`;
+        }
+
+        try {
+            let q_res = await query(sql_get_average_income);
+            average_income = q_res[0].average_income;
+
+        }
+        catch(err) {
+             throw err;
+        }
+
+        // calc annual income
+        var sql_get_annual_income = `SELECT sum(${COLS[1]}) AS annual_income FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value > 0 AND transaction_date > (SELECT DATE_SUB(CURDATE(), INTERVAL 12 MONTH)));`;
+        try {
+            let q_res = await query(sql_get_annual_income);
+            annual_income = q_res[0].annual_income;
+        }
+        catch(err) {
+             throw err;
+        }
+
+        // calc last month income
+        var sql_get_last_month_income = `SELECT sum(${COLS[1]}) AS lastMonth_income FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value > 0 AND MONTH(transaction_date) = MONTH(CURDATE())-1);`;
+        try {
+            let q_res = await query(sql_get_last_month_income);
+            lastMonth_income = q_res[0].lastMonth_income;
+        }
+        catch(err) {
+             throw err;
+        }
+        
+        return {"average_income":average_income, "annual_income":annual_income, "lastMonth_income":lastMonth_income};
     }
 }

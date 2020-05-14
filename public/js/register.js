@@ -65,7 +65,7 @@ $("#registerAccount").click(function () {
         return;
     }
 
-    var user = { 'firstName': firstName, 'lastName': lastName, 'eMail': eMail, 'password': password }
+    var user = { 'firstName': firstName, 'lastName': lastName, 'eMail': eMail, 'password': password };
 
     $("#user_all").submit();
 });
