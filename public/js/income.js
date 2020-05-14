@@ -1,28 +1,28 @@
-$.getScript("chart-bar.js", function() {
-    $(document).ready(function(){
-        let sum = 0;
-        let div_val = 0;
+// $.getScript("chart-bar.js", function() {
+//     $(document).ready(function(){
+//         let sum = 0;
+//         let div_val = 0;
 
-        // iterate through each income entry in database and calculate the avg, annual and last_month income
-        for (let i = 1; i <= 12; i++)
-        {
-            if (getValue(i) != 0){
-                sum = sum + getValue(i);
-                div_val++;
-            }
-        }
-        if (div_val == 0)
-        {
-            //$("#average_income").text("no income");
-        }
-        else {
-            //$("#average_income").text('$' + Math.round(((sum / div_val) + Number.EPSILON) * 100) / 100);
-        }
-        // in the financial world, the numbers have to be right, hence they are rounded exactly
-        $("#annual_income").text('$'+Math.round(((sum) + Number.EPSILON) * 100) / 100);
-        $("#last_month_income").text('$'+Math.round(((getValue(new Date().getMonth()) + Number.EPSILON) * 100) / 100).toString());
-    });
- });
+//         // iterate through each income entry in database and calculate the avg, annual and last_month income
+//         for (let i = 1; i <= 12; i++)
+//         {
+//             if (getValue(i) != 0){
+//                 sum = sum + getValue(i);
+//                 div_val++;
+//             }
+//         }
+//         if (div_val == 0)
+//         {
+//             //$("#average_income").text("no income");
+//         }
+//         else {
+//             //$("#average_income").text('$' + Math.round(((sum / div_val) + Number.EPSILON) * 100) / 100);
+//         }
+//         // in the financial world, the numbers have to be right, hence they are rounded exactly
+//         $("#annual_income").text('$'+Math.round(((sum) + Number.EPSILON) * 100) / 100);
+//         $("#last_month_income").text('$'+Math.round(((getValue(new Date().getMonth()) + Number.EPSILON) * 100) / 100).toString());
+//     });
+//  });
 
 
 function pollData() {
@@ -32,7 +32,16 @@ function pollData() {
             dataType: 'json',
             type: 'get',
             success: function(data){
-                //alert(data.toString);
+                //alert(data.income_eachMonth[0]);
+
+                //for (var i = 0; i < 12; i++){
+                  //  alert("Hello");
+                    //console.log(data.income_eachMonth[i]);
+                    //myBarChart.data.datasets[0].data[11-i] = data.income_eachMonth[i];
+                //}
+                
+
+
                 if (data.average_income == null){
                     $("#average_income").text("$0");
                 } else {
@@ -48,6 +57,8 @@ function pollData() {
                 } else {
                     $('#last_month_income').text("$" + data.lastMonth_income);
                 }
+
+                $("#last_month_income").text("Hellooo");
             },
             error: function(){
                 alert(data.toString);
@@ -57,7 +68,7 @@ function pollData() {
     poll();
     setInterval(function(){
         poll();
-    }, 2000);
+    }, 1000);
 }
 
 pollData();

@@ -68,6 +68,8 @@ function getValue(val){
     return sum;
 }
 
+
+
 // Bar Chart
 var ctx = document.getElementById("myBarChart");
 var myBarChart = new Chart(ctx, {
@@ -79,7 +81,7 @@ var myBarChart = new Chart(ctx, {
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
-      data: [getValue(1), getValue(2), getValue(3), getValue(4), getValue(5), getValue(6), getValue(7), getValue(8), getValue(9), getValue(10), getValue(11), getValue(12)],
+      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //getValue(X);
     }],
   },
   options: {
@@ -150,3 +152,4 @@ var myBarChart = new Chart(ctx, {
     },
   }
 });
+export { myBarChart };

@@ -10,6 +10,7 @@ const COLS = [
 ];
 module.exports.TBNAME = TBNAME;
 module.exports.COLS = COLS;
+var event_counter;
 
 module.exports.create_table = async function(db_user, db_cat, db_group) {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
@@ -82,15 +83,24 @@ module.exports.insertTransaction = async function(value, transonce, category, is
 
             // //CONCAT(adddate(last_day(curdate()), 1), ' 00:00:00')
             await query(`SET GLOBAL event_scheduler = on;`);
-            sql = `CREATE EVENT IF NOT EXISTS period_event
+            sql_event1 = `CREATE EVENT IF NOT EXISTS period_event1
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS CURRENT_TIMESTAMP
                     DO
                     INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]})
                     VALUES ('${value}', NOW(), '${userID}', '${category}');`;
+            // sql_event2 = `CREATE EVENT IF NOT EXISTS period_event2
+            //         ON SCHEDULE EVERY 5 SECOND
+            //         STARTS CURRENT_TIMESTAMP
+            //         DO
+            //         INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]})
+            //         VALUES ('10', NOW(), '${userID}', '${category}');`;
             try {
-                await query(sql);
-                console.log("sql event created!");
+                await query(sql_event1);
+                
+                console.log("sql1 event created!");
+                //await query(sql_event2);
+                //console.log("sql2 event created!");
                 // 
             }
             catch(err) {
@@ -220,7 +230,26 @@ module.exports.getTransactionValueByUserID = async function(user_id, isExpense) 
         catch(err) {
              throw err;
         }
-        
-        return {"average_income":average_income, "annual_income":annual_income, "lastMonth_income":lastMonth_income};
+
+        var incomes_barchart = [];
+        for (var i = 0; i < 12; i++){
+            var sql_eachMonth = `SELECT sum(${COLS[1]}) AS income_month FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value > 0 AND MONTH(transaction_date) = MONTH(CURDATE())-${i});`;
+            try {
+                let q_res = await query(sql_eachMonth);
+                //console.log(q_res[0].income_month);
+    
+                if (q_res[0].income_month == null){
+                    incomes_barchart[i] = 0;
+                } else {
+                    incomes_barchart[i] = q_res[0].income_month;
+                }
+            }
+            catch(err) {
+                 throw err;
+            }
+        }
+
+        // return JSON
+        return {"average_income":average_income, "annual_income":annual_income, "lastMonth_income":lastMonth_income, "income_eachMonth:":incomes_barchart};
     }
 }
