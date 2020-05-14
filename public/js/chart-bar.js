@@ -36,7 +36,7 @@ function getValue(val){
         if(transaction.transaction_date != null) // ????
         {
          var datetime = new Date(transaction.transaction_date);
-         var month = datetime.getMonth() + 1;
+         var month = datetime.getMonth();
          var year = datetime.getFullYear();
          if(year == new Date().getFullYear())
          {
@@ -68,20 +68,41 @@ function getValue(val){
     return sum;
 }
 
+// get Months for labels
+function getMonths(){
+  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Dezember"];
+  var thisMonth = new Date().getMonth();
+  var labels = [];
 
+  for (let index = 0; index <= thisMonth; index++) {
+      labels.push(months[index]);
+  }
+  return labels;
+}
+
+// get values for data
+function getData(){
+  var thisMonth = new Date().getMonth();
+  var data = [];
+
+  for (let index = 0; index <= thisMonth; index++) {
+      data.push(getValue(index));
+  }
+  return data;
+}
 
 // Bar Chart
 var ctx = document.getElementById("myBarChart");
 var myBarChart = new Chart(ctx, {
   type: 'bar',
   data: {
-    labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Dezember"],
+    labels: getMonths(),
     datasets: [{
       label: "Revenue",
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
-      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], //getValue(X);
+      data: getData(),
     }],
   },
   options: {

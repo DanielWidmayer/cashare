@@ -40,28 +40,33 @@
               <form class="user" id="user_all" action="/register" method="POST">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user" id="FirstName" placeholder="First Name"
+                    <input type="text" class="form-control form-control-user" id="firstname" placeholder="First Name"
                       name="firstName">
                   </div>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-user" id="LastName" placeholder="Last Name"
+                    <input type="text" class="form-control form-control-user" id="lastname" placeholder="Last Name"
                       name="lastName">
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                    placeholder="Email Address" name="eMail">
+                  <input type="email" class="form-control form-control-user" id="mail" placeholder="Email Address"
+                    name="eMail">
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="password" class="form-control form-control-user" id="password" placeholder="Password"
+                    <input type="password" class="form-control form-control-user" id="pw_new" placeholder="Password"
                       name="password">
                   </div>
                   <div class="col-sm-6">
-                    <input type="password" class="form-control form-control-user" id="confirm_password"
+                    <input type="password" class="form-control form-control-user" id="pw_conf"
                       placeholder="Repeat Password">
                   </div>
                 </div>
+                <% if (errmsg && errmsg.length) { %>
+                <div class="alert alert-danger" role="alert">
+                  <%= errmsg %>
+                </div>
+                <% } %>
                 <button type="button" class="btn btn-primary btn-user btn-block" id="registerAccount">
                   Register Account
                 </button>
@@ -99,6 +104,7 @@
   <script src="js/cashare.min.js"></script>
 
   <!-- Custom script register.js -->
+  <script src="../js/account_helper.js"></script>
   <script src="../js/register.js"></script>
 
 </body>

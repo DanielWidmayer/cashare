@@ -58,7 +58,7 @@ function pollData() {
                     $('#last_month_income').text("$" + data.lastMonth_income);
                 }
 
-                $("#last_month_income").text("Hellooo");
+                //$("#last_month_income").text("Hellooo");
             },
             error: function(){
                 alert(data.toString);
