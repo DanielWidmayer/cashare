@@ -32,14 +32,36 @@ function pollData() {
             dataType: 'json',
             type: 'get',
             success: function(data){
-                //alert(data.income_eachMonth[0]);
 
-                //for (var i = 0; i < 12; i++){
-                  //  alert("Hello");
-                    //console.log(data.income_eachMonth[i]);
-                    //myBarChart.data.datasets[0].data[11-i] = data.income_eachMonth[i];
-                //}
-                
+                //alert(myBarChart.data.datasets[0].data[0]);
+                var thisMonth = new Date().getMonth()+1;
+                console.log("thisMonth: " + thisMonth);
+                console.log("database: " + data.income_eachMonth);
+                myBarChart.data.datasets[0].data = [];
+                for (let index = 0; index < thisMonth; index++){
+
+                    myBarChart.data.datasets[0].data.push(data.income_eachMonth[thisMonth-index-1]);
+                    
+                    // Check whether maxValue has been exceeded, if so then update maxValue 
+                    if (data.income_eachMonth[thisMonth-index-1] > myBarChart.options.scales.yAxes[0].ticks.max){
+                        var x = 1;
+                        var i = 1;
+                  
+                        while (data.income_eachMonth[thisMonth-index-1] > x * Math.pow(10,i)) {
+                          if(x <= 9){
+                            x++;
+                          }
+                          else{
+                            x = 1
+                            i++;
+                          }
+                        }
+                        myBarChart.options.scales.yAxes[0].ticks.max = x * Math.pow(10,i);
+                    }
+                }
+                console.log("bar: " + myBarChart.data.datasets[0].data)
+
+                myBarChart.update();
 
 
                 if (data.average_income == null){

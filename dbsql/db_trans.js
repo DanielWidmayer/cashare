@@ -83,7 +83,7 @@ module.exports.insertTransaction = async function(value, transonce, category, is
 
             // //CONCAT(adddate(last_day(curdate()), 1), ' 00:00:00')
             await query(`SET GLOBAL event_scheduler = on;`);
-            sql_event1 = `CREATE EVENT IF NOT EXISTS period_event1
+            sql = `CREATE EVENT IF NOT EXISTS period_event1
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS CURRENT_TIMESTAMP
                     DO
@@ -96,7 +96,7 @@ module.exports.insertTransaction = async function(value, transonce, category, is
             //         INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]})
             //         VALUES ('10', NOW(), '${userID}', '${category}');`;
             try {
-                await query(sql_event1);
+                await query(sql);
                 
                 console.log("sql1 event created!");
                 //await query(sql_event2);
@@ -232,7 +232,7 @@ module.exports.getTransactionValueByUserID = async function(user_id, isExpense) 
         }
 
         var incomes_barchart = [];
-        for (var i = 0; i < 12; i++){
+        for (var i = 0; i < new Date().getMonth()+1; i++){
             var sql_eachMonth = `SELECT sum(${COLS[1]}) AS income_month FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value > 0 AND MONTH(transaction_date) = MONTH(CURDATE())-${i});`;
             try {
                 let q_res = await query(sql_eachMonth);
@@ -250,6 +250,6 @@ module.exports.getTransactionValueByUserID = async function(user_id, isExpense) 
         }
 
         // return JSON
-        return {"average_income":average_income, "annual_income":annual_income, "lastMonth_income":lastMonth_income, "income_eachMonth:":incomes_barchart};
+        return {"average_income":average_income, "annual_income":annual_income, "lastMonth_income":lastMonth_income, "income_eachMonth":incomes_barchart};
     }
 }

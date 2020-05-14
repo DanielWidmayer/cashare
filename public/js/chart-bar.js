@@ -29,6 +29,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
+/*
 // Get transaction Value for specific month
 function getValue(val){
     var sum = 0;
@@ -67,6 +68,7 @@ function getValue(val){
     }
     return sum;
 }
+*/
 
 // get Months for labels
 function getMonths(){
@@ -80,6 +82,8 @@ function getMonths(){
   return labels;
 }
 
+
+/*
 // get values for data
 function getData(){
   var thisMonth = new Date().getMonth();
@@ -90,9 +94,13 @@ function getData(){
   }
   return data;
 }
+*/
+
+
 
 // Bar Chart
 var ctx = document.getElementById("myBarChart");
+
 var myBarChart = new Chart(ctx, {
   type: 'bar',
   data: {
@@ -102,7 +110,7 @@ var myBarChart = new Chart(ctx, {
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
-      data: getData(),
+      data: []//getData()
     }],
   },
   options: {
@@ -132,7 +140,7 @@ var myBarChart = new Chart(ctx, {
       yAxes: [{
         ticks: {
           min: 0,
-          max: maxValue,
+          max: 10, //maxValue,
           maxTicksLimit: 5,
           padding: 10,
           // Include a dollar sign in the ticks
@@ -173,4 +181,3 @@ var myBarChart = new Chart(ctx, {
     },
   }
 });
-export { myBarChart };
