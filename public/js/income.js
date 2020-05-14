@@ -1,3 +1,4 @@
+// next line throws error: Uncaught SyntaxError: Unexpected token '<'
 $.getScript("chart-bar.js", function() {
     $(document).ready(function(){
         let sum = 0;
