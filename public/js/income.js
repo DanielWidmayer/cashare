@@ -25,44 +25,23 @@
 //  });
 
 
-function pollData() {
+function pollDataIncome() {
     var poll = function(){
         $.ajax({
-            url: '/jsondata',
+            url: '/jsondata-income',
             dataType: 'json',
             type: 'get',
             success: function(data){
 
-                //alert(myBarChart.data.datasets[0].data[0]);
                 var thisMonth = new Date().getMonth()+1;
-                console.log("thisMonth: " + thisMonth);
-                console.log("database: " + data.income_eachMonth);
-                myBarChart.data.datasets[0].data = [];
-                for (let index = 0; index < thisMonth; index++){
 
-                    myBarChart.data.datasets[0].data.push(data.income_eachMonth[thisMonth-index-1]);
-                    
-                    // Check whether maxValue has been exceeded, if so then update maxValue 
-                    if (data.income_eachMonth[thisMonth-index-1] > myBarChart.options.scales.yAxes[0].ticks.max){
-                        var x = 1;
-                        var i = 1;
-                  
-                        while (data.income_eachMonth[thisMonth-index-1] > x * Math.pow(10,i)) {
-                          if(x <= 9){
-                            x++;
-                          }
-                          else{
-                            x = 1
-                            i++;
-                          }
-                        }
-                        myBarChart.options.scales.yAxes[0].ticks.max = x * Math.pow(10,i);
-                    }
+                BarChart_Incomes.data.datasets[0].data = [];
+                for (let index = 0; index < thisMonth; index++)
+                {
+                    BarChart_Incomes.data.datasets[0].data.push(data.income_eachMonth[thisMonth-index-1]);
+                    BarChart_Incomes.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(data.income_eachMonth[thisMonth-index-1], BarChart_Incomes.options.scales.yAxes[0].ticks.max);
                 }
-                console.log("bar: " + myBarChart.data.datasets[0].data)
-
-                myBarChart.update();
-
+                BarChart_Incomes.update();
 
                 if (data.average_income == null){
                     $("#average_income").text("$0");
@@ -93,7 +72,7 @@ function pollData() {
     }, 1000);
 }
 
-pollData();
+pollDataIncome();
 
 
 $('#repetition_value').on("keypress keyup blur",function (event) {
@@ -137,6 +116,7 @@ $("#transactionValueModal").on("keypress keyup blur", function (event) {
         return false;
     }
 });
+
 
 $("#addIncome").click(function(){
     var transactionValue = ($("#transactionValue").val()).replace(',', '.');
@@ -195,29 +175,43 @@ $("#addIncomeModal").click(function(){
     var timePeriod = $("#timePeriodModal").val();
     var chooseCategory = $("#chooseCategoryModal").val();
 
-        // temporär bis einheitliches Fehlermanagment vorhanden ist..
-        if(chooseCategory == "Choose Category" || timePeriod == "Choose Time period" || transactionValue.charAt(0) == '.' || transactionValue == "")
-        {
-            if(transactionValue.charAt(0) == '.' || transactionValue == "")
-            {
-                $("#transactionValueModal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-                $('#transactionValueModal').css('border-color', 'red');
-            }
-            if(chooseCategory == "Choose Category")
-            {
-                $("#chooseCategoryModal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-                $('#chooseCategoryModal').css('border-color', 'red');
-            }
-            if(timePeriod == "Choose Time period")
-            {
-                $("#timePeriodModal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-                $('#timePeriodModal').css('border-color', 'red');
-            }
-            return false;
-        }
+    var repetitionValue = $("#repetition_valueModal").val();
+    var timeUnit = $("#timeUnitModal").val();
+    var dateTimeID = $("#dateTimeIDModal").val();
 
-    var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory};
-    $.post( "/income", transaction ) 
+    // temporär bis einheitliches Fehlermanagment vorhanden ist..
+    if(chooseCategory == "Choose Category" || timePeriod == "Choose Income Type" || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) || transactionValue.charAt(0) == '.' || transactionValue == "")
+    {
+        if(transactionValue.charAt(0) == '.' || transactionValue == "")
+        {
+            $("#transactionValue").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#transactionValue').css('border-color', 'red');
+        }
+        if(chooseCategory == "Choose Category")
+        {
+            $("#chooseCategory").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#chooseCategory').css('border-color', 'red');
+        }
+        if(timePeriod == "Choose Income Type")
+        {
+            $("#timePeriod").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#timePeriod').css('border-color', 'red');
+        }
+        if (timePeriod == "2" && timeUnit == "Choose Time unit")
+        {
+            $("#timeUnit").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#timeUnit').css('border-color', 'red');
+        }
+        if (timePeriod == "2" && repetitionValue == "")
+        {
+            $("#repetition_value").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#repetition_value').css('border-color', 'red');
+        }
+        return false;
+    }
+
+    var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID};
+   $.post( "/income", transaction ) 
     .done(function( data ) {
         console.log( "Data Loaded: " + data );
         $('#IncomeModal').modal('hide');

@@ -1,10 +1,8 @@
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
-
-var maxValue = 10;
-
-function number_format(number, decimals, dec_point, thousands_sep) {
+// default template function for chart bars
+window.number_format = function number_format(number, decimals, dec_point, thousands_sep) {
   // *     example: number_format(1234.56, 2, ',', ' ');
   // *     return: '1 234,56'
   number = (number + '').replace(',', '').replace(' ', '');
@@ -29,48 +27,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
-/*
-// Get transaction Value for specific month
-function getValue(val){
-    var sum = 0;
-    transactions.forEach(transaction => {
-        if(transaction.transaction_date != null) // ????
-        {
-         var datetime = new Date(transaction.transaction_date);
-         var month = datetime.getMonth();
-         var year = datetime.getFullYear();
-         if(year == new Date().getFullYear())
-         {
-            if(month == val)
-            {
-                sum += Math.abs(transaction.transaction_value);
-            }
-         }
-        }
-    });
-
-    // Check whether maxValue has been exceeded, if so then update maxValue 
-    if(sum >= maxValue)
-    {
-      var x = 1;
-      var i = 1;
-
-      while (sum > x * Math.pow(10,i)) {
-        if(x <= 9){
-          x++;
-        }
-        else{
-          x = 1
-          i++;
-        }
-      }
-      maxValue = x * Math.pow(10,i);
-    }
-    return sum;
-}
-*/
-
-// get Months for labels
+// get months ...
 function getMonths(){
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Dezember"];
   var thisMonth = new Date().getMonth();
@@ -83,25 +40,9 @@ function getMonths(){
 }
 
 
-/*
-// get values for data
-function getData(){
-  var thisMonth = new Date().getMonth();
-  var data = [];
+var ctx_expenses = document.getElementById("BarChart_Expenses");
 
-  for (let index = 0; index <= thisMonth; index++) {
-      data.push(getValue(index));
-  }
-  return data;
-}
-*/
-
-
-
-// Bar Chart
-var ctx = document.getElementById("myBarChart");
-
-var myBarChart = new Chart(ctx, {
+var BarChart_Expenses = new Chart(ctx_expenses, {
   type: 'bar',
   data: {
     labels: getMonths(),
