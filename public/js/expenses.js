@@ -24,7 +24,9 @@
      });
   });*/
 
-
+  var thisMonth = new Date().getMonth()+1;
+  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Dezember"];
+  
 
   function pollDataExpenses() 
   {
@@ -36,12 +38,13 @@
               type: 'get',
               success: function(data)
               {
-                  var thisMonth = new Date().getMonth()+1;
   
                   BarChart_Expenses.data.datasets[0].data = [];
+                  BarChart_Expenses.data.labels = [];
                   for (let index = 0; index < thisMonth; index++)
                   {
-                      BarChart_Expenses.data.datasets[0].data.push(Math.abs(data.expenses_eachMonth[thisMonth-index-1]));
+                    BarChart_Expenses.data.labels.push(months[index]);  
+                    BarChart_Expenses.data.datasets[0].data.push(Math.abs(data.expenses_eachMonth[thisMonth-index-1]));
                       BarChart_Expenses.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(Math.abs(data.expenses_eachMonth[thisMonth-index-1]), BarChart_Expenses.options.scales.yAxes[0].ticks.max);
                   }
                   BarChart_Expenses.update();

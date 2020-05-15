@@ -27,6 +27,7 @@ window.number_format = function number_format(number, decimals, dec_point, thous
   return s.join(dec);
 }
 
+/*
 // get months ...
 window.getMonths = function getMonths(){
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Dezember"];
@@ -38,6 +39,7 @@ window.getMonths = function getMonths(){
   }
   return labels;
 }
+*/
 /*
 // Get transaction Value for specific month
 function getValue(val){
@@ -84,7 +86,7 @@ var ctx_incomes = document.getElementById("BarChart_Incomes");
 var BarChart_Incomes = new Chart(ctx_incomes, {
   type: 'bar',
   data: {
-    labels: getMonths(),
+    labels: [], //getMonths(),
     datasets: [{
       label: "Revenue",
       backgroundColor: "#4e73df",

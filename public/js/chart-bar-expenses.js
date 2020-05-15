@@ -27,25 +27,13 @@ window.number_format = function number_format(number, decimals, dec_point, thous
   return s.join(dec);
 }
 
-// get months ...
-function getMonths(){
-  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Dezember"];
-  var thisMonth = new Date().getMonth();
-  var labels = [];
-
-  for (let index = 0; index <= thisMonth; index++) {
-      labels.push(months[index]);
-  }
-  return labels;
-}
-
 
 var ctx_expenses = document.getElementById("BarChart_Expenses");
 
 var BarChart_Expenses = new Chart(ctx_expenses, {
   type: 'bar',
   data: {
-    labels: getMonths(),
+    labels: [], //getMonths(),
     datasets: [{
       label: "Revenue",
       backgroundColor: "#4e73df",

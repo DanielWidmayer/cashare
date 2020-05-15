@@ -24,6 +24,8 @@
 //     });
 //  });
 
+var thisMonth = new Date().getMonth()+1;
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Dezember"];
 
 function pollDataIncome() {
     var poll = function(){
@@ -33,11 +35,11 @@ function pollDataIncome() {
             type: 'get',
             success: function(data){
 
-                var thisMonth = new Date().getMonth()+1;
-
                 BarChart_Incomes.data.datasets[0].data = [];
+                BarChart_Incomes.data.labels = [];
                 for (let index = 0; index < thisMonth; index++)
                 {
+                    BarChart_Incomes.data.labels.push(months[index]);
                     BarChart_Incomes.data.datasets[0].data.push(data.income_eachMonth[thisMonth-index-1]);
                     BarChart_Incomes.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(data.income_eachMonth[thisMonth-index-1], BarChart_Incomes.options.scales.yAxes[0].ticks.max);
                 }
