@@ -145,6 +145,31 @@ module.exports.getTransactionsByUserID = async function(user_id, isExpense) {
 }
 
 
+module.exports.getPersonalBalance = async function(user_id){
+    var personal_balance;
+    var sql_get_personal_balance = `SELECT sum(${COLS[1]}) AS balance FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}');`;
+    try {
+        let q_res = await query(sql_get_personal_balance);
+        personal_balance = q_res[0].balance;
+    }
+    catch(err) {
+        throw err;
+    }
+    return {"personal_balance":personal_balance};
+}
+
+module.exports.checkBalance = async function(user_id, transaction_value){
+    var personal_balance = (await this.getPersonalBalance(user_id)).personal_balance;
+    if (personal_balance - transaction_value < 0)
+    {
+        console.log("schulden!!!");
+        return false;
+    } else {
+        console.log("keine Schulden");
+        return true;
+    }
+}
+
 
 module.exports.getTransactionValueByUserID = async function(user_id, isExpense) {
 

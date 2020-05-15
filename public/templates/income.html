@@ -144,7 +144,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-secondary">Income - Overview</h6>
+                                    <h6 class="m-0 font-weight-bold text-secondary" id="bar-chart-title">Income - Overview</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -152,11 +152,11 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                             aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
+                                            <div class="dropdown-header">Analysis</div>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#filter_data">Filter income...</a>
+                                            <a class="dropdown-item" href="#">Show all income</a>
+                                            <!-- <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a> -->
                                         </div>
                                     </div>
                                 </div>
@@ -498,6 +498,47 @@
         </div>
 
     </div>
+
+
+    <!-- Modal Filter Data-->
+    <div class="modal fade" id="filter_data" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        style="display: none; z-index: 1999;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        How much do you earn with:
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        
+                        <div class="input-group mb-3">
+                            <select class="custom-select" id="categoryToFilter">
+                                <option selected>Choose Category</option>
+                                <% categorys.forEach(function(cat){ %>
+                                <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <!-- Button Add new Category-->
+                        <button class="btn btn-success btn-icon-split" id="filterByCategoryExpensesButton">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-check"></i>
+                            </span>
+                            <span class="text">Filter Income</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

@@ -105,6 +105,11 @@ router.get('/jsondata-expenses', isAuthenticated, async function (req, res) {
   res.json(q_trans);
 });
 
+router.get('/jsondata-overview', isAuthenticated, async function (req, res) {
+  var q_trans = await dbsql.db_trans.getPersonalBalance(req.user[0], 1);
+  res.json(q_trans);
+});
+
 
 router.get('/blank', isAuthenticated, async function (req, res) {
   return res.render('blank.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
@@ -248,8 +253,15 @@ router.get('/expenses', isAuthenticated, async function (req, res) {
 router.post('/expenses', isAuthenticated, async function (req, res) {
   try {
     console.log(req.body);
-    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 1, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID);
-    res.send(req.user[1] + " " + sqlret);
+
+    var debt_free = dbsql.db_trans.checkBalance(req.user[0], req.body.transactionValue);
+
+    if (debt_free == true){
+      let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 1, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID);
+      res.send(req.user[1] + " " + sqlret);
+    } else {
+      res.send("debts_alert");
+    }
   } catch (err) {
     console.log(err);
   }

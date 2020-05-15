@@ -39,7 +39,7 @@
               success: function(data)
               {
   
-                  BarChart_Expenses.data.datasets[0].data = [];
+                  //BarChart_Expenses.data.datasets[0].data = [];
                   BarChart_Expenses.data.labels = [];
                   for (let index = 0; index < thisMonth; index++)
                   {
@@ -66,7 +66,7 @@
                   }
               },
               error: function(){
-                  alert(data.toString);
+                  //
               }
           })
       };
@@ -150,8 +150,13 @@ $("#addExpense").click(function(){
     var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID};
     $.post( "/expenses", transaction ) 
     .done(function( data ) {
-        console.log( "Data Loaded: " + data );
-        location.reload();
+        //console.log( "Data Loaded: " + data );
+        if (data == "debts_alert") {
+            alert("Debts not allowed");
+            document.getElementById("balance_alert").showModal();
+        } else {
+            location.reload();
+        }
     });
 });
 
@@ -237,6 +242,17 @@ $("#addNewCategoryModal").click(function(){
 
         
     });
+});
+
+$("#filterByCategoryExpensesButton").click(function(){
+    var categoryToFilter = $("#categoryToFilter").val();
+    var category_isExpense = 1; // true
+
+    //var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
+    //$.post( "/addCategory", category ) 
+    //.done(function( data ) {
+    //    console.log( "Data Loaded: " + data );
+    //});
 });
 
 $("button[data-dismiss-modal=modal2]").click(function(){
