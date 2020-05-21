@@ -252,18 +252,20 @@ router.get('/expenses', isAuthenticated, async function (req, res) {
 
 router.post('/expenses', isAuthenticated, async function (req, res) {
   try {
-    console.log(req.body);
+    //console.log(req.body);
 
-    var debt_free = dbsql.db_trans.checkBalance(req.user[0], req.body.transactionValue);
+    var debt_free = await dbsql.db_trans.checkBalance(req.user[0], req.body.transactionValue);
 
-    if (debt_free == true){
-      let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 1, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID);
-      res.send(req.user[1] + " " + sqlret);
+    if (debt_free){
+      let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 1, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID, req.body.contractualPartner);
+      res.send(req.body.chooseCategory); //res.send(req.user[1] + " " + sqlret);
+
     } else {
       res.send("debts_alert");
     }
   } catch (err) {
     console.log(err);
+    res.send("error" + err);
   }
 });
 

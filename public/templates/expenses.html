@@ -342,6 +342,11 @@
 
                                             </div>
                                         </div>
+                                        <div class="input-group">
+                                            <input type="text" lang="en" class="form-control"
+                                                placeholder="contractual partner" aria-label="contractualPartner"
+                                                aria-describedby="basic-addon2" id="contractualPartner">
+                                        </div>
                                         <hr>
                                         <!-- Button Add new Expense-->
                                         <button class="btn btn-success btn-icon-split" id="addExpense">
@@ -356,6 +361,13 @@
                             </div>
 
                         </div>
+                    </div>
+
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+
                     </div>
 
                 </div>
@@ -466,7 +478,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="input-group">
+                        <div class="input-group mb-3">
                             <select class="custom-select" id="chooseCategoryModal">
                                 <option selected>Choose Category</option>
                                 <% categorys.forEach(function(cat){ %>
@@ -484,7 +496,11 @@
 
                             </div>
                         </div>
-
+                        <div class="input-group">
+                            <input type="text" lang="en" class="form-control mdb-autocomplete" id="contractualPartner_inputgroup_autocompleted"
+                                placeholder="contractual partner" aria-label="contractualPartner"
+                                aria-describedby="basic-addon2" id="contractualPartnerModal">
+                        </div>
 
 
                         <hr>
@@ -582,31 +598,51 @@
 
 
 
-    
-    <!-- Modal Filter Data-->
-    <div class="modal fade" id="balance_alert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        style="display: none; z-index: 1999;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
+        <!-- Modal Expense Alert-->
+        <div class="modal" id="expense_alert" tabindex="-1" role="dialog" style="display: none; z-index: 1999;" aria-hidden="true"
+          data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
-                        Balance alert!
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                  <h5 class="modal-title text-danger">ALERT</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
                 </div>
                 <div class="modal-body">
-                    <div class="text-center">
-                        
-                        
-                    </div>
-
+                  This transaction cannot be conducted as you have not enough money.
                 </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Cancel transaction</button>
+                  <!--- <button type="button" class="btn btn-danger" id="conduct_transaction_anyway_button">Conduct transaction anyway</button>
+                  -->
+                </div>
+              </div>
             </div>
-        </div>
+          </div>
 
-    </div>
+
+            <!-- Modal User Transaction Note-->
+            <div class="modal" id="user_transaction_alert" tabindex="-1" role="dialog" style="display: none; z-index: 1999;" aria-hidden="true"
+            data-backdrop="static" data-keyboard="false">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title text-danger">Notice</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    This transaction was successful.
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="transaction_expenses_successful" aria-label="Close">Ok</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

@@ -78,7 +78,9 @@
   
   pollDataExpenses();
 
-  
+
+
+
 
 $("#transactionValue").on("keypress keyup blur", function (event) {
     $(this).val($(this).val().replace(/[^0-9\.|\,]/g,''));
@@ -105,6 +107,7 @@ $("#transactionValueModal").on("keypress keyup blur", function (event) {
 });
 
 
+
 $("#addExpense").click(function(){
     var transactionValue = ($("#transactionValue").val()).replace(',', '.');
     var timePeriod = $("#timePeriod").val();
@@ -113,6 +116,8 @@ $("#addExpense").click(function(){
     var repetitionValue = $("#repetition_value").val();
     var timeUnit = $("#timeUnit").val();
     var dateTimeID = $("#dateTimeID").val();
+
+    var contractualPartner = $("#contractualPartner").val();
 
     // temporär bis einheitliches Fehlermanagment vorhanden ist..
     if(chooseCategory == "Choose Category" || timePeriod == "Choose Income Type" || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) || transactionValue.charAt(0) == '.' || transactionValue == "")
@@ -147,19 +152,31 @@ $("#addExpense").click(function(){
 
 
 
-    var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID};
+    var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 
+        'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID, 'contractualPartner':contractualPartner};
     $.post( "/expenses", transaction ) 
     .done(function( data ) {
-        //console.log( "Data Loaded: " + data );
-        if (data == "debts_alert") {
-            alert("Debts not allowed");
-            document.getElementById("balance_alert").showModal();
-        } else {
-            location.reload();
+        if (data == "debts_alert") 
+        {
+            $("#expense_alert").modal('show');
+        } 
+        else 
+        {
+            if (data < 3) 
+            {
+                $("#user_transaction_alert").modal('show');
+            } else
+            {
+                location.reload();
+            }
         }
     });
 });
 
+
+$("#transaction_expenses_successful").click(function(){
+    location.reload();
+});
 
 $("#addExpenseModal").click(function(){
     var transactionValue = ($("#transactionValueModal").val()).replace(',', '.');
@@ -170,6 +187,8 @@ $("#addExpenseModal").click(function(){
     var timeUnit = $("#timeUnitModal").val();
     var dateTimeID = $("#dateTimeIDModal").val();
 
+    var contractualPartner = $("contractualPartner").val();
+
     // temporär bis einheitliches Fehlermanagment vorhanden ist..
     if(chooseCategory == "Choose Category" || timePeriod == "Choose Income Type" || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) || transactionValue.charAt(0) == '.' || transactionValue == "")
     {
@@ -201,7 +220,8 @@ $("#addExpenseModal").click(function(){
         return false;
     }
 
-    var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID};
+    var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 
+        'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID, 'contractualPartner':contractualPartner};
 
     $.post( "/expenses", transaction ) 
     .done(function( data ) {
