@@ -121,6 +121,9 @@ module.exports.insertTransaction = async function(value, transonce, category, is
         if (category > 2){
             let res, sql;
             // //CONCAT(adddate(last_day(curdate()), 1), ' 00:00:00')
+            if (isExpense){
+                value = value * (-1); // expenses are subtracted froom account balance
+            }
             await query(`SET GLOBAL event_scheduler = on;`);
             sql = `CREATE EVENT IF NOT EXISTS scheduled_event${event_counter}
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
