@@ -43,13 +43,9 @@
                   BarChart_Expenses.data.labels = [];
                   for (let index = 0; index < thisMonth; index++)
                   {
-                    
                     BarChart_Expenses.data.labels.push(months[index]);  
-                    console.log("vcc: " + Math.abs(data.expenses_eachMonth[thisMonth-index-1]));
-
                     BarChart_Expenses.data.datasets[0].data.push(Math.abs(data.expenses_eachMonth[thisMonth-index-1]));
-                    console.log("barchart data: " + BarChart_Expenses.data.datasets[0].data);
-                      BarChart_Expenses.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(Math.abs(data.expenses_eachMonth[thisMonth-index-1]), BarChart_Expenses.options.scales.yAxes[0].ticks.max);
+                    BarChart_Expenses.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(Math.abs(data.expenses_eachMonth[thisMonth-index-1]), BarChart_Expenses.options.scales.yAxes[0].ticks.max);
                   }
                   BarChart_Expenses.update();
   
