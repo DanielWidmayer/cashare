@@ -1,10 +1,8 @@
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
-
-var maxValue = 10;
-
-function number_format(number, decimals, dec_point, thousands_sep) {
+// default template function for chart bars
+window.number_format = function number_format(number, decimals, dec_point, thousands_sep) {
   // *     example: number_format(1234.56, 2, ',', ' ');
   // *     return: '1 234,56'
   number = (number + '').replace(',', '').replace(' ', '');
@@ -29,57 +27,19 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
-// Get transaction Value for specific month
-function getValue(val){
-    var sum = 0;
-    transactions.forEach(transaction => {
-        if(transaction.transaction_date != null) // ????
-        {
-         var datetime = new Date(transaction.transaction_date);
-         var month = datetime.getMonth() + 1;
-         var year = datetime.getFullYear();
-         if(year == new Date().getFullYear())
-         {
-            if(month == val)
-            {
-                sum += Math.abs(transaction.transaction_value);
-            }
-         }
-        }
-    });
 
-    // Check whether maxValue has been exceeded, if so then update maxValue 
-    if(sum >= maxValue)
-    {
-      var x = 1;
-      var i = 1;
+var ctx_expenses = document.getElementById("BarChart_Expenses");
 
-      while (sum > x * Math.pow(10,i)) {
-        if(x <= 9){
-          x++;
-        }
-        else{
-          x = 1
-          i++;
-        }
-      }
-      maxValue = x * Math.pow(10,i);
-    }
-    return sum;
-}
-
-// Bar Chart
-var ctx = document.getElementById("myBarChart");
-var myBarChart = new Chart(ctx, {
+var BarChart_Expenses = new Chart(ctx_expenses, {
   type: 'bar',
   data: {
-    labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Dezember"],
+    labels: [], //getMonths(),
     datasets: [{
       label: "Revenue",
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
-      data: [getValue(1), getValue(2), getValue(3), getValue(4), getValue(5), getValue(6), getValue(7), getValue(8), getValue(9), getValue(10), getValue(11), getValue(12)],
+      data: []//getData()
     }],
   },
   options: {
@@ -109,7 +69,7 @@ var myBarChart = new Chart(ctx, {
       yAxes: [{
         ticks: {
           min: 0,
-          max: maxValue,
+          max: 10, //maxValue,
           maxTicksLimit: 5,
           padding: 10,
           // Include a dollar sign in the ticks

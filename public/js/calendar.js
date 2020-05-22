@@ -12,6 +12,9 @@ $(function () {
     });
 });
 
+
+
+
 $(document).ready(function () {
 
     $.viewMap = {

@@ -144,7 +144,8 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-secondary">Income - Overview</h6>
+                                    <h6 class="m-0 font-weight-bold text-secondary" id="bar-chart-title">Income -
+                                        Overview</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -152,18 +153,19 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                             aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
+                                            <div class="dropdown-header">Analysis</div>
+                                            <a class="dropdown-item" href="#" data-toggle="modal"
+                                                data-target="#filter_data">Filter income...</a>
+                                            <a class="dropdown-item" href="#">Show all income</a>
+                                            <!-- <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a> -->
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-bar">
-                                        <canvas id="myBarChart"></canvas>
+                                        <canvas id="BarChart_Incomes"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -290,14 +292,21 @@
 
                                             </div>
                                         </div>
+                                        <div class="input-group">
+                                            <input type="text" lang="en" class="form-control"
+                                                placeholder="contractual partner" aria-label="contractualPartner"
+                                                aria-describedby="basic-addon2" id="transactionValue">
+                                        </div>
                                         <hr>
                                         <!-- Button Add new Income-->
-                                        <button class="btn btn-success btn-icon-split" id="addIncome">
-                                            <span class="icon text-white-50">
-                                                <i class="fas fa-check"></i>
-                                            </span>
-                                            <span class="text">Add new Income</span>
-                                        </button>
+                                        <div class=add-new-income>
+                                            <button class="btn btn-success btn-icon-split" id="addIncome">
+                                                <span class="icon text-white-50">
+                                                    <i class="fas fa-check"></i>
+                                                </span>
+                                                <span class="text">Add new Income</span>
+                                            </button>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -425,7 +434,7 @@
                                 <div class="input-group mb-3">
                                     <input type="number" step="0.01" min="0" lang="en" class="form-control"
                                         placeholder="Income Value" aria-label="Transaction Value"
-                                        aria-describedby="basic-addon2" id="transactionValue">
+                                        aria-describedby="basic-addon2" id="transactionValueModal">
                                     <div class="input-group-append">
                                         <span class="input-group-text" id="basic-addon2">$</span>
                                     </div>
@@ -440,9 +449,9 @@
                                 <div id="groupTimePeriodModal" class="input-group mb-3">
                                     <div class="input-group">
                                         <input type="number" step="1" min="1" class="form-control"
-                                            placeholder="Amount of Time" id="repetition_value">
+                                            placeholder="Amount of Time" id="repetition_valueModal">
                                         <div class="input-group-append">
-                                            <select class="custom-select form-control" id="timeUnit">
+                                            <select class="custom-select form-control" id="timeUnitModal">
                                                 <option selected>Choose Time unit</option>
                                                 <option value="1">Years</option>
                                                 <option value="2">Months</option>
@@ -470,8 +479,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="input-group">
-                                    <select class="custom-select" id="chooseCategory">
+                                <div class="input-group mb-3">
+                                    <select class="custom-select" id="chooseCategoryModal">
                                         <option selected>Choose Category</option>
                                         <% categorys.forEach(function(cat){ %>
                                         <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
@@ -488,18 +497,25 @@
 
                                     </div>
                                 </div>
+                                <div class="input-group">
+                                    <input type="text" lang="en" class="form-control" placeholder="contractual partner"
+                                        aria-label="contractualPartner" aria-describedby="basic-addon2"
+                                        id="transactionValue">
+                                </div>
                             </div>
 
                         </div>
 
                         <hr>
                         <!-- Button Add new Income-->
-                        <button class="btn btn-success btn-icon-split" id="addIncomeModal">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-check"></i>
-                            </span>
-                            <span class="text">Add new Income</span>
-                        </button>
+                        <div class="add-new-income">
+                            <button class="btn btn-success btn-icon-split" id="addIncomeModal">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-check"></i>
+                                </span>
+                                <span class="text">Add new Income</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -553,90 +569,86 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Edit Income</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="text-center">
-                        <!-- Illustrations -->
 
-                        <div class="card-body">
-                            <div class="text-center">
-                                <div class="input-group mb-3">
-                                    <input type="number" step="0.01" min="0" lang="en" class="form-control" value="50"
-                                        aria-label="Transaction Value" aria-describedby="basic-addon2"
-                                        id="transactionValue">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" id="basic-addon2">$</span>
-                                    </div>
+
+                    <!-- Illustrations -->
+
+                    <div class="card-body">
+                        <div class="text-center">
+                            <div class="input-group mb-3">
+                                <input type="number" step="0.01" min="0" lang="en" class="form-control" value="50"
+                                    aria-label="Transaction Value" aria-describedby="basic-addon2"
+                                    id="transactionValue">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon2">$</span>
                                 </div>
-                                <div id="" class="input-group mb-3">
-                                    <div class="input-group">
-                                        <input type="number" step="1" min="1" class="form-control" value="10"
-                                            id="repetition_value">
-                                        <div class="input-group-append">
-                                            <select class="custom-select form-control" id="timeUnit">
-                                                <option value="1">Years</option>
-                                                <option value="2">Months</option>
-                                                <option value="3">Days</option>
-                                                <option value="4">Hours</option>
-                                                <option value="5">Minutes</option>
-                                                <option selected value="6">Seconds</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Calendar + Time Picker-->
-                                <div id="" class="form-group">
-                                    <div class="input-group date datetimepicker" id="datetimepickermod1"
-                                        data-target-input="nearest">
-                                        <input id="dateTimeIDModal" type="text"
-                                            class="form-control datetimepicker-input" data-target="#datetimepickermod1"
-                                            data-toggle="datetimepicker" value="2000-01-01 10:10:10" />
-                                        <div class="input-group-append" data-target="#datetimepickermod1"
-                                            data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <label class="input-group-text">Start Time</label>
-                                        </div>
-                                    </div>
-                                </div>
+                            </div>
+                            <div id="" class="input-group mb-3">
                                 <div class="input-group">
-                                    <select class="custom-select" id="chooseCategory">
-                                        <option selected>Amusement</option>
-                                        <% categorys.forEach(function(cat){ %>
-                                        <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
-                                        <% }); %>
-                                    </select>
+                                    <input type="number" step="1" min="1" class="form-control" value="10"
+                                        id="repetition_value">
                                     <div class="input-group-append">
-
-                                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal"
-                                            data-target="#Category">
-                                            <i class="fas fa-plus fa-sm text-gray-50"></i>
-                                            New Category
-                                        </button>
-
-
+                                        <select class="custom-select form-control" id="timeUnit">
+                                            <option value="1">Years</option>
+                                            <option value="2">Months</option>
+                                            <option value="3">Days</option>
+                                            <option value="4">Hours</option>
+                                            <option value="5">Minutes</option>
+                                            <option selected value="6">Seconds</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
+                            <!-- Calendar + Time Picker-->
+                            <div id="" class="form-group">
+                                <div class="input-group date datetimepicker" id="datetimepickermod1"
+                                    data-target-input="nearest">
+                                    <input id="dateTimeIDModal" type="text" class="form-control datetimepicker-input"
+                                        data-target="#datetimepickermod1" data-toggle="datetimepicker"
+                                        value="2000-01-01 10:10:10" />
+                                    <div class="input-group-append" data-target="#datetimepickermod1"
+                                        data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <label class="input-group-text">Start Time</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <select class="custom-select" id="chooseCategory">
+                                    <option selected>Amusement</option>
+                                    <% categorys.forEach(function(cat){ %>
+                                    <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
+                                    <% }); %>
+                                </select>
+                                <div class="input-group-append">
 
+                                    <button type="button" class="btn btn-outline-secondary" data-toggle="modal"
+                                        data-target="#Category">
+                                        <i class="fas fa-plus fa-sm text-gray-50"></i>
+                                        New Category
+                                    </button>
+
+
+                                </div>
+                            </div>
                         </div>
 
-                        <hr>
-                        <!-- Button Add new Income-->
-                        <button class="btn btn-success btn-icon-split" id="addIncomeModal">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-check"></i>
-                            </span>
-                            <span class="text">Save Income</span>
-                        </button>
                     </div>
+
+                    <hr>
+                    <!-- Button Add new Income-->
+                    <button class="btn btn-success btn-icon-split" id="addIncomeModal">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-check"></i>
+                        </span>
+                        <span class="text">Save Income</span>
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Delete Income Modal -->
@@ -669,6 +681,45 @@
         </div>
     </div>
 
+    <!-- Modal Filter Data-->
+    <div class="modal fade" id="filter_data" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        style="display: none; z-index: 1999;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        How much do you earn with:
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <div class="input-group mb-3">
+                            <select class="custom-select" id="categoryToFilter">
+                                <option selected>Choose Category</option>
+                                <% categorys.forEach(function(cat){ %>
+                                <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
+                                <% }); %>
+                            </select>
+                        </div>
+                        <!-- Button Add new Category-->
+                        <button class="btn btn-success btn-icon-split" id="filterByCategoryExpensesButton">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-check"></i>
+                            </span>
+                            <span class="text">Filter Income</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -693,7 +744,8 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-pie-demo.js"></script>
-    <script src="js/chart-bar.js"></script>
+    <script src="js/chart-bar-income.js" type="text/javascript"></script>
+    <script src="js/charts.js" type="text/javascript"></script>
 
     <!-- calendar scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.25.3/moment-with-locales.min.js"></script>

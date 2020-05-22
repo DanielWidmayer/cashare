@@ -95,8 +95,22 @@ router.get('/home', isAuthenticated, async function (req, res) {
   return res.render('index.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
 });
 
-router.get('/jsondata', isAuthenticated, async function (req, res) {
+router.get('/jsondata-income', isAuthenticated, async function (req, res) {
   var q_trans = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 0);
+  res.json(q_trans);
+});
+
+router.get('/jsondata-expenses', isAuthenticated, async function (req, res) {
+  var q_trans = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 1);
+  res.json(q_trans);
+});
+
+router.get('/jsondata-overview', isAuthenticated, async function (req, res) {
+  var q_transBalance = await dbsql.db_trans.getPersonalBalance(req.user[0], 1);
+  var q_transExpense = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 1);
+  var q_transIncome = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 0);
+
+  var q_trans = { balance : q_transBalance, expense : q_transExpense, income : q_transIncome};
   res.json(q_trans);
 });
 
@@ -242,11 +256,20 @@ router.get('/expenses', isAuthenticated, async function (req, res) {
 
 router.post('/expenses', isAuthenticated, async function (req, res) {
   try {
-    console.log(req.body);
-    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, 1, req.body.chooseCategory, 1, req.user[0], "", "", "");
-    res.send(req.user[1] + " " + sqlret);
+    //console.log(req.body);
+
+    var debt_free = await dbsql.db_trans.checkBalance(req.user[0], req.body.transactionValue);
+
+    if (debt_free){
+      let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 1, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID, req.body.contractualPartner);
+      res.send(req.body.chooseCategory); //res.send(req.user[1] + " " + sqlret);
+
+    } else {
+      res.send("debts_alert");
+    }
   } catch (err) {
     console.log(err);
+    res.send("error" + err);
   }
 });
 
