@@ -77,6 +77,16 @@ function pollDataIncome() {
 pollDataIncome();
 
 
+var tableRef = document.getElementById('regular_income_overview').getElementsByTagName('tbody')[0];
+// Insert a row in the table at the last row
+var newRow = tableRef.insertRow();
+// Insert a cell in the row at index 0
+var newCell  = newRow.insertCell(0);
+// Append a text node to the cell
+var newText  = document.createTextNode('New row');
+newCell.appendChild(newText);
+
+
 $('#repetition_value').on("keypress keyup blur",function (event) {
        var regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
        if (!regex.test(event.key) && event.keyCode != 46) {
@@ -165,9 +175,11 @@ $("#addIncome").click(function(){
     var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID};
     $.post( "/income", transaction ) 
     .done(function( data ) {
-        console.log( "Data Loaded: " + data );
-        location.reload();
-        //document.getElementById("#average_income").contentWindow.location.reload(true);
+        if (data == "past_error") {
+            $("#past_time_alert").modal('show');
+        } else {
+            location.reload();
+        }
     });
 });
 
@@ -215,9 +227,12 @@ $("#addIncomeModal").click(function(){
     var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID};
    $.post( "/income", transaction ) 
     .done(function( data ) {
-        console.log( "Data Loaded: " + data );
-        $('#IncomeModal').modal('hide');
-        location.reload();
+        if (data == "past_error") {
+            $("#past_time_alert").modal('show');
+        } else {
+            $('#IncomeModal').modal('hide');
+            location.reload();
+        }
     });
 });
 

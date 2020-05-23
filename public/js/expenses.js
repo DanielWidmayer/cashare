@@ -107,19 +107,50 @@ $("#transactionValueModal").on("keypress keyup blur", function (event) {
 });
 
 
+$('#destination_account').change(function() {
+    $('#destination_id').prop('disabled', false);
+
+    $('#chooseCategory').prop('disabled', true);
+    $('#new_category_button').prop('disabled', true);
+    if ($(this).val() == "0" || $(this).val() == "1") {
+      $('#destination_id').prop('disabled', true);
+
+      $('#chooseCategory').prop('disabled', false);
+      $('#new_category_button').prop('disabled', false);
+    }
+});
+
+$('#destination_account_modal').change(function() {
+    $('#destination_id_modal').prop('disabled', false);
+
+    $('#chooseCategory_modal').prop('disabled', true);
+    $('#new_category_button_modal').prop('disabled', true);
+    if ($(this).val() == "0" || $(this).val() == "1") {
+      $('#destination_id_modal').prop('disabled', true);
+
+      $('#chooseCategory_modal').prop('disabled', false);
+      $('#new_category_button_modal').prop('disabled', false);
+    }
+});
+
 
 $("#addExpense").click(function(){
     var transactionValue = ($("#transactionValue").val()).replace(',', '.');
     var timePeriod = $("#timePeriod").val();
     var chooseCategory = $("#chooseCategory").val();
+    
 
     var repetitionValue = $("#repetition_value").val();
     var timeUnit = $("#timeUnit").val();
     var dateTimeID = $("#dateTimeID").val();
 
-    var contractualPartner = $("#contractualPartner").val();
+    var destinationAccount = $("#destination_account").val();
+    var destinationID = $("#destination_id").val();
+
+
 
     // temporär bis einheitliches Fehlermanagment vorhanden ist..
+    /*
     if(chooseCategory == "Choose Category" || timePeriod == "Choose Income Type" || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) || transactionValue.charAt(0) == '.' || transactionValue == "")
     {
         if(transactionValue.charAt(0) == '.' || transactionValue == "")
@@ -149,25 +180,30 @@ $("#addExpense").click(function(){
         }
         return false;
     }
-
-
+    */
 
     var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 
-        'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID, 'contractualPartner':contractualPartner};
+        'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID, 'destinationID':destinationID,
+        'destinationAccount':destinationAccount};
     $.post( "/expenses", transaction ) 
     .done(function( data ) {
-        if (data == "debts_alert") 
-        {
-            $("#expense_alert").modal('show');
-        } 
-        else 
-        {
-            if (data < 3) 
+
+        if (data == "past_error") {
+            $("#past_time_alert").modal('show');
+        } else {
+            if (data == "debts_alert") 
             {
-                $("#user_transaction_alert").modal('show');
-            } else
+                $("#expense_alert").modal('show');
+            } 
+            else
             {
-                location.reload();
+                if (destinationAccount > 1) 
+                {
+                    $("#user_transaction_alert").modal('show');
+                } else
+                {
+                    location.reload();
+                }
             }
         }
     });
@@ -187,9 +223,12 @@ $("#addExpenseModal").click(function(){
     var timeUnit = $("#timeUnitModal").val();
     var dateTimeID = $("#dateTimeIDModal").val();
 
-    var contractualPartner = $("contractualPartner").val();
+    var destinationAccount = $("#destination_account_modal").val();
+    var destinationID = $("#destination_id_modal").val();
+
 
     // temporär bis einheitliches Fehlermanagment vorhanden ist..
+    /*
     if(chooseCategory == "Choose Category" || timePeriod == "Choose Income Type" || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) || transactionValue.charAt(0) == '.' || transactionValue == "")
     {
         if(transactionValue.charAt(0) == '.' || transactionValue == "")
@@ -219,15 +258,33 @@ $("#addExpenseModal").click(function(){
         }
         return false;
     }
+    */
 
     var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 
-        'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID, 'contractualPartner':contractualPartner};
+        'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID, 'destinationID':destinationID,
+        'destinationAccount':destinationAccount};
 
     $.post( "/expenses", transaction ) 
     .done(function( data ) {
-        console.log( "Data Loaded: " + data );
-        $('#ExpenseModal').modal('hide');
-        location.reload();
+        if (data == "past_error") {
+            $("#past_time_alert").modal('show');
+        } else {
+            if (data == "debts_alert") 
+            {
+                $("#expense_alert").modal('show');
+            } 
+            else
+            {
+                if (destinationAccount > 1) 
+                {
+                    $("#user_transaction_alert").modal('show');
+                } else
+                {
+                    $('#ExpenseModal').modal('hide');
+                    location.reload();
+                }
+            }
+        }
     });
 });
 

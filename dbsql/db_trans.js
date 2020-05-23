@@ -10,7 +10,8 @@ const COLS = [
 ];
 module.exports.TBNAME = TBNAME;
 module.exports.COLS = COLS;
-var event_counter = 1;
+
+
 
 module.exports.create_table = async function(db_user, db_cat, db_group) {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
@@ -59,7 +60,12 @@ module.exports.trialtrans = function () {
 
 
 // hier noch speziell für User? Payment-Groups?
-module.exports.insertTransaction = async function(value, transonce, category, isExpense, userID, repetitionValue, timeUnit, dateTimeID, contractualPartner) {
+module.exports.insertTransaction = async function(value, transonce, category, isExpense, userID, repetitionValue, timeUnit, dateTimeID, contractualPartner, destinationAccount) {
+    
+    let count_events = await query(`SELECT count(*) AS events FROM INFORMATION_SCHEMA.EVENTS;`);
+    var event_counter = parseInt(JSON.stringify(count_events[0].events)) + 1;
+    console.log(event_counter);
+    
     var sql, res;
     var destination_userID;
 
@@ -70,9 +76,13 @@ module.exports.insertTransaction = async function(value, transonce, category, is
     timeUnit = timeUnit.toString().replace("5", 'MINUTE');
     timeUnit = timeUnit.toString().replace("6", 'SECOND');
 
-    if (category == 1){ // user
+
+    if (destinationAccount == "1") {
+        destination_userID = userID;
+    }
+    if (destinationAccount == "2") {
         console.log("Partner: " + contractualPartner);
-        var nameArray = contractualPartner.split(' ');
+        var nameArray = contractualPartner.split(' '); // contractual partner als "richtige" User ID... variablenbenennung destinationUserID hier sehr unglücklich...
         try {
             let q_res = await query(`SELECT user_id FROM user_table WHERE firstname = '${nameArray[0]}' AND lastname = '${nameArray[1]}'`);
             destination_userID = q_res[0].user_id;
@@ -80,17 +90,15 @@ module.exports.insertTransaction = async function(value, transonce, category, is
         catch (err) {
             throw err;
         }
-    } else if (category == 2){ // payment-group
-        
-    } else {
-        destination_userID = userID;
     }
-
+    if (destinationAccount == "3") {
+        //destination_userID = payment-group ID!!! (für die Payment-Groups innerhalb: Mischung aus 1) und 3)...)
+    }
 
     var currenttime = new Date().toISOString().slice(0, 19).replace('T', ' ');
     // single income
     if(transonce == 1){
-        if (category > 2)
+        if (destinationAccount == "1")
         {
             let sql;
             if (isExpense){
@@ -102,13 +110,27 @@ module.exports.insertTransaction = async function(value, transonce, category, is
             return res;
         }
 
-        if (category <=2 && isExpense){ // Transaktionen zu anderen Usern / Groups können nur in Form von Expenses stattfinden
+        if (destinationAccount == "2"  && isExpense){ // Transaktionen zu anderen Usern / Groups können nur in Form von Expenses stattfinden
             let res, sql1, sql2;
-            sql1 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}) ` // + on other user account
-            + `VALUES ('${value}', '${currenttime}', '${destination_userID}', '${category}');`;
+
+            sql1 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}) ` // + on other user account
+            + `VALUES ('${value}', '${currenttime}', '${destination_userID}');`;
             res = await query(sql1);
-            sql2 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}) ` // - on this user account
-            + `VALUES ('${value * (-1)}', '${currenttime}', '${userID}', '${category}');`;
+            sql2 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}) ` // - on this user account
+            + `VALUES ('${value * (-1)}', '${currenttime}', '${userID}');`; // muss in der Cat Table noch explizit definiert werden...
+            await query(sql2);
+
+            return res; //??? is that really necessary
+        }
+
+
+        if (destinationAccount == "3"  && isExpense){ // Transaktionen zu anderen Usern / Groups können nur in Form von Expenses stattfinden
+            let res, sql1, sql2;
+            sql1 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}) ` // + on other user account
+            + `VALUES ('${value}', '${currenttime}', '${destination_userID}');`;
+            res = await query(sql1);
+            sql2 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}) ` // - on this user account
+            + `VALUES ('${value * (-1)}', '${currenttime}', '${userID}');`; // muss in der Cat Table noch explizit definiert werden...
             await query(sql2);
 
             return res; //??? is that really necessary
@@ -118,12 +140,29 @@ module.exports.insertTransaction = async function(value, transonce, category, is
     // event scheduled income (regularly)
     else if (transonce > 1){
         
-        if (category > 2){
-            let res, sql;
+        var sql_startTimeSpan = `SELECT IF(UNIX_TIMESTAMP('${dateTimeID}') < UNIX_TIMESTAMP(NOW()), true, false) AS future;`;
+        var future_boolean;
+        try {
+            let res = await query(sql_startTimeSpan);
+            future_boolean = res[0].future;
+        }
+        catch (err) {
+            console.log(err);
+        }
+        
+        console.log("future_boolean: " + future_boolean);
+        // start time must be in close future, not in past
+        if (future_boolean == 1) {
+            return {"error": "past_error"};
+        }
+
+        if (destinationAccount == "1"){
+            var sql;
             // //CONCAT(adddate(last_day(curdate()), 1), ' 00:00:00')
             if (isExpense){
                 value = value * (-1); // expenses are subtracted froom account balance
             }
+            console.log("dateTimeID: " +dateTimeID);
             await query(`SET GLOBAL event_scheduler = on;`);
             sql = `CREATE EVENT IF NOT EXISTS scheduled_event${event_counter}
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
@@ -131,49 +170,83 @@ module.exports.insertTransaction = async function(value, transonce, category, is
                     DO
                     INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]})
                     VALUES ('${value}', NOW(), '${destination_userID}', '${category}');`;
-            event_counter++;
+            console.log(sql);
             try {
-                res = await query(sql);
-                return res;
+                await query(sql);
+                return {"error": "-"};
             }
             catch(err) {
                 console.log(err);
             }
         }
 
-        if (category < 2 && isExpense){
-            let res, sql1, sql2;
+        if ((destinationAccount == "2") && isExpense){
+            let sql1, sql2;
             // //CONCAT(adddate(last_day(curdate()), 1), ' 00:00:00')
             await query(`SET GLOBAL event_scheduler = on;`);
-            sql1 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_counter}_1
+            sql1 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_counter}
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS '${dateTimeID}'
                     DO
-                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]})
-                    VALUES ('${value}', NOW(), '${destination_userID}', '${category}');`;
+                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]})
+                    VALUES ('${value}', NOW(), '${destination_userID}');`;
             try {
-                res = await query(sql1);
+                await query(sql1);
             }
             catch(err) {
                 console.log(err);
             }
 
-            sql2 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_counter}_2
+            sql2 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_counter + 1}
+                    ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
+                    STARTS '${dateTimeID}'
+                    DO
+                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]})
+                    VALUES ('${value * (-1)}', NOW(), '${userID}');`;        
+
+            try {
+                await query(sql2);
+                return {"error": "-"};
+            }
+            catch(err) {
+                console.log(err);
+            }
+        }
+        
+        
+        if ((destinationAccount == "3") && isExpense){
+            let sql1, sql2;
+            // //CONCAT(adddate(last_day(curdate()), 1), ' 00:00:00') //, ${COLS[4]}    , '${category}'
+            await query(`SET GLOBAL event_scheduler = on;`);
+            sql1 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_counter}
+                    ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
+                    STARTS '${dateTimeID}'
+                    DO
+                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]})
+                    VALUES ('${value}', NOW(), '${destination_userID}');`;
+            try {
+                await query(sql1);
+            }
+            catch(err) {
+                console.log(err);
+            }
+
+            sql2 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_counter + 1}
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS '${dateTimeID}'
                     DO
                     INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]})
                     VALUES ('${value * (-1)}', NOW(), '${userID}', '${category}');`;        
 
-            event_counter++;
             try {
-                res = await query(sql2);
-                return res;
+                await query(sql2);
+                return {"error": "-"};
             }
             catch(err) {
                 console.log(err);
             }
         }  
+
     }
 }
 
@@ -192,7 +265,6 @@ module.exports.getTransactionsByUserID = async function(user_id, isExpense) {
     if(isExpense == true)
     {
         sql_getTransactions = `SELECT * FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value < 0);`;
-        console.log("vlaue < 0!!!");
     }
     else
     {
@@ -223,6 +295,10 @@ module.exports.getPersonalBalance = async function(user_id){
     }
     catch(err) {
         console.log(err);
+    }
+
+    if (personal_balance == null) {
+        personal_balance = 0;
     }
 
     var sql_update_balance = `UPDATE user_table SET balance = ${personal_balance} WHERE user_id = ${user_id};`;

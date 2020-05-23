@@ -275,6 +275,11 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div id="destination_account_input_group" class="input-group mb-3">
+                                            <select class="custom-select form-control" id="destination_account" disabled>
+                                                <option value="0" selected>Transfer to my account (default)</option>
+                                            </select>
+                                        </div>
                                         <div class="input-group mb-3">
                                             <select class="custom-select" id="chooseCategory">
                                                 <option selected>Choose Category</option>
@@ -291,11 +296,6 @@
                                                 </button>
 
                                             </div>
-                                        </div>
-                                        <div class="input-group">
-                                            <input type="text" lang="en" class="form-control"
-                                                placeholder="contractual partner" aria-label="contractualPartner"
-                                                aria-describedby="basic-addon2" id="transactionValue">
                                         </div>
                                         <hr>
                                         <!-- Button Add new Income-->
@@ -320,7 +320,7 @@
                                     <h6 class="m-0 font-weight-bold text-secondary">Regular Incomes</h6>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table">
+                                    <table class="table" id="regular_income_overview">
                                         <thead>
                                             <tr>
                                                 <th scope="col">Income Value</th>
@@ -721,6 +721,29 @@
             </div>
         </div>
 
+    </div>
+
+    <!-- Modal Time Alert (Start Time of the event in the past) -->
+    <div class="modal" id="past_time_alert" tabindex="-1" role="dialog" style="display: none; z-index: 1999;" aria-hidden="true"
+            data-backdrop="static" data-keyboard="false">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title text-danger">ALERT</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    The registered start time is in the past. Enter a start time in the near future.
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Edit transaction</button>
+                    <!--- <button type="button" class="btn btn-danger" id="conduct_transaction_anyway_button">Conduct transaction anyway</button>
+                    -->
+                  </div>
+                </div>
+              </div>
     </div>
 
 

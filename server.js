@@ -182,8 +182,8 @@ router.get('/income', isAuthenticated, async function (req, res) {
 
 router.post('/income', isAuthenticated, async function (req, res) {
   try {
-    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 0, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID);
-    res.send(req.user[1] + " " + sqlret);
+    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 0, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID, "", 1);
+    res.send(sqlret.error);
   } catch (err) {
     console.log(err);
   }
@@ -191,11 +191,11 @@ router.post('/income', isAuthenticated, async function (req, res) {
 
 router.post('/addCategory', isAuthenticated, async function (req, res) {
   try {
-    console.log("Category in Datenbank schreiben..");
+    // Write category into database
     console.log(req.body);
     let ret = await dbsql.db_cat.addCategory(req.body.newCategory, req.body.description, req.body.category_isExpense, req.user[0]);
 
-    console.log("Category auslesen..");
+    // Read category
     let q_cat = await dbsql.db_cat.getCategoryByCatNameAndUserID(req.user[0], req.body.newCategory, req.body.category_isExpense);
     var q_categorys = JSON.parse(JSON.stringify(q_cat));
 
@@ -209,7 +209,6 @@ router.post('/addCategory', isAuthenticated, async function (req, res) {
 router.get('/groups/certaingroup', isAuthenticated, async function (req, res) {
   res.render('paymentgroup-shareboard.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'profile' });
 });
-
 
 
 router.get('/profile', isAuthenticated, async function (req, res) {
@@ -261,8 +260,8 @@ router.post('/expenses', isAuthenticated, async function (req, res) {
     var debt_free = await dbsql.db_trans.checkBalance(req.user[0], req.body.transactionValue);
 
     if (debt_free){
-      let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 1, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID, req.body.contractualPartner);
-      res.send(req.body.chooseCategory); //res.send(req.user[1] + " " + sqlret);
+      let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 1, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID, req.body.destinationID, req.body.destinationAccount);
+      res.send(sqlret.error); //res.send(req.user[1] + " " + sqlret);
 
     } else {
       res.send("debts_alert");
