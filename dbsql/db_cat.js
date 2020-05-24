@@ -33,8 +33,6 @@ module.exports.create_table = async function(db_user) {
         
             sql2 = "INSERT INTO "+ TBNAME +"("
             + COLS[1] + "," + COLS[2] + "," + COLS[3] + ") " + "VALUES"
-            + "('User', 'Another User', True),"
-            + "('Payment-Group', 'For my friends', True),"
             + "('Travel', 'Travelaround', True),"
             + "('Amusement', 'For Hedonism', True),"
             + "('Food', 'For xx', True),"
