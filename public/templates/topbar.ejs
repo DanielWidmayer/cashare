@@ -165,7 +165,7 @@
                     <%= username[0] + ' ' + username[1] %>
                 </span>
                 <% if (userpic) { %>
-                <img class="img-profile rounded-circle" src="img/profiles/<%= userpic %>">
+                <div class="profilepic profilepic-sm" style="background-image: url(img/profiles/<%= userpic %>);"></div>
                 <% } else {%>
                 <i class="fas fa-user fa-fw btn btn-primary btn-circle"></i>
                 <% } %>

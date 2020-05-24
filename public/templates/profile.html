@@ -50,7 +50,7 @@
           <div class="row mt-3 mb-4">
             <div class="ml-2">
               <% if (userpic) { %>
-              <img class="img-profile rounded-circle" width="100" height="100" src="img/profiles/<%= userpic %>">
+              <div class="profilepic profilepic-lg" style="background-image: url(img/profiles/<%= userpic %>);"></div>
               <% } else {%>
               <i class="fas fa-user fa-fw btn btn-primary btn-circle"></i>
               <% } %>
