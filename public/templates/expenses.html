@@ -342,7 +342,7 @@
 
                                             </div>
                                         </div>
-                                        <div class="input-group">
+                                        <div class="input-group autocomplete">
                                             <input type="text" lang="en" class="form-control"
                                                 placeholder="contractual partner" aria-label="contractualPartner"
                                                 aria-describedby="basic-addon2" id="contractualPartner">
@@ -366,9 +366,115 @@
 
                     <!-- Content Row -->
                     <div class="row">
+                        <div class="col-xl-6 mb-4">
 
+                            <!-- Illustrations -->
+                            <div class="card border-left-primary shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-secondary">Add new Payment Goal</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <div class="input-group mb-3">
+                                            <input type="text" lang="en" class="form-control"
+                                                placeholder="Title" aria-label="Transaction Value"
+                                                aria-describedby="basic-addon2" id="transactionValue">
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <input type="number" step="0.01" min="0" lang="en" class="form-control"
+                                                placeholder="Value" aria-label="Transaction Value"
+                                                aria-describedby="basic-addon2" id="transactionValue">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" id="basic-addon2">$</span>
+                                                </div>
+                                        </div>
+                                        
+                                        
+                                        <div class="input-group mb-3">
+                                            <select class="custom-select" id="chooseCategory">
+                                                <option selected>Choose Category</option>
+                                                <% categorys.forEach(function(cat){ %>
+                                                <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
+                                                <% }); %>
+                                            </select>
+                                            <div class="input-group-append">
+
+                                                <button type="button" class="btn btn-outline-secondary"
+                                                    data-toggle="modal" data-target="#Category">
+                                                    <i class="fas fa-plus fa-sm text-gray-50"></i>
+                                                    New Category
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <!-- Button Add new Payment Goal-->
+                                        <button class="btn btn-success btn-icon-split" id="addPaymentGoal">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-check"></i>
+                                            </span>
+                                            <span class="text">Add new Payment Goal</span>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-xl-6 mb-4">
+                            <div class="card border-left-primary shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-secondary">Regular Incomes</h6>
+                                </div>
+                                <div class="pl-2">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Income Value</th>
+                                                <th scope="col">Amount of Time</th>
+                                                <th scope="col">Start Time</th>
+                                                <th scope="col">Category</th>
+                                                <th scope="col">Edit/Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">$50</th>
+                                                <td contenteditable="true">10 Seconds</td>
+                                                <td>yyyy-mm-dd hh:mm:ss</td>
+                                                <td>Amusement</td>
+                                                <td class="pr-0">
+                                                    <button class="btn btn-circle btn-primary bg-gradient-primary"><i
+                                                            class="fas fa-edit text-white" data-toggle="modal"
+                                                            data-target="#editIncomeModal"></i></button>
+                                                    <button class="btn btn-circle btn-primary bg-gradient-primary"><i
+                                                            class="fas fa-trash text-white" data-toggle="modal"
+                                                            data-target="#deleteIncomeModal"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">$500</th>
+                                                <td>1 Month</td>
+                                                <td>yyyy-mm-dd hh:mm:ss</td>
+                                                <td>Food</td>
+                                                <td class="pr-0">
+                                                    <button class="btn btn-circle btn-primary bg-gradient-primary"><i
+                                                            class="fas fa-edit text-white" data-toggle="modal"
+                                                            data-target="#editIncomeModal"></i></button>
+                                                    <button class="btn btn-circle btn-primary bg-gradient-primary"><i
+                                                            class="fas fa-trash text-white" data-toggle="modal"
+                                                            data-target="#deleteIncomeModal"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
+
 
                 </div>
                 <!-- /.container-fluid -->
@@ -663,6 +769,7 @@
     </script>
 
     <script src="../js/expenses.js"></script>
+    <script src="../js/autocomplete.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-pie-demo.js"></script>
