@@ -248,59 +248,6 @@
                 </div>
               </div>
 
-              <!-- Color System -->
-              <div class="row">
-                <div class="col-lg-6 mb-4">
-                  <div class="card bg-primary text-white shadow">
-                    <div class="card-body">
-                      Primary
-                      <div class="text-white-50 small">#4e73df</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                  <div class="card bg-secondary text-white shadow">
-                    <div class="card-body">
-                      Secondary
-                      <div class="text-white-50 small">#858796</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                  <div class="card bg-success text-white shadow">
-                    <div class="card-body">
-                      Success
-                      <div class="text-white-50 small">#1cc88a</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                  <div class="card bg-info text-white shadow">
-                    <div class="card-body">
-                      Info
-                      <div class="text-white-50 small">#36b9cc</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                  <div class="card bg-warning text-white shadow">
-                    <div class="card-body">
-                      Warning
-                      <div class="text-white-50 small">#f6c23e</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-6 mb-4">
-                  <div class="card bg-danger text-white shadow">
-                    <div class="card-body">
-                      Danger
-                      <div class="text-white-50 small">#e74a3b</div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
             </div>
 
             <div class="col-lg-6 mb-4">
@@ -308,32 +255,47 @@
               <!-- Illustrations -->
               <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-secondary">Become Pro-Member</h6>
+                  <h6 class="m-0 font-weight-bold text-secondary">Invitations</h6>
                 </div>
-                <div class="card-body">
-                  <div class="text-center">
-                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                      src="img/undraw_personal_finance.svg" alt="">
-                  </div>
-                  <p>Unlock additional skills to unleash your full financial freedom <a target="_blank" rel="nofollow"
-                      href="#">here</a>! Finance tracking is even more easy as a pro.</p>
-                  <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a>
+                <div class="pl-2">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                          <th scope="col">Invited by</th>
+                          <th scope="col">Payment Group Title</th>
+                          <th scope="col">Accept/Decline</th>
+                      </tr>
+                  </thead>
+                    <tbody>
+                        <tr>
+                            <td scope="row">Jens the Bühler</td>
+                            <td>Project Eagle</td>
+                            <td>
+                                <button class="btn btn-circle btn-success"><i
+                                        class="fas fa-check text-white" data-toggle="modal"
+                                        data-target="#acceptInvitation"></i></button>
+                                <button class="btn btn-circle btn-danger"><i
+                                        class="fas fa-times text-white" data-toggle="modal"
+                                        data-target="#declineInvitation"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">Denis Alber</td>
+                            <td>WG im Schloss</td>
+                            <td>
+                                <button class="btn btn-circle btn-success"><i
+                                        class="fas fa-check text-white" data-toggle="modal"
+                                        data-target="#acceptInvitation"></i></button>
+                                <button class="btn btn-circle btn-danger"><i
+                                        class="fas fa-times text-white" data-toggle="modal"
+                                        data-target="#declineInvitation"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
                 </div>
               </div>
 
-              <!-- Approach -->
-              <div class="card border-left-primary shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-secondary">Development Approach</h6>
-                </div>
-                <div class="card-body">
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus corporis voluptas possimus
-                    reiciendis nemo, nam impedit libero cupiditate adipisci eveniet voluptatem corrupti sequi excepturi
-                    temporibus sed enim fugiat amet harum!</p>
-                  <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap
-                    framework, especially the utility classes.</p>
-                </div>
-              </div>
 
             </div>
           </div>
