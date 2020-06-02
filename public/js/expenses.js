@@ -38,7 +38,7 @@
               type: 'get',
               success: function(data)
               {
-  
+                  
                   BarChart_Expenses.data.datasets[0].data = [];
                   BarChart_Expenses.data.labels = [];
                   for (let index = 0; index < thisMonth; index++)
@@ -77,7 +77,25 @@
   }
   
   pollDataExpenses();
+  
+  function pollPieChartData()
+  {
+    var poll = function()
+    {
+    $.ajax({
+        url: '/jsondata-piechart-expenses',
+        dataType: 'json',
+        type: 'get'
+        
+    })
+};
+poll();
+/*setInterval(function(){
+    poll();
+}, 1000);*/
+};
 
+pollPieChartData();
 
 
 
@@ -312,7 +330,7 @@ $("#addNewCategoryModal").click(function(){
     var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
     $.post( "/addCategory", category ) 
     .done(function( data ) {
-        console.log( "Data Loaded: " + data );
+        /*console.log( "Data Loaded: " + data );*/
         $('#CategoryModal').modal('hide');
         $( ' <option value="' + data[0].category_id + '">' + data[0].category_name + '</option>' ).appendTo( "#chooseCategoryModal" );
         $( ' <option value="' + data[0].category_id + '">' + data[0].category_name + '</option>' ).appendTo( "#chooseCategory" );

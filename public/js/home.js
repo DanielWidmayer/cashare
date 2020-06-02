@@ -11,8 +11,8 @@ function pollData()
             type: 'get',
             success: function(data)
             {
-                console.log(data); //tmp
-                console.log("my_balance: " + data.balance.personal_balance);  
+                /*console.log(data); //tmp*/
+                /*console.log("my_balance: " + data.balance.personal_balance); */ 
                 if (data.balance.personal_balance == null){
                         $("#personalBalance").text("$0");
                     } else {

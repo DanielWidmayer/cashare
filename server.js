@@ -105,6 +105,10 @@ router.get('/jsondata-expenses', isAuthenticated, async function (req, res) {
   res.json(q_trans);
 });
 
+router.get('/jsondata-piechart-expenses', isAuthenticated, async function(req,res){
+  var q_trans = await dbsql.db_trans.getArraysPieChart(req.user[0]);
+});
+
 router.get('/jsondata-overview', isAuthenticated, async function (req, res) {
   var q_transBalance = await dbsql.db_trans.getPersonalBalance(req.user[0], 1);
   var q_transExpense = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 1);

@@ -5,14 +5,14 @@ import { getTransactionsByUserID } from "../../dbsql/db_trans";
 Chart.defaults.global.defaultFontColor = '#858796';
 
 // Pie Chart Example
-var ctx = document.getElementById('myPieChart');
-var myPieChart = new Chart(ctx, {
+var ctx = document.getElementById('PieChartExpenses');
+var PieChartExpenses = new Chart(ctx, {
   type: 'doughnut',
   data: {
-    labels: ['Direct', 'Referral', 'Social'],
+    labels: [],
     datasets: [
       {
-        data: [55, 30, 15],h
+        data: [],
         backgroundColor: ['#3493FF', '#36b9cc', '#6e707e'],
         hoverBackgroundColor: ['#4FAFFF', '#4FCFDF', '#7e808e'],
         hoverBorderColor: 'rgba(234, 236, 244, 1)'
@@ -37,7 +37,7 @@ var myPieChart = new Chart(ctx, {
     cutoutPercentage: 80
   }
 });
-
+/*
 function getArrays(){
 var idArray = [];
 var valueArray = [];
@@ -77,3 +77,4 @@ for(i = idcounter - 1; i > 0 ; i--){ //doppelter bubblesort für beide arrays
 
 
 }
+*/
