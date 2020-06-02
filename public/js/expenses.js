@@ -83,10 +83,28 @@
     var poll = function()
     {
     $.ajax({
-        url: '/jsondata-piechart-expenses',
+        url: '/jsondata/piechart-expenses',
         dataType: 'json',
-        type: 'get'
-        
+        type: 'get',
+        success: function(data)
+              {
+                  console.log(PieChart_Expenses.data.datasets[0]);
+                  PieChart_Expenses.data.datasets[0].data = [];
+                  PieChart_Expenses.data.labels = [];
+                  for (let index = 0; index < data.categories.length; index++)
+                  {
+                      console.log(data.totalexpenses[index]);
+                    PieChart_Expenses.data.labels.push(data.categories[index]);  
+                    PieChart_Expenses.data.datasets[0].data.push(data.totalexpenses[index]);
+                    
+                  }
+                  PieChart_Expenses.update();
+  
+                  
+              },
+              error: function(){
+                //
+            }
     })
 };
 poll();

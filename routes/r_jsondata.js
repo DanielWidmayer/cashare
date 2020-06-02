@@ -19,5 +19,8 @@ router.get('/overview', async function (req, res) {
     var q_trans = { balance : q_transBalance, expense : q_transExpense, income : q_transIncome};
     res.json(q_trans);
   });
-
+router.get('/piechart-expenses', async function(req,res){
+  var q_trans = await dbsql.db_trans.getArraysPieChart(req.user[0]);
+  res.json(q_trans);
+});
 module.exports = router;

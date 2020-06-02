@@ -427,18 +427,20 @@ var sqlgetcatval  = `select category_table.category_name,
     try {
         let q_res = await query(sqlgetcatval);
         var i= 0;
-        var jsonstring;
         var categories = new Array(q_res.length);
         var totalexpenses = new Array(q_res.length);
         for(;i < q_res.length;i++){
+            
             categories[i]=q_res[i].category_name;
-            totalexpenses[i]=q_res[i].totalexpenses;
+            totalexpenses[i]=q_res[i].total_value;
         }
+
         
-        console.log(q_res.length);
     }
     catch (err) {
         throw err;
     }
+    
+    return{'categories':categories, 'totalexpenses': totalexpenses};
 
  }

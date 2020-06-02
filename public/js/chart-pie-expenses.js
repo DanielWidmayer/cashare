@@ -1,4 +1,4 @@
-import { getTransactionsByUserID } from "../../dbsql/db_trans";
+
 
 // Set new default font family and font color to mimic Bootstrap's default styling
 (Chart.defaults.global.defaultFontFamily = 'Nunito'), '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
@@ -6,15 +6,15 @@ Chart.defaults.global.defaultFontColor = '#858796';
 
 // Pie Chart Example
 var ctx = document.getElementById('PieChartExpenses');
-var PieChartExpenses = new Chart(ctx, {
+var PieChart_Expenses = new Chart(ctx, {
   type: 'doughnut',
   data: {
     labels: [],
     datasets: [
       {
         data: [],
-        backgroundColor: ['#3493FF', '#36b9cc', '#6e707e'],
-        hoverBackgroundColor: ['#4FAFFF', '#4FCFDF', '#7e808e'],
+        backgroundColor: ['#3493FF', '#36b9cc','#FFFFFF','#56b110'],
+        hoverBackgroundColor: ['#4FAFFF', '#4FCFDF'],
         hoverBorderColor: 'rgba(234, 236, 244, 1)'
       }
     ]
@@ -32,7 +32,14 @@ var PieChartExpenses = new Chart(ctx, {
       caretPadding: 10
     },
     legend: {
-      display: false
+      display: true,
+      position: 'bottom',
+      fullWidth: true,
+      align: 'center',
+      labels: {
+        boxWidth: 20,
+        usePointStyle: true
+      }
     },
     cutoutPercentage: 80
   }
