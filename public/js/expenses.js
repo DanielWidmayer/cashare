@@ -33,7 +33,7 @@
       var poll = function()
       {
           $.ajax({
-              url: '/jsondata-expenses',
+              url: '/jsondata/expenses',
               dataType: 'json',
               type: 'get',
               success: function(data)
@@ -312,7 +312,7 @@ $("#addNewCategory").click(function(){
     var category_isExpense = 1; // true
 
     var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
-    $.post( "/addCategory", category ) 
+    $.post( "/category/add", category ) 
     .done(function( data ) {
         console.log( "Data Loaded: " + data );
         
@@ -328,7 +328,7 @@ $("#addNewCategoryModal").click(function(){
     var category_isExpense = 1; // true
 
     var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
-    $.post( "/addCategory", category ) 
+    $.post( "/category/add", category ) 
     .done(function( data ) {
         /*console.log( "Data Loaded: " + data );*/
         $('#CategoryModal').modal('hide');
@@ -344,7 +344,7 @@ $("#filterByCategoryExpensesButton").click(function(){
     var category_isExpense = 1; // true
 
     //var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
-    //$.post( "/addCategory", category ) 
+    //$.post( "/category/add", category ) 
     //.done(function( data ) {
     //    console.log( "Data Loaded: " + data );
     //});

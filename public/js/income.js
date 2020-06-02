@@ -30,7 +30,7 @@ var months = ["January", "February", "March", "April", "May", "June", "July", "A
 function pollDataIncome() {
     var poll = function(){
         $.ajax({
-            url: '/jsondata-income',
+            url: '/jsondata/income',
             dataType: 'json',
             type: 'get',
             success: function(data){
@@ -242,7 +242,7 @@ $("#addNewCategory").click(function(){
     var category_isExpense = 0; // false
 
     var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
-    $.post( "/addCategory", category ) 
+    $.post( "/category/add", category ) 
     .done(function( data ) {
         console.log( "Data Loaded: " + data );
         
@@ -258,7 +258,7 @@ $("#addNewCategoryModal").click(function(){
     var category_isExpense = 0; // false
 
     var category = {'newCategory': newCategory, 'description': description, 'category_isExpense': category_isExpense};
-    $.post( "/addCategory", category ) 
+    $.post( "/category/add", category ) 
     .done(function( data ) {
         console.log( "Data Loaded: " + data );
         $('#CategoryModal').modal('hide');
