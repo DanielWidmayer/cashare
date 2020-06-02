@@ -13,7 +13,6 @@ const app = express();
 const flash = require('connect-flash');
 const flash_mw = require('./modules/flashes');
 const dbsql = require('./dbsql');
-const upload = require('./modules/pic_upload');
 
 
 if (dotenv.error) throw dotenv.error;
@@ -90,210 +89,50 @@ const redirectHome = function (req, res, next) {
   if(req.user) return res.redirect('/home');
   else return next();
 }
+
 // -------------------------------------------------------------------------------------------------------------------------------- /Middleware
 
 // -------------------------------------------------------------------------------------------------------------------------------- Routes
 app.use('/', router);
 
 // Base Page
-router.get('/', function (req, res) {
+app.get('/', function (req, res) {            // could be handled in own file as well
   return res.render('home.html');
 });
 
-// Home - Cashboard
-router.get('/home', isAuthenticated, async function (req, res) {
-  return res.render('index.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
-});
+app.use('/home', isAuthenticated, require('./routes/r_home'));
 
-router.get('/jsondata-income', isAuthenticated, async function (req, res) {
-  var q_trans = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 0);
-  res.json(q_trans);
-});
+app.use('/login', redirectHome, require('./routes/r_login'));
 
-router.get('/jsondata-expenses', isAuthenticated, async function (req, res) {
-  var q_trans = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 1);
-  res.json(q_trans);
-});
+app.use('/jsondata', isAuthenticated, require('./routes/r_jsondata'));
 
-router.get('/jsondata-overview', isAuthenticated, async function (req, res) {
-  var q_transBalance = await dbsql.db_trans.getPersonalBalance(req.user[0], 1);
-  var q_transExpense = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 1);
-  var q_transIncome = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 0);
+app.use('/logout', isAuthenticated, require('./routes/r_logout'));
 
-  var q_trans = { balance : q_transBalance, expense : q_transExpense, income : q_transIncome};
-  res.json(q_trans);
-});
+app.use('/register', redirectHome, require('./routes/r_register'));
 
+app.use('/groups', isAuthenticated, require('./routes/r_groups'));
 
-router.get('/blank', isAuthenticated, async function (req, res) {
+app.use('/income', isAuthenticated, require('./routes/r_income'));
+
+app.use('/category', isAuthenticated, require('./routes/r_category'));
+
+app.use('/expenses', isAuthenticated, require('./routes/r_expense'));
+
+app.use('/settings', isAuthenticated, require('./routes/r_settings'));
+
+app.use('/tables', isAuthenticated, require('./routes/r_tables'));
+
+app.use('/profile', isAuthenticated, require('./routes/r_profile'));
+
+app.use('/chat', isAuthenticated, require('./routes/r_chat'));
+
+app.use('/alerts', isAuthenticated, require('./routes/r_alerts'));
+
+app.get('/blank', isAuthenticated, function (req, res) {        // could be handled in own file as well
   return res.render('blank.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
 });
 
-// Login
-router.get('/login', redirectHome, function (req, res) {
-  if (req.user) return res.redirect('/home');
-  return res.render('login.html');
-});
-
-router.post('/login', redirectHome, passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), function (req, res) {
-  return res.redirect('/home');
-});
-
-
-router.get('/logout', isAuthenticated, (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.log(err);
-      return res.redirect('/home');
-    }
-    res.clearCookie(process.env.SESS_NAME);
-    req.logout();
-    return res.redirect('/login');
-  });
-});
-
-router.get('/register', redirectHome, function (req, res) {
-
-  return res.render('register.html', { errmsg: 0 });
-});
-
-router.post('/register', redirectHome, async function (req, res) {
-  //res.status(200).json({'success': "User data reached!"});
-  console.log('The following data has been received:');
-  console.log(req.body);
-  try {
-    user_res = await dbsql.db_user.registerUser(req.body.firstName, req.body.lastName, req.body.eMail, req.body.password);
-    return res.redirect('/login');
-  } catch (err) {
-    console.log(err);
-    return res.render('register.html', { errmsg: err });
-  }
-});
-
-
-router.get('/tables', isAuthenticated, async function (req, res) {
-  return res.render('logs-tables.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'logs' });
-});
-
-
-router.get('/groups', isAuthenticated, async function (req, res) {
-  return res.render('payment-groups.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'groups' });
-});
-
-// Income
-router.get('/income', isAuthenticated, async function (req, res) {
-  try {
-    var q_cat = await dbsql.db_cat.getCategorysByUserID(req.user[0], 0);
-    var q_trans = await dbsql.db_trans.getTransactionsByUserID(req.user[0], 0);
-  } catch (err) {
-    console.log(err);
-  }
-  return res.render('income.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'income', categorys: q_cat, transactions: q_trans });
-});
-
-router.post('/income', isAuthenticated, async function (req, res) {
-  try {
-    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 0, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID, "", 1);
-    res.send(sqlret.error);
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-router.post('/addCategory', isAuthenticated, async function (req, res) {
-  try {
-    // Write category into database
-    console.log(req.body);
-    let ret = await dbsql.db_cat.addCategory(req.body.newCategory, req.body.description, req.body.category_isExpense, req.user[0]);
-
-    // Read category
-    let q_cat = await dbsql.db_cat.getCategoryByCatNameAndUserID(req.user[0], req.body.newCategory, req.body.category_isExpense);
-    var q_categorys = JSON.parse(JSON.stringify(q_cat));
-
-    console.log(q_categorys);
-    res.send(q_categorys);
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-router.get('/groups/certaingroup', isAuthenticated, async function (req, res) {
-  res.render('paymentgroup-shareboard.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'profile' });
-});
-
-
-router.get('/profile', isAuthenticated, async function (req, res) {
-  return res.render('profile.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userpic: req.user[6], pagename: 'profile' });
-});
-
-router.post('/profile', isAuthenticated, upload.single('pic'), async function (req, res) {
-  try {
-    if (req.file) {
-      await dbsql.db_user.changeProfileImg(req.user[0]);
-    }
-    else {
-      await dbsql.db_user.changeNameAndMail(req.user[0], req.body.firstname, req.body.lastname, req.body.mail);
-      if (req.body.old_password && req.body.new_password) {
-        await dbsql.db_user.changePassword(req.user[0], req.body.old_password, req.body.new_password);
-      }
-    }
-  } catch (err) {
-    console.log(err);
-  }
-  let temp = await dbsql.db_user.getDataByID(req.user[0]);
-  req.login(temp, (err) => {
-    if (err) return next(err);
-    return res.redirect(req.originalUrl);
-  })
-});
-
-
-router.get('/chat', isAuthenticated, async function (req, res) {
-  return res.render('chat.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'chat' });
-});
-
-
-
-router.get('/expenses', isAuthenticated, async function (req, res) {
-  try {
-    var q_cat = await dbsql.db_cat.getCategorysByUserID(req.user[0], 1);
-    var q_trans = await dbsql.db_trans.getTransactionsByUserID(req.user[0], 1);
-  } catch (err) {
-    console.log(err);
-  }
-  return res.render('expenses.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'expenses', categorys: q_cat, transactions: q_trans });
-});
-
-router.post('/expenses', isAuthenticated, async function (req, res) {
-  try {
-    //console.log(req.body);
-
-    var debt_free = await dbsql.db_trans.checkBalance(req.user[0], req.body.transactionValue);
-
-    if (debt_free){
-      let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 1, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID, req.body.destinationID, req.body.destinationAccount);
-      res.send(sqlret.error); //res.send(req.user[1] + " " + sqlret);
-
-    } else {
-      res.send("debts_alert");
-    }
-  } catch (err) {
-    console.log(err);
-    res.send("error" + err);
-  }
-});
-
-router.get('/settings', isAuthenticated, async function (req, res) {
-  return res.render('blank.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'blank' });
-});
-
-router.get('/alerts', isAuthenticated, async function (req, res) {
-  return res.render('alerts.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'alerts' });
-});
-
-router.get('/try', isAuthenticated, function (req, res) {
-  throw new Error('this was a test, and you failed!');
-});
+// -------------------------------------------------------------------------------------------------------------------------------- /Routes
 
 // app.use(function (req, res, next) {
 //   res.setHeader('Cache-Control', 'no-cache, must-revalidate, no-store');

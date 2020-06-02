@@ -6,7 +6,7 @@ function pollData()
     var poll = function()
     {
       $.ajax({
-            url: '/jsondata-overview',
+            url: '/jsondata/overview',
             dataType: 'json',
             type: 'get',
             success: function(data)
