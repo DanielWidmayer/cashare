@@ -10,7 +10,6 @@
   <meta name="author" content="">
 
   <title>CA$HARE - Login</title>
-  <base href="http://localhost:3000/login">
 
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
@@ -59,9 +58,9 @@
                         <label class="custom-control-label" for="customCheck">Remember Me</label>
                       </div>
                     </div>
-                    <% if (errflash && errflash.length) { %>
+                    <% if (flashes['error']) { %>
                     <div class="alert alert-danger" role="alert">
-                      <%= errflash %>
+                      <%= flashes['error'] %>
                     </div>
                     <% } %>
                     <button type="submit" class="btn btn-primary btn-user btn-block">
