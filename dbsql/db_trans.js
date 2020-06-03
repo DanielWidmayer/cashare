@@ -5,7 +5,8 @@ const COLS = [
     'transaction_value',
     'transaction_date',
     'user_id',
-    'category_id',   
+    'category_id',
+    'source_id', // die richtige ID, die der User bei einer Transaktion auch angibt!!!!!!
     'comment'
 ];
 module.exports.TBNAME = TBNAME;
@@ -31,9 +32,12 @@ module.exports.create_table = async function(db_user, db_cat, db_group) {
             + COLS[3] + " int not null,"
             +`Foreign Key (${COLS[3]}) REFERENCES ${db_user.TBNAME}(${db_user.COLS[0]}) `
             +"ON DELETE CASCADE,"
-            + COLS[4] + " int ,"
+            + COLS[4] + " int,"
             +`Foreign Key (${COLS[4]}) REFERENCES ${db_cat.TBNAME}(${db_cat.COLS[0]}) `
-            +"ON DELETE SET NULL"
+            +"ON DELETE SET NULL,"
+            +`Foreign Key (${COLS[5]}) REFERENCES ${db_user.TBNAME}(${db_user.COLS[0]}) `
+            +"ON DELETE CASCADE,"
+            + COLS[5] + " int"
             //+ COLS[5] + " int,"
             //+`Foreign Key (${COLS[5]}) REFERENCES ${db_cat.TBNAME}(${db_cat.COLS[0]}),`
             //+ COLS[6] + " int,"
@@ -104,8 +108,8 @@ module.exports.insertTransaction = async function(value, transonce, category, is
             if (isExpense){
                 value = value * (-1); // expenses are subtracted froom account balance
             }
-            sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}) `
-            + `VALUES ('${value}', '${currenttime}', '${destination_userID}', '${category}');`;
+            sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}) `
+            + `VALUES ('${value}', '${currenttime}', '${destination_userID}', '${category}', null);`;
             res = await query(sql);
             return res;
         }
@@ -113,11 +117,11 @@ module.exports.insertTransaction = async function(value, transonce, category, is
         if (destinationAccount == "2"  && isExpense){ // Transaktionen zu anderen Usern / Groups können nur in Form von Expenses stattfinden
             let res, sql1, sql2;
 
-            sql1 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}) ` // + on other user account
-            + `VALUES ('${value}', '${currenttime}', '${destination_userID}');`;
+            sql1 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}) ` // + on other user account
+            + `VALUES ('${value}', '${currenttime}', '${destination_userID}', null, '${userID}');`;
             res = await query(sql1);
-            sql2 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}) ` // - on this user account
-            + `VALUES ('${value * (-1)}', '${currenttime}', '${userID}');`; // muss in der Cat Table noch explizit definiert werden...
+            sql2 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}) ` // - on this user account
+            + `VALUES ('${value * (-1)}', '${currenttime}', '${userID}', null, null);`;
             await query(sql2);
 
             return res; //??? is that really necessary
@@ -127,10 +131,10 @@ module.exports.insertTransaction = async function(value, transonce, category, is
         if (destinationAccount == "3"  && isExpense){ // Transaktionen zu anderen Usern / Groups können nur in Form von Expenses stattfinden
             let res, sql1, sql2;
             sql1 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}) ` // + on other user account
-            + `VALUES ('${value}', '${currenttime}', '${destination_userID}');`;
+            + `VALUES ('${value}', '${currenttime}', '${destination_userID}', null, '${userID}');`;
             res = await query(sql1);
             sql2 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}) ` // - on this user account
-            + `VALUES ('${value * (-1)}', '${currenttime}', '${userID}');`; // muss in der Cat Table noch explizit definiert werden...
+            + `VALUES ('${value * (-1)}', '${currenttime}', '${userID}', null, null);`;
             await query(sql2);
 
             return res; //??? is that really necessary
@@ -168,8 +172,8 @@ module.exports.insertTransaction = async function(value, transonce, category, is
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS '${dateTimeID}'
                     DO
-                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]})
-                    VALUES ('${value}', NOW(), '${destination_userID}', '${category}');`;
+                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]})
+                    VALUES ('${value}', NOW(), '${destination_userID}', '${category}', null);`;
             console.log(sql);
             try {
                 await query(sql);
@@ -188,8 +192,8 @@ module.exports.insertTransaction = async function(value, transonce, category, is
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS '${dateTimeID}'
                     DO
-                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]})
-                    VALUES ('${value}', NOW(), '${destination_userID}');`;
+                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]})
+                    VALUES ('${value}', NOW(), '${destination_userID}', null, '${userID}');`;
             try {
                 await query(sql1);
             }
@@ -201,8 +205,8 @@ module.exports.insertTransaction = async function(value, transonce, category, is
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS '${dateTimeID}'
                     DO
-                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]})
-                    VALUES ('${value * (-1)}', NOW(), '${userID}');`;        
+                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]})
+                    VALUES ('${value * (-1)}', NOW(), '${userID}', null, null);`;        
 
             try {
                 await query(sql2);
@@ -222,8 +226,8 @@ module.exports.insertTransaction = async function(value, transonce, category, is
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS '${dateTimeID}'
                     DO
-                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]})
-                    VALUES ('${value}', NOW(), '${destination_userID}');`;
+                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]})
+                    VALUES ('${value}', NOW(), '${destination_userID}', null, '${userID});`;
             try {
                 await query(sql1);
             }
@@ -235,8 +239,8 @@ module.exports.insertTransaction = async function(value, transonce, category, is
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS '${dateTimeID}'
                     DO
-                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]})
-                    VALUES ('${value * (-1)}', NOW(), '${userID}', '${category}');`;        
+                    INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]})
+                    VALUES ('${value * (-1)}', NOW(), '${userID}', '${category}', null, null);`;        
 
             try {
                 await query(sql2);
@@ -250,15 +254,38 @@ module.exports.insertTransaction = async function(value, transonce, category, is
     }
 }
 
-module.exports.setRegularTransaction = async function(user_id, value) {
+// ??????
+module.exports.getRegularTransactions = async function(user_id, isExpense) {
+    var overview_json = {};
 
+    var res = await query(`SELECT EVENT_DEFINITION AS do_event FROM INFORMATION_SCHEMA.EVENTS`);
+    let count_events = await query(`SELECT count(*) AS events FROM INFORMATION_SCHEMA.EVENTS;`);
+    var numberOfEvents = parseInt(JSON.stringify(count_events[0].events));
+
+    let interval_value = await query(`SELECT INTERVAL_VALUE FROM INFORMATION_SCHEMA.EVENTS;`);
+    let interval_field = await query(`SELECT INTERVAL_VALUE FROM INFORMATION_SCHEMA.EVENTS;`);
+    let start_time = await query(`SELECT INTERVAL_VALUE FROM INFORMATION_SCHEMA.EVENTS;`);
+
+    //console.log(JSON.stringify(res));
+    for (let i = 0; i < numberOfEvents; i++) {
+        var mySubString = (JSON.stringify(res[i]).substring(143)).substring(0, JSON.stringify(res[i]).substring(143).length -3).replace(/ /g, "").trim().split('\'').join('');
+        mySubString = mySubString.split(','); // makes an Array
+        console.log(mySubString); // wichtig!
+        res[i].do_event = mySubString;
+
+        overview_json
+    }
+    console.log(res);
+
+    // Abfrage isExpense...
 };
 
+/*
 module.exports.deleteRegularTransaction = async function(user_id, value) {
 // stop now
 // delete 
 };
-
+*/
 
 module.exports.getTransactionsByUserID = async function(user_id, isExpense) {
     var sql_getTransactions;

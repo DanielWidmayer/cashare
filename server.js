@@ -105,7 +105,7 @@ router.get('/jsondata-expenses', isAuthenticated, async function (req, res) {
   res.json(q_trans);
 });
 
-router.get('/jsondata-overview', isAuthenticated, async function (req, res) {
+router.get('/jsondata-overview', isAuthenticated, async function (req, res) { // start page
   var q_transBalance = await dbsql.db_trans.getPersonalBalance(req.user[0], 1);
   var q_transExpense = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 1);
   var q_transIncome = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 0);
@@ -113,6 +113,11 @@ router.get('/jsondata-overview', isAuthenticated, async function (req, res) {
   var q_trans = { balance : q_transBalance, expense : q_transExpense, income : q_transIncome};
   res.json(q_trans);
 });
+
+router.get('/regular_income_overview', isAuthenticated, async function (req, res) {
+  var regular_income_overview = await dbsql.db_trans.getRegularTransactions(req.user[0], false) // false: isExpense = false!
+  res.json(regular_income_overview);
+})
 
 
 router.get('/blank', isAuthenticated, async function (req, res) {
@@ -168,6 +173,7 @@ router.get('/tables', isAuthenticated, async function (req, res) {
 router.get('/groups', isAuthenticated, async function (req, res) {
   return res.render('payment-groups.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'groups' });
 });
+
 
 // Income
 router.get('/income', isAuthenticated, async function (req, res) {
