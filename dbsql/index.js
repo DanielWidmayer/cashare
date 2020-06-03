@@ -78,10 +78,10 @@ module.exports.connect = async function () {
         await db_trans.create_table(db_user, db_cat, db_group);
 
         // create TABLE alert_table
-        await db_alerts.create_table(db_user);
+        await db_alerts.create_table(db_user, db_group);
 
         // add FOREIGN KEYS to user_table
-        await db_user.link(db_msg, db_alerts);
+        //await db_user.link(db_msg, db_alerts);
     });
 }
 

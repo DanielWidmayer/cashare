@@ -36,3 +36,14 @@ module.exports.create_table = async function() {
         }
     }
 }
+
+
+module.exports.getGroup = async function(groupid) {
+    var sql = `SELECT * FROM ${TBNAME} WHERE ${COLS[0]}='${groupid}';`;
+    try {   
+        let row = await query(sql);
+        return row[0];
+    } catch (err) {
+        throw (err);
+    }
+}

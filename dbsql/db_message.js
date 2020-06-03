@@ -6,7 +6,8 @@ const COLS = [
     'text',
     'user_send_id',
     'user_receive_id',
-    'group_id'
+    'group_id',
+    'status'
 ];
 
 module.exports.TBNAME = TBNAME;
@@ -35,7 +36,8 @@ module.exports.create_table = async function(db_user, db_group) {
             +"ON DELETE CASCADE,"
             + COLS[5] + " int,"
             +`Foreign Key (${COLS[5]}) REFERENCES ${db_group.TBNAME}(${db_group.COLS[0]}) `
-            +"ON DELETE CASCADE"
+            +"ON DELETE CASCADE,"
+            + COLS[6] + " int not null default(0)"
             +");"
         try {
             await query(sql);

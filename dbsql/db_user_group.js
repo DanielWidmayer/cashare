@@ -3,7 +3,7 @@ const TBNAME = 'user_group_table';
 const COLS = [
     'user_id',
     'group_id',
-    'user_role'
+    'user_role'                 // 0 = invited , 1 = basic (only read) , 2 = advanced (edit payment goals e.g.) , 3 = admin
 ];
 
 module.exports.TBNAME = TBNAME;
@@ -38,5 +38,38 @@ module.exports.create_table = async function(db_user, db_group) {
             console.log("cannot create table...");
             console.log(err);
         }
+    }
+}
+
+
+module.exports.getUserGroups = async function(userid) {
+    var sql = `SELECT ${COLS[1]}, ${COLS[2]} FROM ${TBNAME} WHERE ${COLS[0]}='${userid}';`;
+    try {
+        let row = await query(sql);
+        return row;
+    } catch (err) {
+        throw (err);
+    }
+}
+
+
+module.exports.getMembers = async function(groupid) {
+    var sql = `SELECT ${COLS[0]}, ${COLS[2]} FROM ${TBNAME} WHERE ${COLS[1]}='${groupid}';`;
+    try {
+        let row = await query(sql);
+        return row;
+    } catch (err) {
+        throw (err);
+    }
+}
+
+module.exports.getUserRole = async function(userid, groupid) {
+    var sql = `SELECT ${COLS[2]} FROM ${TBNAME} WHERE ${COLS[0]}='${userid}' AND ${COLS[1]}='${groupid}';`;
+    try {
+        let row = await query(sql);
+        row = row[0][COLS[2]];
+        return row;
+    } catch (err) {
+        throw (err);
     }
 }

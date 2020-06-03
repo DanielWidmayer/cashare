@@ -10,6 +10,7 @@
     <meta name="Daniel Widmayer" content="Financing">
 
     <title>Cashare Expenses</title>
+    <base href="http://localhost:3000/public"/>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -21,7 +22,7 @@
     <link href="css/cashare.min.css" rel="stylesheet">
 
     <!-- calendar styling -->
-    <link rel="stylesheet" href="../css/calendar.css">
+    <link rel="stylesheet" href="css/calendar.css">
 </head>
 
 <body id="page-top">
@@ -509,7 +510,7 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
+    <!-- Logout Modal
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -527,7 +528,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- New Expense Modal -->
     <div class="modal fade" id="ExpenseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -806,8 +807,8 @@
         var categorys = <%- JSON.stringify(categorys) %>;
     </script>
 
-    <script src="../js/expenses.js"></script>
-    <script src="../js/autocomplete.js"></script>
+    <script src="js/expenses.js"></script>
+    <script src="js/autocomplete.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="js/chart-pie-expenses.js"></script>
@@ -818,7 +819,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.25.3/moment-with-locales.min.js"></script>
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
-    <script src="../js/calendar.js"></script>
+    <script src="js/calendar.js"></script>
 
 </body>
 

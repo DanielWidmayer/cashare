@@ -10,7 +10,8 @@
   <meta name="author" content="">
 
   <title>CA$HARE - Payment Groups</title>
-  
+  <base href="http://localhost:3000/public"/>
+
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link
@@ -47,16 +48,131 @@
               data-target="#newGroupModal"><i class="fas fa-plus fa-sm text-white-50"></i> New Payment Group</a>
           </div>
 
-          <!-- Content Row -->
-          <div class="row">
-
-            <!-- Content Column -->
-            <div class="col-lg-6 mb-4">
-
-              <!-- Payment Group -->
+          <% for(parts = 0; parts < groups.length; parts++) { %>
+            <% if (parts % 2 == 0) { %>
+              <div class="row">
+            <% } %>
+              <div class="col-lg-6 mb-4">
+                <!-- Payment Group -->
               <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <a class="m-0 font-weight-bold text-secondary" href="/groups/certaingroup">Project Eagle</a>
+                  <a class="m-0 font-weight-bold text-secondary" href="./groups/group<%=groups[parts]['group_data']['id']%>"><%=groups[parts]['group_data']['name']%></a>
+                  <% if(groups[parts]['role'] <= 0) { %>
+                  <div class="dropdown no-arrow hidden">
+                  <% } else { %>
+                  <div class="dropdown no-arrow">
+                  <% } %>
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                      aria-labelledby="dropdownMenuLink">
+                      <div class="dropdown-header">Options:</div>
+                      <% if(groups[parts]['role'] < 3) { %>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editGroupModal" hidden>
+                      <% } else { %>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editGroupModal">
+                      <% } %>
+                        <i class="fas fa-edit text-gray-600 mr-1"></i>Edit</a>
+                      <% if(groups[parts]['role'] < 2) { %>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#inviteModal" hidden>
+                      <% } else { %>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#inviteModal">
+                      <% } %>
+                        <i class="fas fa-plus text-gray-600 mr-1"></i>Invite</a>
+                      <div class="dropdown-divider"></div>
+                      <% if(groups[parts]['role'] < 3) { %>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteGroupModal" hidden>
+                      <% } else { %>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteGroupModal">
+                      <% } %>
+                        <i class="fas fa-trash text-gray-600 mr-1"></i>Delete</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+
+
+                  <!-- Content Row -->
+                  <div class="row">
+
+                    <!-- Member Count Card -->
+                    <div class="col-xl-4 col-md-6 mb-4">
+                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#usersModal">
+                        <div class="card-body">
+                          <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Member count
+                              </div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800"><%=groups[parts]['group_members'].length%></div>
+                            </div>
+                            <div class="col-auto">
+                              <i class="fas fa-user fa-2x text-gray-600"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+
+                    <!-- Pending Requests Card -->
+                    <div class="col-xl-4 col-md-6 mb-4">
+                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#feedModal">
+                        <div class="card-body">
+                          <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Activity Feed
+                              </div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800"><%=groups[parts]['group_alerts'].length%></div>
+                            </div>
+                            <div class="col-auto">
+                              <i class="fas fa-comments fa-2x text-gray-600"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+
+                    <!-- Account Balance Card -->
+                    <div class="col-xl-4 col-md-6 mb-4">
+                      <a class="card border-primary shadow btn-link py-2" href="./groups/certaingroup">
+                        <div class="card-body">
+                          <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Account Balance
+                              </div>
+                              <div class="h5 mb-0 font-weight-bold text-success"><%=groups[parts]['group_data']['balance']%></div>
+                            </div>
+                            <div class="col-auto">
+                              <i class="fas fa-dollar-sign fa-2x text-gray-600"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+
+
+                    <!-- end of row -->
+                  </div>
+
+
+
+                </div>
+              </div>
+              <!-- end of Payment Group -->
+              </div>
+            <% if (parts % 2 == 1) { %>
+            </div>
+            <% } %>
+          <% } %>
+
+          <!-- <div class="row">
+
+            <div class="col-lg-6 mb-4">
+
+              <div class="card border-left-primary shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <a class="m-0 font-weight-bold text-secondary" href="./groups/certaingroup">Project Eagle</a>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
@@ -78,10 +194,8 @@
                 <div class="card-body">
 
 
-                  <!-- Content Row -->
                   <div class="row">
 
-                    <!-- Member Count Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
                       <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#usersModal">
                         <div class="card-body">
@@ -99,7 +213,6 @@
                       </a>
                     </div>
 
-                    <!-- Pending Requests Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
                       <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#feedModal">
                         <div class="card-body">
@@ -117,9 +230,8 @@
                       </a>
                     </div>
 
-                    <!-- Account Balance Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" href="paymentgroup-shareboard.html">
+                      <a class="card border-primary shadow btn-link py-2" href="./groups/certaingroup">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -136,24 +248,20 @@
                     </div>
 
 
-                    <!-- end of row -->
                   </div>
 
 
 
                 </div>
               </div>
-              <!-- end of Payment Group -->
 
             </div>
 
-            <!-- Content Column -->
             <div class="col-lg-6 mb-4">
 
-              <!-- Payment Group -->
               <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <a class="m-0 font-weight-bold text-secondary" href="paymentgroup-shareboard.html">City WG</a>
+                  <a class="m-0 font-weight-bold text-secondary" href=",/groups/certaingroup">City WG</a>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
@@ -175,10 +283,8 @@
                 <div class="card-body">
 
 
-                  <!-- Content Row -->
                   <div class="row">
 
-                    <!-- Member Count Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
                       <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#usersModal">
                         <div class="card-body">
@@ -196,7 +302,6 @@
                       </a>
                     </div>
 
-                    <!-- Pending Requests Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
                       <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#feedModal">
                         <div class="card-body">
@@ -214,9 +319,8 @@
                       </a>
                     </div>
 
-                    <!-- Account Balance Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" href="paymentgroup-shareboard.html">
+                      <a class="card border-primary shadow btn-link py-2" href="./groups/certaingroup">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -233,19 +337,16 @@
                     </div>
 
 
-                    <!-- end of row -->
                   </div>
 
 
 
                 </div>
               </div>
-              <!-- end of Payment Group -->
 
             </div>
 
-          </div>
-          <!-- end of Content row -->
+          </div> -->
 
 
           <!-- Content Row -->
@@ -257,7 +358,7 @@
               <!-- Payment Group -->
               <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <a class="m-0 font-weight-bold text-secondary" href="paymentgroup-shareboard.html">Charity
+                  <a class="m-0 font-weight-bold text-secondary" href="./groups/certaingroup">Charity
                     Donations</a>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
@@ -321,7 +422,7 @@
 
                     <!-- Account Balance Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" href="paymentgroup-shareboard.html">
+                      <a class="card border-primary shadow btn-link py-2" href="./groups/certaingroup">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -355,7 +456,7 @@
               <!-- Payment Group -->
               <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <a class="m-0 font-weight-bold text-secondary" href="paymentgroup-shareboard.html">Vacation
+                  <a class="m-0 font-weight-bold text-secondary" href="./groups/certaingroup">Vacation
                     Italyyy</a>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
@@ -419,7 +520,7 @@
 
                     <!-- Account Balance Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" href="paymentgroup-shareboard.html">
+                      <a class="card border-primary shadow btn-link py-2" href="./groups/certaingroup">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -476,25 +577,6 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- New Payment Group Modal -->
   <div class="modal fade" id="newGroupModal" tabindex="-1" role="dialog" aria-labelledby="newGroupModal"
@@ -646,7 +728,7 @@
   </div>
 
   <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModal" aria-hidden="true">
+  <!-- <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -658,11 +740,11 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <a class="btn btn-primary" href="./logout">Logout</a>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Delete Group Modal -->
   <div id="deleteGroupModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
