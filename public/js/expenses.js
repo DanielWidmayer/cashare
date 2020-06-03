@@ -33,12 +33,12 @@
       var poll = function()
       {
           $.ajax({
-              url: '/jsondata-expenses',
+              url: '/jsondata/expenses',
               dataType: 'json',
               type: 'get',
               success: function(data)
               {
-  
+                  
                   BarChart_Expenses.data.datasets[0].data = [];
                   BarChart_Expenses.data.labels = [];
                   for (let index = 0; index < thisMonth; index++)
@@ -77,7 +77,43 @@
   }
   
   pollDataExpenses();
+  
+  function pollPieChartData()
+  {
+    var poll = function()
+    {
+    $.ajax({
+        url: '/jsondata/piechart-expenses',
+        dataType: 'json',
+        type: 'get',
+        success: function(data)
+              {
+                  console.log(PieChart_Expenses.data.datasets[0]);
+                  PieChart_Expenses.data.datasets[0].data = [];
+                  PieChart_Expenses.data.labels = [];
+                  for (let index = 0; index < data.categories.length; index++)
+                  {
+                      console.log(data.totalexpenses[index]);
+                    PieChart_Expenses.data.labels.push(data.categories[index]);  
+                    PieChart_Expenses.data.datasets[0].data.push(data.totalexpenses[index]);
+                    
+                  }
+                  PieChart_Expenses.update();
+  
+                  
+              },
+              error: function(){
+                //
+            }
+    })
+};
+poll();
+/*setInterval(function(){
+    poll();
+}, 1000);*/
+};
 
+pollPieChartData();
 
 
 
@@ -294,7 +330,7 @@ $("#addNewCategory").click(function(){
     var category_isExpense = 1; // true
 
     var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
-    $.post( "/addCategory", category ) 
+    $.post( "/category/add", category ) 
     .done(function( data ) {
         console.log( "Data Loaded: " + data );
         
@@ -310,9 +346,9 @@ $("#addNewCategoryModal").click(function(){
     var category_isExpense = 1; // true
 
     var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
-    $.post( "/addCategory", category ) 
+    $.post( "/category/add", category ) 
     .done(function( data ) {
-        console.log( "Data Loaded: " + data );
+        /*console.log( "Data Loaded: " + data );*/
         $('#CategoryModal').modal('hide');
         $( ' <option value="' + data[0].category_id + '">' + data[0].category_name + '</option>' ).appendTo( "#chooseCategoryModal" );
         $( ' <option value="' + data[0].category_id + '">' + data[0].category_name + '</option>' ).appendTo( "#chooseCategory" );
@@ -326,7 +362,7 @@ $("#filterByCategoryExpensesButton").click(function(){
     var category_isExpense = 1; // true
 
     //var category = {'newCategory': newCategory, 'description': description, 'category_isExpense':category_isExpense};
-    //$.post( "/addCategory", category ) 
+    //$.post( "/category/add", category ) 
     //.done(function( data ) {
     //    console.log( "Data Loaded: " + data );
     //});

@@ -440,3 +440,34 @@ module.exports.getTransactionValueByUserID = async function(user_id, isExpense) 
         return {"average_income":average_val, "annual_income":annual_val, "lastMonth_income":lastMonth_val, "income_eachMonth":values_barchart};
     }
  }
+ 
+
+ module.exports.getArraysPieChart = async function(user_id){
+var sqlgetcatval  = `select category_table.category_name, 
+                    ABS(SUM(transaction_value)) as total_value
+                    From transaction_table
+                    Inner Join category_table on transaction_table.category_id = category_table.category_id
+                    where (${COLS[3]} = '${user_id}' AND  transaction_value < 0)
+                    group by transaction_table.category_id
+                    order by total_value desc;`
+
+    try {
+        let q_res = await query(sqlgetcatval);
+        var i= 0;
+        var categories = new Array(q_res.length);
+        var totalexpenses = new Array(q_res.length);
+        for(;i < q_res.length;i++){
+            
+            categories[i]=q_res[i].category_name;
+            totalexpenses[i]=q_res[i].total_value;
+        }
+
+        
+    }
+    catch (err) {
+        throw err;
+    }
+    
+    return{'categories':categories, 'totalexpenses': totalexpenses};
+
+ }

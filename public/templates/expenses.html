@@ -10,7 +10,6 @@
     <meta name="Daniel Widmayer" content="Financing">
 
     <title>Cashare Expenses</title>
-    <base href="http://localhost:3000/expenses">
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -204,19 +203,9 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
+                                        <canvas id="PieChartExpenses"></canvas>
                                     </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Food
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-cyan"></i> Trips
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-secondary"></i> Social
-                                        </span>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -821,7 +810,7 @@
     <script src="../js/autocomplete.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="js/chart-pie-expenses.js"></script>
     <script src="js/chart-bar-expenses.js" type="text/javascript"></script>
     <script src="js/charts.js" type="text/javascript"></script>
 
