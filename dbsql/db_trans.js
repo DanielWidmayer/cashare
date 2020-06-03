@@ -444,3 +444,34 @@ var sqlgetcatval  = `select category_table.category_name,
     return{'categories':categories, 'totalexpenses': totalexpenses};
 
  }
+
+ module.exports.getArraysPieChartIncomes = async function(user_id){
+    var sqlgetcatval  = `select category_table.category_name, 
+                        ABS(SUM(transaction_value)) as total_value
+                        From transaction_table
+                        Inner Join category_table on transaction_table.category_id = category_table.category_id
+                        where (${COLS[3]} = '${user_id}' AND  transaction_value > 0)
+                        group by transaction_table.category_id
+                        order by total_value desc;`
+    
+        try {
+            let q_res = await query(sqlgetcatval);
+            var i= 0;
+            var categories = new Array(q_res.length);
+            var totalincomes = new Array(q_res.length);
+            for(;i < q_res.length;i++){
+                
+                categories[i]=q_res[i].category_name;
+                totalincomes[i]=q_res[i].total_value;
+            }
+           
+            
+        }
+        catch (err) {
+            throw err;
+        }
+        
+        return{'categories':categories, 'totalincomes': totalincomes};
+    
+     }
+    
