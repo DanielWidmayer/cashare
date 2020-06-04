@@ -11260,8 +11260,14 @@ img {
   width: 100%;
 }
 
+.inboxpic{
+  height: 60px !important;
+  width: 60px !important;
+  font-size: 40px !important;
+}
+
 .inbox_chat {
-  height: 75vh;
+  height: 67vh;
   overflow-y: scroll;
   overflow-x: hidden;
   border-right: 1px solid #858796;
@@ -11273,6 +11279,7 @@ img {
 
 .incoming_msg {
   padding-left: 26px;
+  margin: 15px 0 15px;
 }
 
 .incoming_msg_img {
@@ -11301,7 +11308,7 @@ img {
   color: #6e707e;
   display: block;
   font-size: 12px;
-  margin: 8px 0 0;
+  margin: 0;
 }
 
 .received_withd_msg {
@@ -11326,7 +11333,7 @@ img {
 
 .outgoing_msg {
   overflow: hidden;
-  margin: 26px 0 26px;
+  margin: 15px 0 15px;
 }
 
 .sent_msg {
@@ -11543,6 +11550,11 @@ img {
 .profilepic-sm{
   width: 40px;
   height: 40px;
+}
+
+.profilepic-md{
+  width: 60px;
+  height: 60px;
 }
 
 .autocomplete-items {
