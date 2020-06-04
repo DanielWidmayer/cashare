@@ -64,12 +64,13 @@ async function get_group_alerts (userid, groupid) {
   try {
     var alert_list = await dbsql.db_alerts.getGroupAlerts(groupid);
     for (a_ctr = 0; a_ctr < alert_list.length; a_ctr++) {
-      if(alert_list[a_ctr][alert_cols[1]] == userid && alert_list[a_ctr][alert_cols[5]] == 0) {
+      if(alert_list[a_ctr][alert_cols[1]] == userid && alert_list[a_ctr][alert_cols[6]] == 0) {
         //console.log(alert_list[a_ctr]);
         let obj = {
           'id': alert_list[a_ctr][alert_cols[0]],
-          'time':alert_list[a_ctr][alert_cols[3]],
-          'message': alert_list[a_ctr][alert_cols[4]]
+          'time': alert_list[a_ctr][alert_cols[3]],
+          'class': alert_list[a_ctr][alert_cols[4]],
+          'message': alert_list[a_ctr][alert_cols[5]]
         };
       alerts.push(obj); 
       }

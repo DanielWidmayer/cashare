@@ -5,6 +5,7 @@ const COLS = [
     'user_id',
     'group_id',
     'timestamp',
+    'alert_class',          // 'primary', 'success', 'warning', 'danger'
     'alert_msg',
     'status'
 ];
@@ -31,7 +32,8 @@ module.exports.create_table = async function(db_user, db_group) {
             + `FOREIGN KEY (${COLS[2]}) REFERENCES ${db_group.TBNAME}(${db_group.COLS[0]}) ON DELETE CASCADE,`
             + COLS[3] + " datetime not null,"
             + COLS[4] + " varchar(500) not null,"
-            + COLS[5] + " int not null default(0)"
+            + COLS[5] + " varchar(255) not null,"
+            + COLS[6] + " int not null default(0)"
             +");"
         try {
             await query(sql);
@@ -46,7 +48,7 @@ module.exports.create_table = async function(db_user, db_group) {
 
 
 module.exports.getGroupAlerts = async function(groupid) {
-    var sql = `SELECT ${COLS[0]}, ${COLS[1]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]} FROM ${TBNAME} WHERE ${COLS[2]}='${groupid}';`;
+    var sql = `SELECT ${COLS[0]}, ${COLS[1]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}, ${COLS[6]} FROM ${TBNAME} WHERE ${COLS[2]}='${groupid}';`;
     try {
         let row = query(sql);
         return row;
