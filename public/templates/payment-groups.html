@@ -10,16 +10,15 @@
   <meta name="author" content="">
 
   <title>CA$HARE - Payment Groups</title>
-  <base href="http://localhost:3000/public"/>
 
   <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link
     href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
     rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="css/cashare.min.css" rel="stylesheet">
+  <link href="/static/css/cashare.min.css" rel="stylesheet">
 
 </head>
 
@@ -56,7 +55,7 @@
                 <!-- Payment Group -->
               <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <a class="m-0 font-weight-bold text-secondary" href="./groups/group<%=groups[parts]['group_data']['id']%>"><%=groups[parts]['group_data']['name']%></a>
+                  <a class="m-0 font-weight-bold text-secondary" href="/groups/group<%=groups[parts]['group_data']['id']%>"><%=groups[parts]['group_data']['name']%></a>
                   <% if(groups[parts]['role'] < 2) { %>
                   <div class="dropdown no-arrow" hidden>
                   <% } else { %>
@@ -135,7 +134,7 @@
 
                     <!-- Account Balance Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" href="./groups/certaingroup">
+                      <a class="card border-primary shadow btn-link py-2" href="/groups/certaingroup">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -206,7 +205,7 @@
         </div>
         <div class="modal-body">
           <div class="text-center">
-            <form method="POST" action="./groups">
+            <form method="POST" action="/groups">
               <div class="input-group mb-3">
                 <input type="text" name="groupname" class="form-control" placeholder="Payment Group Title" aria-label="Payment Group Title"
                   aria-describedby="basic-addon2">
@@ -239,7 +238,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form method="POST" action="./groups/group<%=groups[el]['group_data']['id']%>/invite">
+          <form method="POST" action="/groups/group<%=groups[el]['group_data']['id']%>/invite">
             <div class="text-center">
               <div class="input-group mb-3">
                 <input type="text" name="usermail" class="form-control" placeholder="Search for User" aria-label="Payment Group Title"
@@ -289,7 +288,7 @@
           <% for (m_ctr = 0; m_ctr < groups[el]['group_members'].length; m_ctr++) { %>
             <div class="flex-row">
               <% if (groups[el]['group_members'][m_ctr]['picture']) { %>
-                <div class="profilepic profilepic-sm" style="background-image: url(img/profiles/<%=groups[el]['group_members'][m_ctr]['picture']%>)"></div>
+                <div class="profilepic profilepic-sm" style="background-image: url(/static/img/profiles/<%=groups[el]['group_members'][m_ctr]['picture']%>);"></div>
               <% } else {%>
                 <i class="fas fa-user fa-fw btn btn-primary btn-circle"></i>
               <% } %>
@@ -343,7 +342,7 @@
             </p>
             <hr>
             <!-- Delete confirm-->
-            <a href="./groups/group<%=groups[el]['group_data']['id']%>/rem" class="btn btn-danger btn-icon-split">
+            <a href="/groups/group<%=groups[el]['group_data']['id']%>/rem" class="btn btn-danger btn-icon-split">
               <span class="icon text-white-50">
                 <i class="fas fa-trash"></i>
               </span>
@@ -371,7 +370,7 @@
           <% for (m_ctr = 0; m_ctr < groups[el]['group_members'].length; m_ctr++) { %>
             <div class="flex-row">
               <% if (groups[el]['group_members'][m_ctr]['picture']) { %>
-                <div class="profilepic profilepic-sm" style="background-image: url(img/profiles/<%=groups[el]['group_members'][m_ctr]['picture']%>)"></div>
+                <div class="profilepic profilepic-sm" style="background-image: url(/static/img/profiles/<%=groups[el]['group_members'][m_ctr]['picture']%>)"></div>
               <% } else {%>
                 <i class="fas fa-user fa-fw btn btn-primary btn-circle"></i>
               <% } %>
@@ -436,14 +435,14 @@
   <% } %>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="js/cashare.min.js"></script>
+  <script src="/static/js/cashare.min.js"></script>
 
 </body>
 

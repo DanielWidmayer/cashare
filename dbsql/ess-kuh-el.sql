@@ -26,3 +26,5 @@ insert into alert_table (user_id, group_id, timestamp, alert_class, alert_msg, s
 insert into alert_table (user_id, group_id, timestamp, alert_class, alert_msg, status) VALUES (2, 1, '2020-05-03 10:28:23', 'warning', 'this is a warning', 0);
 insert into alert_table (user_id, group_id, timestamp, alert_class, alert_msg, status) VALUES (2, 3, '2020-05-03 10:28:23', 'warning', 'this is a warning', 1);
 drop table alert_table;
+
+insert into user_group_table (user_id, group_id, user_role) VALUES (4, 1, 2);

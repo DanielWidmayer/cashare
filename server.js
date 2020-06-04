@@ -51,7 +51,7 @@ dbsql.createConnection(process.env.DB_HOST, process.env.DB_USER, process.env.DB_
 dbsql.connect();
 
 // static folder where static files like html are stored
-app.use(express.static('public', { index: false }));
+app.use('/static/', express.static('public', { index: false }));
 // view folder for the template engine
 app.set('views', __dirname + '/public/templates');
 // set the template engine to be ejs
@@ -156,6 +156,6 @@ app.use(function (err, req, res, next) {
 // -------------------------------------------------------------------------------------------------------------------------------- /Error handler
 
 // -------------------------------------------------------------------------------------------------------------------------------- listen
-app.listen(process.env.PORT, function () {
+app.listen(process.env.PORT, process.env.LOC_HOST, function () {
   console.log(`Example app listening on port ${process.env.PORT}`);
 });

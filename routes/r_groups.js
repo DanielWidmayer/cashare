@@ -34,7 +34,7 @@ router.get('/', async function (req, res) {
     } catch (err) {
       console.log(err);
     }
-    console.log(group_list);
+    //console.log(group_list);
     return res.render('payment-groups.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], 
       userbalance: req.user[5], userpic: req.user[6], groups: group_list, pagename: 'groups' });
 });
