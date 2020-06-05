@@ -16,6 +16,10 @@ select * from alert_table;
 
 delete from group_table where group_id > 3;
 
+insert into message_table (timetag, text, user_send_id, user_receive_id, status) VALUES ('2020-05-06 12:23:23', 'testmessage', 1, 2, 0);
+insert into message_table (timetag, text, user_send_id, user_receive_id, status) VALUES ('2020-05-06 12:23:45', 'textmessage', 2, 1, 0);
+insert into message_table (timetag, text, user_send_id, user_receive_id, group_id, status) VALUES ('2020-05-06 12:23:23', 'groupmessage', 2, 1, 1, 0);
+
 Update user_group_table SET user_role = 3 WHERE user_id = 1 AND group_id = 1;
 
 insert into alert_table (user_id, group_id, timestamp, alert_class, alert_msg, status) VALUES (1, 1, '2020-05-03 10:23:23', 'success','this is a success', 0);

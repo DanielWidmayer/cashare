@@ -48,8 +48,8 @@
           </div>
           <div class="row mt-3 mb-4">
             <div class="ml-2">
-              <% if (userpic) { %>
-              <div class="profilepic profilepic-lg" style="background-image: url(/static/img/profiles/<%= userpic %>);"></div>
+              <% if (user[6]) { %>
+              <div class="profilepic profilepic-lg" style="background-image: url(/static/img/profiles/<%= user[6] %>);"></div>
               <% } else {%>
               <i class="fas fa-user fa-fw btn btn-primary btn-circle"></i>
               <% } %>
@@ -75,7 +75,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Vorname</span>
                   </div>
-                  <input id="firstname" type="text" class="form-control" aria-label="Vorname" value="<%= username[0] %>"
+                  <input id="firstname" type="text" class="form-control" aria-label="Vorname" value="<%= user[1] %>"
                     name="firstname" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
@@ -87,7 +87,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Nachname</span>
                   </div>
-                  <input id="lastname" type="text" class="form-control" aria-label="Default" value="<%= username[1] %>"
+                  <input id="lastname" type="text" class="form-control" aria-label="Default" value="<%= user[2] %>"
                     name="lastname" aria-describedby="inputGroup-sizing-default">
                 </div>
               </div>
@@ -105,7 +105,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-default">Mail-Adresse</span>
                   </div>
-                  <input id="mail" type="email" class="form-control" value="<%= usermail %>" name="mail"
+                  <input id="mail" type="email" class="form-control" value="<%= user[3] %>" name="mail"
                     aria-label="Recipient's username" aria-describedby="basic-addon2">
                 </div>
               </div>
@@ -242,6 +242,7 @@
 
   <!-- Custom scripts for all pages-->
   <script src="/static/js/cashare.min.js"></script>
+  <script src="/static/js/bars.js"></script>
 
   <!-- Custom script for profile -->
   <script src="/static/js/account_helper.js"></script>

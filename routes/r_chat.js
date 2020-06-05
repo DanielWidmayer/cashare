@@ -4,7 +4,7 @@ const dbsql = require('../dbsql');
 router.get('/', async function (req, res) {
     //let ret = await dbsql.db_msg.getMessagesByUserID(req.user[0]);
     //console.log(ret);
-    return res.render('chat.html', { userid: req.user[0], username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'chat' });
+    return res.render('chat.html', { pagename: 'chat' });
 });
 
 router.post('/sendMessage', async function (req, res) {

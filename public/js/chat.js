@@ -269,20 +269,20 @@ function loadMessagesIntoMessageBody(data) {
     return latestMessage;
 }
 
-function beautifyTime(datetime) {
-    if ((datetime[6] = '')) return '';
-    var d = new Date(); // build datetime format: yyyy-mm-dd hh:mm:ss
-    datetime = datetime.split(/(T|\.|:|-| )/);
-    // beautify time
-    if (d.getFullYear() - parseInt(datetime[0]) || d.getMonth() + 1 - parseInt(datetime[2]) || d.getDate() - parseInt(datetime[4]) > 1) {
-        return datetime[4] + '.' + datetime[2] + '.' + datetime[0];
-    } else if (d.getDate() - parseInt(datetime[4]) == 1) {
-        return 'yesterday';
-    } else if (d.getHours() - parseInt(datetime[6])) {
-        return datetime[6] + ':' + datetime[8] + ' | Today';
-    } else if (!(d.getMinutes() - parseInt(datetime[8]))) {
-        return 'now';
-    } else {
-        return d.getMinutes() - parseInt(datetime[8]) + ' min';
-    }
-}
+// function beautifyTime(datetime) {
+//     if ((datetime[6] = '')) return '';
+//     var d = new Date(); // build datetime format: yyyy-mm-dd hh:mm:ss
+//     datetime = datetime.split(/(T|\.|:|-| )/);
+//     // beautify time
+//     if (d.getFullYear() - parseInt(datetime[0]) || d.getMonth() + 1 - parseInt(datetime[2]) || d.getDate() - parseInt(datetime[4]) > 1) {
+//         return datetime[4] + '.' + datetime[2] + '.' + datetime[0];
+//     } else if (d.getDate() - parseInt(datetime[4]) == 1) {
+//         return 'yesterday';
+//     } else if (d.getHours() - parseInt(datetime[6])) {
+//         return datetime[6] + ':' + datetime[8] + ' | Today';
+//     } else if (!(d.getMinutes() - parseInt(datetime[8]))) {
+//         return 'now';
+//     } else {
+//         return d.getMinutes() - parseInt(datetime[8]) + ' min';
+//     }
+// }

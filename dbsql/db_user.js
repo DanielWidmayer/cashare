@@ -212,19 +212,12 @@ module.exports.registerUser = async function(firstname, lastname, mail, password
 }
 
 module.exports.getMailData = async function() {
-    var sql, res;
-    sql = `SELECT * FROM ${TBNAME};`
+    var sql = `SELECT ${COLS[3]} FROM ${TBNAME};`
     try {
         let q_res = await query(sql);
         let res = [];
         for (i in q_res) {
-            for (const key in q_res[i]) {
-            switch(key) {
-                case COLS[3]: res.push(q_res[i][key]);
-                break;
-                default: break;
-            }
-            }
+            res.push(q_res[i][COLS[3]]);
         }
         return res;
     }
