@@ -4790,7 +4790,8 @@ a.badge:hover, a.badge:focus {
 
 .btn .badge {
   position: relative;
-  top: -1px;
+  top: -12px;
+  left: -17px;
 }
 
 .badge-pill {
@@ -11535,10 +11536,17 @@ img {
   margin-top: 1em;
 }
 
+.userDisplay {
+  display: flex;
+  align-items: center;
+}
+
 .profilepic{
   background-position:50% 50%;
   background-size:cover;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
 }
 
 .profilepic-lg{

@@ -55,7 +55,7 @@ $(document).ready(function () {
                         .split('img/profiles/')[1]
                         .split(');">')[0];
                     // configure the div with profilepic as background
-                    currentChatUserProfilePic = '<div class="profilepic profilepic-md" style="background-image: url(img/profiles/' + currentChatUserProfilePic + ');"></div>';
+                    currentChatUserProfilePic = '<div class="profilepic profilepic-md" style="background-image: url(/static/img/profiles/' + currentChatUserProfilePic + ');"></div>';
                 }
 
                 $('#user' + messageData['user_receive_id']).replaceWith(
@@ -107,7 +107,7 @@ $(document).ready(function () {
                         if (data[6] == null) {
                             profilepic = '<i class="btn btn-primary btn-circle fa fa-user inboxpic mr-5"></i>';
                         } else {
-                            profilepic = '<div class="profilepic profilepic-md" style="background-image: url(img/profiles/' + data[6] + ');"></div>';
+                            profilepic = '<div class="profilepic profilepic-md" style="background-image: url(/static/img/profiles/' + data[6] + ');"></div>';
                         }
                         var ariaTimeValue = inboxData[key]['timetag'].split('.')[0].replace(/[-T:\.Z]/g, '');
                         var insertNewInbox =
@@ -196,7 +196,7 @@ $(document).ready(function () {
                 if (data[6] == null) {
                     profilepic = '<i class="btn btn-primary btn-circle fa fa-user inboxpic mr-5"></i>';
                 } else {
-                    profilepic = '<div class="profilepic profilepic-md" style="background-image: url(img/profiles/' + data[6] + ');"></div>';
+                    profilepic = '<div class="profilepic profilepic-md" style="background-image: url(/static/img/profiles/' + data[6] + ');"></div>';
                 }
                 var newInbox =
                     '<button id="user' +
@@ -248,7 +248,7 @@ function loadMessagesIntoMessageBody(data) {
                 if (data[6] == null) {
                     profilepic = '<i class="btn btn-primary btn-circle fa fa-user fa-fw"></i>';
                 } else {
-                    profilepic = '<div class="profilepic profilepic-sm" style="background-image: url(img/profiles/' + data[6] + ');"></div>';
+                    profilepic = '<div class="profilepic profilepic-sm" style="background-image: url(/static/img/profiles/' + data[6] + ');"></div>';
                 }
                 //message was send by other user
                 $('#messageBody').append(
