@@ -100,7 +100,108 @@ app.get('/', function (req, res) {            // could be handled in own file as
   return res.render('home.html');
 });
 
+<<<<<<< HEAD
 app.use('/home', isAuthenticated, require('./routes/r_home'));
+=======
+// Home - Cashboard
+router.get('/home', isAuthenticated, async function (req, res) {
+  return res.render('index.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
+});
+
+router.get('/jsondata-income', isAuthenticated, async function (req, res) {
+  var q_trans = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 0);
+  res.json(q_trans);
+});
+
+router.get('/jsondata-expenses', isAuthenticated, async function (req, res) {
+  var q_trans = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 1);
+  res.json(q_trans);
+});
+
+router.get('/jsondata-overview', isAuthenticated, async function (req, res) {
+  var q_transBalance = await dbsql.db_trans.getPersonalBalance(req.user[0], 1);
+  var q_transExpense = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 1);
+  var q_transIncome = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 0);
+
+  var q_trans = { balance : q_transBalance, expense : q_transExpense, income : q_transIncome};
+  res.json(q_trans);
+});
+
+
+router.get('/blank', isAuthenticated, async function (req, res) {
+  return res.render('blank.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'index' });
+});
+
+// Login
+router.get('/login', function (req, res) {
+  if (req.user) return res.redirect('/home');
+  return res.render('login.html', { errflash: req.flash('error') });
+});
+
+router.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), function (req, res) {
+  return res.redirect('/home');
+});
+
+
+router.get('/logout', isAuthenticated, (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+      return res.redirect('/home');
+    }
+    res.clearCookie(process.env.SESS_NAME);
+    req.logout();
+    return res.redirect('/login');
+  });
+});
+
+router.get('/register', function (req, res) {
+  return res.render('register.html', { errmsg: 0 });
+});
+
+router.post('/register', async function (req, res) {
+  //res.status(200).json({'success': "User data reached!"});
+  console.log('The following data has been received:');
+  console.log(req.body);
+  try {
+    user_res = await dbsql.db_user.registerUser(req.body.firstName, req.body.lastName, req.body.eMail, req.body.password);
+    return res.redirect('/login');
+  } catch (err) {
+    console.log(err);
+    return res.render('register.html', { errmsg: err });
+  }
+});
+
+
+router.get('/tables', isAuthenticated, async function (req, res) {
+  return res.render('logs-tables.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'logs' });
+});
+
+
+router.get('/groups', isAuthenticated, async function (req, res) {
+  return res.render('payment-groups.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'groups' });
+});
+
+// Income
+router.get('/income', isAuthenticated, async function (req, res) {
+  try {
+    var q_cat = await dbsql.db_cat.getCategorysByUserID(req.user[0], 0);
+    var q_trans = await dbsql.db_trans.getTransactionsByUserID(req.user[0], 0);
+  } catch (err) {
+    console.log(err);
+  }
+  return res.render('income.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'income', categorys: q_cat, transactions: q_trans });
+});
+
+router.post('/income', isAuthenticated, async function (req, res) {
+  try {
+    let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 0, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID, "", 1);
+    res.send(sqlret.error);
+  } catch (err) {
+    console.log(err);
+  }
+});
+>>>>>>> parent of a299da7... overview regulares
 
 app.use('/login', redirectHome, require('./routes/r_login'));
 

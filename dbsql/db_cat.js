@@ -24,7 +24,7 @@ module.exports.create_table = async function() {
         console.log(err);
         console.log("No table category_table.."); 
         console.log("create table..");
-        sql_create_cat_table = "create table " + TBNAME + " ("
+        sql = "create table " + TBNAME + " ("
             + COLS[0] + " int not null auto_increment primary key," 
             + COLS[1] + " varchar(255) not null,"
             + COLS[2] + " varchar(500), "
@@ -34,27 +34,23 @@ module.exports.create_table = async function() {
             + "ON DELETE CASCADE"
             +");"
         
-            /*sql_insert_default_cats = "INSERT INTO "+ TBNAME +"("
+            sql2 = "INSERT INTO "+ TBNAME +"("
             + COLS[1] + "," + COLS[2] + "," + COLS[3] + ") " + "VALUES"
             + "('Travel', 'Travelaround', True),"
             + "('Amusement', 'For Hedonism', True),"
             + "('Food', 'For xx', True),"
-            + "('Health', 'The my body', True),";*/
-
-            /*sql_insert_default_cats = "INSERT INTO "+ TBNAME +"("
-            + COLS[0] + "," + COLS[1] + "," + COLS[2] + "," + COLS[3] + ") " + "VALUES"
-            + "(90001, 'user', 'user_income', False),"
-            + "(90002, 'payment_group', 'payment_group_income', False)";*/
+            + "('Health', 'The my body', True);"
             
         try {
-            await query(sql_create_cat_table);
+            await query(sql);
             console.log("table group_table created!");
+            
         }
         catch(err) {
             console.log("cannot create table...");
             console.log(err);
         }
-        //await query(sql_insert_default_cats);
+        await query(sql2);
     }
 }
 
