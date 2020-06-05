@@ -28,56 +28,50 @@ var thisMonth = new Date().getMonth()+1;
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Dezember"];
 
 function pollDataIncome() {
-    var poll = function(){
-        $.ajax({
-            url: '/jsondata/income',
-            dataType: 'json',
-            type: 'get',
-            success: function(data){
+    $.ajax({
+        url: '/jsondata/income',
+        dataType: 'json',
+        type: 'get',
+        success: function(data){
 
-                BarChart_Incomes.data.datasets[0].data = [];
-                BarChart_Incomes.data.labels = [];
-                for (let index = 0; index < thisMonth; index++)
-                {
-                    BarChart_Incomes.data.labels.push(months[index]);
-                    BarChart_Incomes.data.datasets[0].data.push(data.income_eachMonth[thisMonth-index-1]);
-                    BarChart_Incomes.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(data.income_eachMonth[thisMonth-index-1], BarChart_Incomes.options.scales.yAxes[0].ticks.max);
-                }
-                BarChart_Incomes.update();
-
-                if (data.average_income == null){
-                    $("#average_income").text("$0");
-                } else {
-                    $('#average_income').text("$" + data.average_income);
-                }
-                if(data.annual_income == null){
-                    $('#annual_income').text("$0");
-                } else {
-                    $('#annual_income').text("$" + data.annual_income);
-                }
-                if (data.lastMonth_income == null){
-                    $('#last_month_income').text("$0");
-                } else {
-                    $('#last_month_income').text("$" + data.lastMonth_income);
-                }
-
-                //$("#last_month_income").text("Hellooo");
-            },
-            error: function(){
-                alert(data.toString);
+            BarChart_Incomes.data.datasets[0].data = [];
+            BarChart_Incomes.data.labels = [];
+            for (let index = 0; index < thisMonth; index++)
+            {
+                BarChart_Incomes.data.labels.push(months[index]);
+                BarChart_Incomes.data.datasets[0].data.push(data.income_eachMonth[thisMonth-index-1]);
+                BarChart_Incomes.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(data.income_eachMonth[thisMonth-index-1], BarChart_Incomes.options.scales.yAxes[0].ticks.max);
             }
-        })
-    };
-    poll();
-    setInterval(function(){
-        poll();
-    }, 1000);
+            BarChart_Incomes.update();
+
+            if (data.average_income == null){
+                $("#average_income").text("$0");
+            } else {
+                $('#average_income').text("$" + data.average_income);
+            }
+            if(data.annual_income == null){
+                $('#annual_income').text("$0");
+            } else {
+                $('#annual_income').text("$" + data.annual_income);
+            }
+            if (data.lastMonth_income == null){
+                $('#last_month_income').text("$0");
+            } else {
+                $('#last_month_income').text("$" + data.lastMonth_income);
+            }
+
+            //$("#last_month_income").text("Hellooo");
+        },
+        error: function(){
+            alert(data.toString);
+        }
+    });
 }
 
 pollDataIncome();
 
 function pollPieChartData()
-  {
+{
     var poll = function()
     {
     $.ajax({
@@ -172,6 +166,32 @@ $("#transactionValueModal").on("keypress keyup blur", function (event) {
     if (!regex.test(event.key) && event.keyCode != 46) {
         event.preventDefault();
         return false;
+    }
+});
+
+
+$("#filterByCategoryIncomeButton").click(function(){
+    var categoryToFilter = $("#categoryToFilter").val();
+    if (categoryToFilter == "Choose Category") {
+        $("#categoryToFilter").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+        $('#categoryToFilter').css('border-color', 'red');
+        $("#filterByCategoryIncomeButton").disabled = true;
+    } else {
+        $("#filterByCategoryIncomeButton").disabled = false;
+        var categoryToFilterJSON = {'categoryToFilter':categoryToFilter};
+
+        $.post( "/jsondata/filterByCategoryIncome", categoryToFilterJSON).done(function(data) {
+            BarChart_Incomes.data.datasets[0].data = [];
+            BarChart_Incomes.data.labels = [];
+            for (let index = 0; index < thisMonth; index++)
+            {
+                BarChart_Incomes.data.labels.push(months[index]);
+                BarChart_Incomes.data.datasets[0].data.push(data.filtered_income_eachMonth[thisMonth-index-1]);
+                BarChart_Incomes.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(data.filtered_income_eachMonth[thisMonth-index-1], BarChart_Incomes.options.scales.yAxes[0].ticks.max);
+            }
+            BarChart_Incomes.update();
+            $("#filter_data").modal('hide');
+        });
     }
 });
 

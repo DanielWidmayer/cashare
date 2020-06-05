@@ -395,7 +395,7 @@ module.exports.getTransactionValueByUserID = async function(user_id, isExpense) 
         throw err;
     }
 
-    var number_of_months = new Date().getMonth()+1
+    var number_of_months = new Date().getMonth()+1;
 
     // calc annual value
     var sql_get_annual_val = `SELECT sum(${COLS[1]}) AS annual FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value ${comparison_sign} 0 AND transaction_date > (SELECT DATE_SUB(CURDATE(), INTERVAL ${number_of_months} MONTH)));`;
@@ -444,6 +444,38 @@ module.exports.getTransactionValueByUserID = async function(user_id, isExpense) 
         return {"average_income":average_val, "annual_income":annual_val, "lastMonth_income":lastMonth_val, "income_eachMonth":values_barchart};
     }
  }
+
+
+module.exports.getArrayForFilteredBarchart = async function(user_id, categoryToFilter, isExpense) {
+    var comparison_sign;
+    if(isExpense == true)
+    {
+        comparison_sign = "<";
+    } else {
+        comparison_sign = ">";
+    }
+
+    var number_of_months = new Date().getMonth()+1;
+
+    var filtered_values_barchart = [];
+    for (var i = 0; i < number_of_months; i++){
+        var sql_eachMonth = `SELECT ABS(sum(${COLS[1]})) AS filtered_values_month FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND category_id = ${categoryToFilter} AND transaction_value ${comparison_sign} 0 AND MONTH(transaction_date) = MONTH(CURDATE())-${i});`;
+        try {
+            let q_res = await query(sql_eachMonth);
+
+            if (q_res[0].filtered_values_month == null){
+                filtered_values_barchart[i] = 0;
+            } else {
+                filtered_values_barchart[i] = q_res[0].filtered_values_month;
+            }
+        }
+        catch(err) {
+            throw err;
+        }
+    }
+    
+    return {"filtered_income_eachMonth":filtered_values_barchart};
+}
  
 
  module.exports.getArraysPieChart = async function(user_id){
