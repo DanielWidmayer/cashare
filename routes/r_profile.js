@@ -3,7 +3,7 @@ const upload = require('../modules/pic_upload');
 const dbsql = require('../dbsql');
 
 router.get('/', function (req, res) {
-    return res.render('profile.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userpic: req.user[6], pagename: 'profile' });
+    return res.render('profile.html', { pagename: 'profile' });
   });
   
   router.post('/', upload.single('pic'), async function (req, res) {

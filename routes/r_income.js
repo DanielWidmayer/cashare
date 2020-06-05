@@ -9,8 +9,8 @@ router.get('/', async function (req, res) {
     } catch (err) {
       console.log(err);
     }
-    return res.render('income.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'income', categorys: q_cat, transactions: q_trans });
-});
+    return res.render('income.html', { pagename: 'income', categorys: q_cat, transactions: q_trans });
+  });
   
 router.post('/', async function (req, res) {
   try {

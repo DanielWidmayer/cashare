@@ -35,8 +35,7 @@ router.get('/', async function (req, res) {
       console.log(err);
     }
     //console.log(group_list);
-    return res.render('payment-groups.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], 
-      userbalance: req.user[5], userpic: req.user[6], groups: group_list, pagename: 'groups' });
+    return res.render('payment-groups.html', { groups: group_list, pagename: 'groups' });
 });
 
 
@@ -56,7 +55,7 @@ router.post('/', async function(req,res) {
 
 router.get('/:group', function (req, res) {
   console.log(req.params.group);
-    return res.render('paymentgroup-shareboard.html', { username: [req.user[1], req.user[2]], usermail: req.user[3], userphone: req.user[4], userbalance: req.user[5], userpic: req.user[6], pagename: 'groups' });
+    return res.render('paymentgroup-shareboard.html', { pagename: 'groups' });
 });
 
 router.post('/:group', async function (req, res) {
