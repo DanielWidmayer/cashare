@@ -111,16 +111,6 @@ poll();
 pollPieChartData();
 
 
-var tableRef = document.getElementById('regular_income_overview').getElementsByTagName('tbody')[0];
-// Insert a row in the table at the last row
-var newRow = tableRef.insertRow();
-// Insert a cell in the row at index 0
-var newCell  = newRow.insertCell(0);
-// Append a text node to the cell
-var newText  = document.createTextNode('New row');
-newCell.appendChild(newText);
-
-
 $('#repetition_value').on("keypress keyup blur",function (event) {
        var regex = new RegExp("[0-9]+(\.[0-9][0-9]?)?");
        if (!regex.test(event.key) && event.keyCode != 46) {
