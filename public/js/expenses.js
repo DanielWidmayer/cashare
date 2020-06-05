@@ -127,28 +127,32 @@ $("#transactionValueModal").on("keypress keyup blur", function (event) {
 
 
 $('#destination_account').change(function() {
-    $('#destination_id').prop('disabled', false);
+    $('#destination_id').prop('hidden', false);
+    $('#destination_id').next().removeClass('input-group').addClass('input-group-append');
 
-    $('#chooseCategory').prop('disabled', true);
-    $('#new_category_button').prop('disabled', true);
-    if ($(this).val() == "0" || $(this).val() == "1") {
-      $('#destination_id').prop('disabled', true);
+    $('#chooseCategory').prop('hidden', true);
+    $('#new_category_button').prop('hidden', true);
+    if ($(this).val() == "0") {
+      $('#destination_id').prop('hidden', true);
+      $('#destination_id').next().removeClass('input-group-append').addClass('input-group');
 
-      $('#chooseCategory').prop('disabled', false);
-      $('#new_category_button').prop('disabled', false);
+      $('#chooseCategory').prop('hidden', false);
+      $('#new_category_button').prop('hidden', false);
     }
 });
 
 $('#destination_account_modal').change(function() {
-    $('#destination_id_modal').prop('disabled', false);
+    $('#destination_id_modal').prop('hidden', false);
+    $('#destination_id_modal').next().removeClass('input-group').addClass('input-group-append');
 
-    $('#chooseCategory_modal').prop('disabled', true);
-    $('#new_category_button_modal').prop('disabled', true);
-    if ($(this).val() == "0" || $(this).val() == "1") {
-      $('#destination_id_modal').prop('disabled', true);
+    $('#chooseCategory_modal').prop('hidden', true);
+    $('#new_category_button_modal').prop('hidden', true);
+    if ($(this).val() == "0") {
+      $('#destination_id_modal').prop('hidden', true);
+      $('#destination_id_modal').next().removeClass('input-group-append').addClass('input-group');
 
-      $('#chooseCategory_modal').prop('disabled', false);
-      $('#new_category_button_modal').prop('disabled', false);
+      $('#chooseCategory_modal').prop('hidden', false);
+      $('#new_category_button_modal').prop('hidden', false);
     }
 });
 

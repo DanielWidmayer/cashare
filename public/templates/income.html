@@ -177,20 +177,6 @@
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-secondary">Categories</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <!-- <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i> -->
-                                        </a>
-                                        <!-- <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div> -->
-                                    </div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -236,13 +222,10 @@
                                                     placeholder="Amount of Time" id="repetition_value">
                                                 <div class="input-group-append">
                                                     <select class="custom-select form-control" id="timeUnit">
-                                                        <option selected>Choose Time unit</option>
+                                                        <option selected>Choose Time Unit</option>
                                                         <option value="1">Years</option>
                                                         <option value="2">Months</option>
                                                         <option value="3">Days</option>
-                                                        <option value="4">Hours</option>
-                                                        <option value="5">Minutes</option>
-                                                        <option value="6">Seconds</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -264,8 +247,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="destination_account_input_group" class="input-group mb-3">
-                                            <select class="custom-select form-control" id="destination_account" disabled>
+                                        <div id="destination_account_input_group" class="input-group">
+                                            <select class="custom-select form-control" id="destination_account" hidden>
                                                 <option value="0" selected>Transfer to my account (default)</option>
                                             </select>
                                         </div>
@@ -313,40 +296,13 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">Income Value</th>
-                                                <th scope="col">Amount of Time</th>
-                                                <th scope="col">Start Time</th>
+                                                <th scope="col">Time Interval</th>
+                                                <th scope="col">Last Altered</th>
                                                 <th scope="col">Category</th>
-                                                <th scope="col">Edit/Delete</th>
+                                                <th scope="col">Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th scope="row">$50</th>
-                                                <td contenteditable="true">10 Seconds</td>
-                                                <td>yyyy-mm-dd hh:mm:ss</td>
-                                                <td>Amusement</td>
-                                                <td>
-                                                    <button class="btn btn-circle btn-primary bg-gradient-primary" data-target="#editIncomeModal" data-toggle="modal">
-                                                        <i class="fas fa-edit text-white"></i>
-                                                    </button>
-                                                    <button class="btn btn-circle btn-primary bg-gradient-primary" data-target="#deleteIncomeModal" data-toggle="modal">
-                                                        <i class="fas fa-trash text-white"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">$500</th>
-                                                <td>1 Month</td>
-                                                <td>yyyy-mm-dd hh:mm:ss</td>
-                                                <td>Food</td>
-                                                <td>
-                                                    <button class="btn btn-circle btn-primary bg-gradient-primary" data-toggle="modal" data-target="#editIncomeModal">
-                                                        <i class="fas fa-edit text-white" ></i>
-                                                    </button>
-                                                    <button class="btn btn-circle btn-primary bg-gradient-primary" data-toggle="modal" data-target="#deleteIncomeModal">
-                                                        <i class="fas fa-trash text-white"></i></button>
-                                                </td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -381,25 +337,6 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <!-- <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="./logout">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div> -->
 
 
     <!-- New Income Modal -->
@@ -440,13 +377,10 @@
                                             placeholder="Amount of Time" id="repetition_valueModal">
                                         <div class="input-group-append">
                                             <select class="custom-select form-control" id="timeUnitModal">
-                                                <option selected>Choose Time unit</option>
+                                                <option selected>Choose Time Unit</option>
                                                 <option value="1">Years</option>
                                                 <option value="2">Months</option>
                                                 <option value="3">Days</option>
-                                                <option value="4">Hours</option>
-                                                <option value="5">Minutes</option>
-                                                <option value="6">Seconds</option>
                                             </select>
                                         </div>
                                     </div>
@@ -485,11 +419,7 @@
 
                                     </div>
                                 </div>
-                                <div class="input-group">
-                                    <input type="text" lang="en" class="form-control" placeholder="contractual partner"
-                                        aria-label="contractualPartner" aria-describedby="basic-addon2"
-                                        id="transactionValue">
-                                </div>
+                                
                             </div>
 
                         </div>
@@ -581,12 +511,10 @@
                                         id="repetition_value">
                                     <div class="input-group-append">
                                         <select class="custom-select form-control" id="timeUnit">
+                                            <option selected>Choose Time Unit</option>
                                             <option value="1">Years</option>
                                             <option value="2">Months</option>
                                             <option value="3">Days</option>
-                                            <option value="4">Hours</option>
-                                            <option value="5">Minutes</option>
-                                            <option selected value="6">Seconds</option>
                                         </select>
                                     </div>
                                 </div>
@@ -656,7 +584,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="text-center">
-                        <p class="text-danger">Select "Delete" below if you are sure you want to delete the Income
+                        <p class="text-danger">Select "Delete" below if you are sure you want to delete the regular Income
                             "50$". Warning: This can not be undone!
                         </p>
                         <hr>
