@@ -60,6 +60,16 @@ module.exports.getMessagesByUserID = async function (user_id) {
     }
 };
 
+module.exports.getUnreadMessages = async function (userid) {
+    var sql = `SELECT * FROM ${TBNAME} WHERE ${COLS[4]}='${userid}' AND ${COLS[6]}=0;`;
+    try {
+        let rows = await query(sql);
+        return rows;
+    } catch (err) {
+        throw (err);
+    }
+}
+
 module.exports.getMessagesByUserIDandTimestamp = async function (user_id) {};
 
 module.exports.insertMessage = async function (timetag, text, user_send_id, user_receive_id, group_id) {

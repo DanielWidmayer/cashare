@@ -61,6 +61,25 @@ module.exports.getAll = async function () {
     }
 }
 
+module.exports.readSingleAlert = async function (alertid) {
+    var sql = `UPDATE ${TBNAME} SET ${COLS[6]}=1 WHERE ${COLS[0]}='${alertid}';`;
+    try {
+        await query(sql);
+        return 1;
+    } catch (err) {
+        throw (err);
+    }
+}
+
+module.exports.getUnreadAlerts = async function (userid) {
+    var sql = `SELECT * FROM ${TBNAME} WHERE ${COLS[1]}='${userid}' AND ${COLS[6]}=0;`;
+    try {
+        let rows = await query(sql);
+        return rows;
+    } catch (err) {
+        throw (err);
+    }
+}
 
 module.exports.getGroupAlerts = async function(groupid) {
     var sql = `SELECT ${COLS[0]}, ${COLS[1]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}, ${COLS[6]} FROM ${TBNAME} WHERE ${COLS[2]}='${groupid}';`;
