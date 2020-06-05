@@ -13,8 +13,6 @@ const COLS = [
     'phone',
     'balance',
     'picture',
-    'last_alert',
-    'last_msg',
     'registrationDate'
 ];
 module.exports.TBNAME = TBNAME;
@@ -42,11 +40,7 @@ module.exports.create_table = async function() {
               + COLS[7] + " varchar(255),"
               + COLS[8] + " decimal(10,2) not null default('0'),"
               + COLS[9] + " varchar(255),"
-              + COLS[10] + " int,"
-              //+ `FOREIGN KEY (${COLS[10]}) REFERENCES ${db_msg}(${db_msg.COLS[0]}),`
-              + COLS[11] + " int,"
-              //+ `FOREIGN KEY (${COLS[11]}) REFRENCES ${db_msg}(${db_msg.COLS[0]})`
-              + COLS[12] + " date"
+              + COLS[10] + " date"
               + ");"
         try {
             await query(sql);
@@ -59,17 +53,17 @@ module.exports.create_table = async function() {
     }
 }
 
-module.exports.link = async function(db_msg, db_alert) {
-    var sql1 = `ALTER TABLE ${TBNAME} ADD FOREIGN KEY (${COLS[10]}) REFERENCES ${db_alert.TBNAME} (${db_alert.COLS[0]});`
-    var sql2 = `ALTER TABLE ${TBNAME} ADD FOREIGN KEY (${COLS[11]}) REFERENCES ${db_msg.TBNAME}(${db_msg.COLS[0]});`
-    try {
-        await query(sql1);
-        await query(sql2);
-    }
-    catch(err) {
-        console.log(err);
-    }
-}
+// module.exports.link = async function(db_msg, db_alert) {
+//     var sql1 = `ALTER TABLE ${TBNAME} ADD FOREIGN KEY (${COLS[10]}) REFERENCES ${db_alert.TBNAME} (${db_alert.COLS[0]});`
+//     var sql2 = `ALTER TABLE ${TBNAME} ADD FOREIGN KEY (${COLS[11]}) REFERENCES ${db_msg.TBNAME}(${db_msg.COLS[0]});`
+//     try {
+//         await query(sql1);
+//         await query(sql2);
+//     }
+//     catch(err) {
+//         console.log(err);
+//     }
+// }
 
 module.exports.getEvery = async function() {
     var sql = `SELECT * FROM ${TBNAME};`
@@ -83,22 +77,23 @@ module.exports.getEvery = async function() {
     }
 }
 
-module.exports.getDataByMail = async function(mail) {
+module.exports.getDataByMail = async function(mail, arr = true) {
     var sql, res;
-    sql = `SELECT * FROM ${TBNAME} WHERE ${COLS[3]} = '${mail}';`
+    sql = `SELECT ${COLS[0]}, ${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[7]}, ${COLS[8]}, ${COLS[9]}, ${COLS[10]} FROM ${TBNAME} WHERE ${COLS[3]} = '${mail}';`
     try {
         let q_res = await query(sql);
         let res = [];
         q_res = q_res[0];
 
-        for (i in q_res) {
-            switch(i) {
-                case COLS[4]: break;
-                case COLS[5]: break;
-                case COLS[6]: break;
-                default: res.push(q_res[i]);
+        if(arr) {
+            for (i in q_res) {
+                res.push(q_res[i]);
             }
         }
+        else {
+            res = q_res;
+        }
+        
         return res;
     }
     catch(err) {
@@ -106,22 +101,22 @@ module.exports.getDataByMail = async function(mail) {
     }
 }
 
-module.exports.getDataByID = async function(user_id) {
-    var sql = `SELECT * FROM ${TBNAME} WHERE ${COLS[0]} = '${user_id}';`
+module.exports.getDataByID = async function(user_id, arr = true) {
+    var sql = `SELECT ${COLS[0]}, ${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[7]}, ${COLS[8]}, ${COLS[9]}, ${COLS[10]} FROM ${TBNAME} WHERE ${COLS[0]} = '${user_id}';`
     try {
         let q_res = await query(sql);
         let res = [];   
         q_res = q_res[0];
 
-        for (i in q_res) {
-            switch(i) {
-                case COLS[4]: break;
-                case COLS[5]: break;
-                case COLS[6]: break;
-                default: res.push(q_res[i]);
+        if (arr) {
+            for (i in q_res) {
+                res.push(q_res[i]);
             }
-            //if(i != COLS[4]) res.push(q_res[i]);
         }
+        else {
+            res = q_res;
+        }
+        
         return res;
     }
     catch(err) {
@@ -204,12 +199,34 @@ module.exports.registerUser = async function(firstname, lastname, mail, password
             registrationDate = await query(`SELECT CURRENT_TIMESTAMP();`);
 
 
-            sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}${phone_namespace}, ${COLS[12]}) `
+            sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}${phone_namespace}, ${COLS[10]}) `
                 + `VALUES ('${firstname}', '${lastname}', '${mail}', '${password}'${phone_value}, CURRENT_TIMESTAMP);`;
             
             res = await query(sql);
             return res.insertId;
         }
+    }
+    catch(err) {
+        throw err;
+    }
+}
+
+module.exports.getMailData = async function() {
+    var sql, res;
+    sql = `SELECT * FROM ${TBNAME};`
+    try {
+        let q_res = await query(sql);
+        let res = [];
+        for (i in q_res) {
+            for (const key in q_res[i]) {
+            switch(key) {
+                case COLS[3]: res.push(q_res[i][key]);
+                break;
+                default: break;
+            }
+            }
+        }
+        return res;
     }
     catch(err) {
         throw err;

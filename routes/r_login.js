@@ -10,4 +10,8 @@ router.post('/', passport.authenticate('local', { failureRedirect: '/login', fai
     return res.redirect('/home');
 });
 
+router.get('/forgotpwd', function (req, res) {
+    return res.render('forgot-password.html'); 
+});
+
 module.exports = router;

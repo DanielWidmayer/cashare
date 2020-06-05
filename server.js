@@ -51,7 +51,7 @@ dbsql.createConnection(process.env.DB_HOST, process.env.DB_USER, process.env.DB_
 dbsql.connect();
 
 // static folder where static files like html are stored
-app.use(express.static('public', { index: false }));
+app.use('/static/', express.static('public', { index: false }));
 // view folder for the template engine
 app.set('views', __dirname + '/public/templates');
 // set the template engine to be ejs

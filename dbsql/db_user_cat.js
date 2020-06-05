@@ -8,7 +8,10 @@ const COLS = [
 module.exports.TBNAME = TBNAME;
 module.exports.COLS = COLS;
 
-module.exports.create_table = async function(db_user, db_cat) {
+const db_user = require('./db_user');
+const db_cat = require('./db_cat');
+
+module.exports.create_table = async function() {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
     try {
         await query(sql);

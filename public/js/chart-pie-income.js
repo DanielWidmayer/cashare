@@ -1,4 +1,3 @@
-import { getTransactionsByUserID } from "../../dbsql/db_trans";
 
 // Set new default font family and font color to mimic Bootstrap's default styling
 (Chart.defaults.global.defaultFontFamily = 'Nunito'), '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
@@ -32,48 +31,20 @@ var PieChartIncome = new Chart(ctx, {
       caretPadding: 10
     },
     legend: {
-      display: false
+      display: true,
+      position: 'bottom',
+      fullWidth: true,
+      align: 'center',
+      labels: {
+        boxWidth: 20,
+        usePointStyle: true
+      }
     },
     cutoutPercentage: 80
   }
 });
 
-function getArrays(){
-var idArray = [];
-var valueArray = [];
-var idcounter = 0;
-var alreadyExists = 0;
-var tempid = 0;
-var tempval = 0;
-transactions.forEach(transaction => {
-for (i=0;idcounter > i; i++){ //checkt ob es die categoryid schon im idarray gibt
-  if(idArray[i] == transaction.category_id){
-    valueArray[i] = valueArray[i] + Math.abs(transaction.transaction_value);
-    alreadyExists = 1;
-    break;
-  }
-}
-if(alreadyExists == 0  ){//wenn id noch  noch nicht in idarray existent, wird hier erstellt 
-  idArray[idcounter] = transaction.category_id;
-  valueArray[idcounter] = transaction.transaction_value;
-  idcounter++;
-}
-alreadyExists = 0;
-})
-
-for(i = idcounter - 1; i > 0 ; i--){ //doppelter bubblesort für beide arrays 
-  for(j = 1; j <= i; j++){
-    if (valueArray[j-1] > valueArray[j]){
-      tempid = idArray[j-1];
-      tempval = valueArray[j-1];
-      idArray[j-1] = idArray [j];
-      valueArray[j-1] = valueArray[j];
-      idArray[j] = tempid;
-      valueArray[j] = tempval;
-    }
-  }
-}
 
 
 
-}
+

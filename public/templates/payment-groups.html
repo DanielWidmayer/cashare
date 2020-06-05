@@ -10,15 +10,15 @@
   <meta name="author" content="">
 
   <title>CA$HARE - Payment Groups</title>
-  
+
   <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link
     href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
     rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="css/cashare.min.css" rel="stylesheet">
+  <link href="/static/css/cashare.min.css" rel="stylesheet">
 
 </head>
 
@@ -47,17 +47,20 @@
               data-target="#newGroupModal"><i class="fas fa-plus fa-sm text-white-50"></i> New Payment Group</a>
           </div>
 
-          <!-- Content Row -->
-          <div class="row">
-
-            <!-- Content Column -->
-            <div class="col-lg-6 mb-4">
-
-              <!-- Payment Group -->
+          <% for(parts = 0; parts < groups.length; parts++) { %>
+            <% if (parts % 2 == 0) { %>
+              <div class="row">
+            <% } %>
+              <div class="col-lg-6 mb-4">
+                <!-- Payment Group -->
               <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <a class="m-0 font-weight-bold text-secondary" href="/groups/certaingroup">Project Eagle</a>
+                  <a class="m-0 font-weight-bold text-secondary" href="/groups/group<%=groups[parts]['group_data']['id']%>"><%=groups[parts]['group_data']['name']%></a>
+                  <% if(groups[parts]['role'] < 2) { %>
+                  <div class="dropdown no-arrow" hidden>
+                  <% } else { %>
                   <div class="dropdown no-arrow">
+                  <% } %>
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -65,31 +68,49 @@
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                       aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editGroupModal"><i
-                          class="fas fa-edit text-gray-600 mr-1"></i>Edit</a>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#inviteModal"><i
-                          class="fas fa-plus text-gray-600 mr-1"></i>Invite</a>
+                      <% if(groups[parts]['role'] < 3) { %>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editGroupModal" hidden>
+                      <% } else { %>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editGroupModal<%=groups[parts]['group_data']['id']%>">
+                      <% } %>
+                        <i class="fas fa-edit text-gray-600 mr-1"></i>Edit</a>
+                      <% if(groups[parts]['role'] < 2) { %>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#inviteModal" hidden>
+                      <% } else { %>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#inviteModal<%=groups[parts]['group_data']['id']%>">
+                      <% } %>
+                        <i class="fas fa-plus text-gray-600 mr-1"></i>Invite</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteGroupModal"><i class="
-                          fas fa-trash text-gray-600 mr-1"></i>Delete</a>
+                      <% if(groups[parts]['role'] < 3) { %>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteGroupModal" hidden>
+                      <% } else { %>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteGroupModal<%=groups[parts]['group_data']['id']%>">
+                      <% } %>
+                        <i class="fas fa-trash text-gray-600 mr-1"></i>Delete</a>
                     </div>
                   </div>
                 </div>
                 <div class="card-body">
-
+                  <div class="row">
+                    <div class="col-xl-12 col-md-12 mb-4">
+                      <div class="card border-primary shadow p-2">
+                        <%=groups[parts]['group_data']['description']%>
+                      </div>
+                    </div>
+                  </div>
 
                   <!-- Content Row -->
                   <div class="row">
 
                     <!-- Member Count Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#usersModal">
+                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#usersModal<%=groups[parts]['group_data']['id']%>">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                               <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Member count
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">7</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800"><%=groups[parts]['group_members'].length%></div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-user fa-2x text-gray-600"></i>
@@ -101,13 +122,13 @@
 
                     <!-- Pending Requests Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#feedModal">
+                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#feedModal<%=groups[parts]['group_data']['id']%>">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                               <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Activity Feed
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">17</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800"><%=groups[parts]['group_alerts'].length%></div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-comments fa-2x text-gray-600"></i>
@@ -119,13 +140,13 @@
 
                     <!-- Account Balance Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" href="paymentgroup-shareboard.html">
+                      <a class="card border-primary shadow btn-link py-2" href="/groups/group<%=groups[parts]['group_data']['id']%>">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                               <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Account Balance
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-success">$1298.64</div>
+                              <div class="h5 mb-0 font-weight-bold text-success">$<%=groups[parts]['group_data']['balance']%></div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-dollar-sign fa-2x text-gray-600"></i>
@@ -144,311 +165,11 @@
                 </div>
               </div>
               <!-- end of Payment Group -->
-
-            </div>
-
-            <!-- Content Column -->
-            <div class="col-lg-6 mb-4">
-
-              <!-- Payment Group -->
-              <div class="card border-left-primary shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <a class="m-0 font-weight-bold text-secondary" href="paymentgroup-shareboard.html">City WG</a>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                      aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editGroupModal"><i
-                          class="fas fa-edit text-gray-600 mr-1"></i>Edit</a>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#inviteModal"><i
-                          class="fas fa-plus text-gray-600 mr-1"></i>Invite</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteGroupModal"><i class="
-                          fas fa-trash text-gray-600 mr-1"></i>Delete</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-
-
-                  <!-- Content Row -->
-                  <div class="row">
-
-                    <!-- Member Count Card -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#usersModal">
-                        <div class="card-body">
-                          <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Member count
-                              </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
-                            </div>
-                            <div class="col-auto">
-                              <i class="fas fa-user fa-2x text-gray-600"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-
-                    <!-- Pending Requests Card -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#feedModal">
-                        <div class="card-body">
-                          <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Activity Feed
-                              </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">21</div>
-                            </div>
-                            <div class="col-auto">
-                              <i class="fas fa-comments fa-2x text-gray-600"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-
-                    <!-- Account Balance Card -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" href="paymentgroup-shareboard.html">
-                        <div class="card-body">
-                          <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Account Balance
-                              </div>
-                              <div class="h5 mb-0 font-weight-bold text-danger">$30.18</div>
-                            </div>
-                            <div class="col-auto">
-                              <i class="fas fa-dollar-sign fa-2x text-gray-600"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-
-
-                    <!-- end of row -->
-                  </div>
-
-
-
-                </div>
               </div>
-              <!-- end of Payment Group -->
-
+            <% if (parts % 2 == 1) { %>
             </div>
-
-          </div>
-          <!-- end of Content row -->
-
-
-          <!-- Content Row -->
-          <div class="row">
-
-            <!-- Content Column -->
-            <div class="col-lg-6 mb-4">
-
-              <!-- Payment Group -->
-              <div class="card border-left-primary shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <a class="m-0 font-weight-bold text-secondary" href="paymentgroup-shareboard.html">Charity
-                    Donations</a>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                      aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editGroupModal"><i
-                          class="fas fa-edit text-gray-600 mr-1"></i>Edit</a>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#inviteModal"><i
-                          class="fas fa-plus text-gray-600 mr-1"></i>Invite</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteGroupModal"><i class="
-                                    fas fa-trash text-gray-600 mr-1"></i>Delete</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-
-
-                  <!-- Content Row -->
-                  <div class="row">
-
-                    <!-- Member Count Card -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#usersModal">
-                        <div class="card-body">
-                          <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Member count
-                              </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">15</div>
-                            </div>
-                            <div class="col-auto">
-                              <i class="fas fa-user fa-2x text-gray-600"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-
-                    <!-- Pending Requests Card -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#feedModal">
-                        <div class="card-body">
-                          <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Activity Feed
-                              </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">57</div>
-                            </div>
-                            <div class="col-auto">
-                              <i class="fas fa-comments fa-2x text-gray-600"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-
-                    <!-- Account Balance Card -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" href="paymentgroup-shareboard.html">
-                        <div class="card-body">
-                          <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Account Balance
-                              </div>
-                              <div class="h5 mb-0 font-weight-bold text-success">$5246.35</div>
-                            </div>
-                            <div class="col-auto">
-                              <i class="fas fa-dollar-sign fa-2x text-gray-600"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-
-
-                    <!-- end of row -->
-                  </div>
-
-
-
-                </div>
-              </div>
-              <!-- end of Payment Group -->
-
-            </div>
-
-            <!-- Content Column -->
-            <div class="col-lg-6 mb-4">
-
-              <!-- Payment Group -->
-              <div class="card border-left-primary shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <a class="m-0 font-weight-bold text-secondary" href="paymentgroup-shareboard.html">Vacation
-                    Italyyy</a>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                      aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Options:</div>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editGroupModal"><i
-                          class="fas fa-edit text-gray-600 mr-1"></i>Edit</a>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#inviteModal"><i
-                          class="fas fa-plus text-gray-600 mr-1"></i>Invite</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteGroupModal"><i class="
-                                    fas fa-trash text-gray-600 mr-1"></i>Delete</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body">
-
-
-                  <!-- Content Row -->
-                  <div class="row">
-
-                    <!-- Member Count Card -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#usersModal">
-                        <div class="card-body">
-                          <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Member count
-                              </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
-                            </div>
-                            <div class="col-auto">
-                              <i class="fas fa-user fa-2x text-gray-600"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-
-                    <!-- Pending Requests Card -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" data-toggle="modal" data-target="#feedModal">
-                        <div class="card-body">
-                          <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Activity Feed
-                              </div>
-                              <div class="h5 mb-0 font-weight-bold text-gray-800">7</div>
-                            </div>
-                            <div class="col-auto">
-                              <i class="fas fa-comments fa-2x text-gray-600"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-
-                    <!-- Account Balance Card -->
-                    <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" href="paymentgroup-shareboard.html">
-                        <div class="card-body">
-                          <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                              <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Account Balance
-                              </div>
-                              <div class="h5 mb-0 font-weight-bold text-danger">$3780.25</div>
-                            </div>
-                            <div class="col-auto">
-                              <i class="fas fa-dollar-sign fa-2x text-gray-600"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-
-
-                    <!-- end of row -->
-                  </div>
-
-
-
-                </div>
-              </div>
-              <!-- end of Payment Group -->
-
-            </div>
-
-          </div>
-          <!-- end of Content row -->
+            <% } %>
+          <% } %>
 
         </div>
         <!-- /.container-fluid -->
@@ -456,18 +177,37 @@
       </div>
       <!-- End of Main Content -->
 
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
-
     </div>
     <!-- End of Content Wrapper -->
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; Your Website 2019</span>
+        </div>
+      </div>
+    </footer>
+    <!-- End of Footer -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; Your Website 2020</span>
+        </div>
+      </div>
+    </footer>
+    <!-- End of Footer -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; Your Website 2020</span>
+        </div>
+      </div>
+    </footer>
+    <!-- End of Footer -->
 
   </div>
   <!-- End of Page Wrapper -->
@@ -476,25 +216,6 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- New Payment Group Modal -->
   <div class="modal fade" id="newGroupModal" tabindex="-1" role="dialog" aria-labelledby="newGroupModal"
@@ -509,18 +230,23 @@
         </div>
         <div class="modal-body">
           <div class="text-center">
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Payment Group Title" aria-label="Payment Group Title"
-                aria-describedby="basic-addon2">
-            </div>
-            <hr>
-            <!-- Button Add new Payment Group-->
-            <a href="#" class="btn btn-success btn-icon-split">
-              <span class="icon text-white-50">
-                <i class="fas fa-check"></i>
-              </span>
-              <span class="text">Add new Payment Group</span>
-            </a>
+            <form method="POST" action="/groups">
+              <div class="input-group mb-3">
+                <input type="text" name="groupname" class="form-control" placeholder="Payment Group Title" aria-label="Payment Group Title"
+                  aria-describedby="basic-addon2">
+              </div>
+              <div class="input-group mb-3">
+                <input type="text" name="groupdesc" class="form-control" placeholder="Description" aria-label="Payment Group Desc">
+              </div>
+              <hr>
+              <!-- Button Add new Payment Group-->
+              <button type="submit" class="btn btn-success btn-icon-split">
+                <span class="icon text-white-50">
+                  <i class="fas fa-check"></i>
+                </span>
+                <span class="text">Add new Payment Group</span>
+              </button>
+            </form>
           </div>
 
         </div>
@@ -528,161 +254,133 @@
     </div>
   </div>
 
+  <% for (el = 0; el < groups.length; el++) { %>
   <!-- Invite Modal -->
-  <div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="inviteModal" aria-hidden="true">
+  <div class="modal fade" id="inviteModal<%=groups[el]['group_data']['id']%>" tabindex="-1" role="dialog" aria-labelledby="inviteModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Invite users</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">x</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="text-center">
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Search for User" aria-label="Payment Group Title"
-                aria-describedby="basic-addon2">
-            </div>
-            <hr>
-            <!-- Button Add new Payment Group-->
-            <a href="#" class="btn btn-success btn-icon-split">
-              <span class="icon text-white-50">
-                <i class="fas fa-check"></i>
-              </span>
-              <span class="text">Send Invite</span>
-            </a>
+          <form method="POST" action="/groups/group<%=groups[el]['group_data']['id']%>/invite">
+            <div class="text-center">
+              <div class="input-group mb-3">
+                <input type="text" name="usermail" class="form-control" placeholder="Search for User" aria-label="Payment Group Title"
+                  aria-describedby="basic-addon2">
+              </div>
+              <hr>
+              <!-- Button Add new Payment Group-->
+              <button type="submit" class="btn btn-success btn-icon-split">
+                <span class="icon text-white-50">
+                  <i class="fas fa-check"></i>
+                </span>
+                <span class="text">Send Invite</span>
+              </button>
+            </form>
           </div>
 
         </div>
       </div>
     </div>
   </div>
+  <% } %>
 
-
+  <% for (el = 0; el < groups.length; el++) { %>
   <!-- Edit Payment Group Modal -->
-  <div class="modal fade" id="editGroupModal" tabindex="-1" role="dialog" aria-labelledby="editGroupModal"
+  <div class="modal fade" id="editGroupModal<%=groups[el]['group_data']['id']%>" tabindex="-1" role="dialog" aria-labelledby="editGroupModal"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Edit Payment Group</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">x</span>
           </button>
         </div>
         <div class="modal-body">
-
+        <form action="/groups/group<%=groups[el]['group_data']['id']%>" method="POST">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" value="Payment Group Title" aria-label="Payment Group Title"
+            <input type="text" name="groupname" class="form-control" value="<%=groups[el]['group_data']['name']%>" aria-label="Payment Group Title"
+              aria-describedby="basic-addon2">
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" name="groupdesc" class="form-control" value="<%=groups[el]['group_data']['description']%>" aria-label="Payment Group Desc"
               aria-describedby="basic-addon2">
           </div>
           <hr>
           <div class="flex-row">
             <p class="font-weight-bold d-inline-flex m-0">Manage User rights</p>
-            <p class="d-inline-flex m-0" style="float: right;">Write Invite Edit</p>
+            <p class="d-inline-flex m-0 float-right">Write Admin</p>
           </div>
           <hr>
-          <div class="flex-row">
-            <img class="img-profile rounded-circle" height="50" width="50"
-              src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
-            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Marlene Musterfrau</span>
-            <div class="checkbox-triple">
-              <input type="checkbox" class="mr-3">
-              <input type="checkbox" class="mr-3">
-              <input type="checkbox" class="mr-2">
+          <% for (m_ctr = 0; m_ctr < groups[el]['group_members'].length; m_ctr++) { %>
+            <div class="flex-row userDisplay">
+              <% if (groups[el]['group_members'][m_ctr]['picture']) { %>
+                <div class="profilepic profilepic-sm " style="background-image: url(/static/img/profiles/<%=groups[el]['group_members'][m_ctr]['picture']%>);"></div>
+              <% } else {%>
+                <i class="fas fa-user fa-fw btn btn-primary btn-circle"></i>
+              <% } %>
+              <span class="ml-2 d-none d-inline text-secondary font-weight-bold small">
+                <%=groups[el]['group_members'][m_ctr]['firstname'] + ' ' + groups[el]['group_members'][m_ctr]['lastname']%></span>
+              <div class="checkbox-triple">
+                <% if (groups[el]['group_members'][m_ctr]['role'] >= 2) { %>
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3 cb-role" checked>
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3" hidden>
+                <% } else { %>
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3 cb-role">
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3" hidden>
+                <% } %>
+                <% if (groups[el]['group_members'][m_ctr]['role'] > 2) { %>
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3 cb-role" checked> 
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3" hidden> 
+                <% } else { %>
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3 cb-role"> 
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3" hidden>   
+                <% } %>
+              </div>
             </div>
-          </div>
-          <hr>
-
-          <div class="flex-row">
-            <img class="img-profile rounded-circle" height="50" width="50"
-              src="https://source.unsplash.com/CS2uCrpNzJY/60x60">
-            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Jens Bühler</span>
-            <div class="checkbox-triple">
-              <input type="checkbox" class="mr-3">
-              <input type="checkbox" class="mr-3">
-              <input type="checkbox" class="mr-2">
-            </div>
-          </div>
-          <hr>
-
-          <div class="flex-row">
-            <img class="img-profile rounded-circle" height="50" width="50"
-              src="https://source.unsplash.com/Mv9hjnEUHR4/60x60">
-            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Dawg</span>
-            <div class="checkbox-triple">
-              <input type="checkbox" class="mr-3">
-              <input type="checkbox" class="mr-3">
-              <input type="checkbox" class="mr-2">
-            </div>
-          </div>
-          <hr>
-
-          <div class="flex-row">
-            <img class="img-profile rounded-circle" height="50" width="50"
-              src="https://source.unsplash.com/random/60x60">
-            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Maximilian Musterman</span>
-            <div class="checkbox-triple">
-              <input type="checkbox" class="mr-3">
-              <input type="checkbox" class="mr-3">
-              <input type="checkbox" class="mr-2">
-            </div>
-          </div>
-          <hr>
+            <hr>
+          <% } %>
+          
           <div class="text-center">
             <!-- Save changes-->
-            <a href="#" class="btn btn-success btn-icon-split">
+            <button type="submit" class="btn btn-success btn-icon-split">
               <span class="icon text-white-50">
                 <i class="fas fa-check"></i>
               </span>
               <span class="text">Save Changes</span>
-            </a>
+            </button>
           </div>
-
+        </form>
         </div>
       </div>
     </div>
   </div>
+  <% } %>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <% for (el = 0; el < groups.length; el++) { %>
   <!-- Delete Group Modal -->
-  <div id="deleteGroupModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+  <div id="deleteGroupModal<%=groups[el]['group_data']['id']%>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-danger">Confirm to Delete Payment Group</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">x</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="text-center">
-            <p class="text-danger">Select "Delete" below if you are sure you wanr to delete the Group "Payment Group
-              Title". Warning: This can not be undone!
+            <p class="text-danger">Select "Delete" below if you are sure you want to delete the Group "<%=groups[el]['group_data']['name']%>". Warning: This can not be undone!
             </p>
             <hr>
             <!-- Delete confirm-->
-            <a href="#" class="btn btn-danger btn-icon-split">
+            <a href="/groups/group<%=groups[el]['group_data']['id']%>/rem" class="btn btn-danger btn-icon-split">
               <span class="icon text-white-50">
                 <i class="fas fa-trash"></i>
               </span>
@@ -693,145 +391,97 @@
       </div>
     </div>
   </div>
+  <% } %>
 
+  <% for (el = 0; el < groups.length; el++) { %>
   <!-- User Count Modal -->
-  <div class="modal fade" id="usersModal" tabindex="-1" role="dialog" aria-labelledby="usersModal" aria-hidden="true">
+  <div class="modal fade" id="usersModal<%=groups[el]['group_data']['id']%>" tabindex="-1" role="dialog" aria-labelledby="usersModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Users</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">x</span>
           </button>
         </div>
         <div class="modal-body">
-
-          <div class="flex-row">
-            <img class="img-profile rounded-circle" height="50" width="50"
-              src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
-            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Marlene Musterfrau</span>
-          </div>
-          <hr>
-
-          <div class="flex-row">
-            <img class="img-profile rounded-circle" height="50" width="50"
-              src="https://source.unsplash.com/CS2uCrpNzJY/60x60">
-            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Jens Bühler</span>
-          </div>
-          <hr>
-
-          <div class="flex-row">
-            <img class="img-profile rounded-circle" height="50" width="50"
-              src="https://source.unsplash.com/Mv9hjnEUHR4/60x60">
-            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Dawg</span>
-          </div>
-          <hr>
-
-          <div class="flex-row">
-            <img class="img-profile rounded-circle" height="50" width="50"
-              src="https://source.unsplash.com/random/60x60">
-            <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">Maximilian Musterman</span>
-          </div>
-
+          <% for (m_ctr = 0; m_ctr < groups[el]['group_members'].length; m_ctr++) { %>
+            <div class="flex-row userDisplay">
+              <% if (groups[el]['group_members'][m_ctr]['picture']) { %>
+                <div class="profilepic profilepic-sm" style="background-image: url(/static/img/profiles/<%=groups[el]['group_members'][m_ctr]['picture']%>)"></div>
+              <% } else {%>
+                <i class="fas fa-user fa-fw btn btn-primary btn-circle"></i>
+              <% } %>
+              <span class="ml-2 d-none d-lg-inline text-secondary font-weight-bold small">
+                <%=groups[el]['group_members'][m_ctr]['firstname'] + ' ' + groups[el]['group_members'][m_ctr]['lastname']%>
+              </span>
+            </div>
+            <% if (m_ctr < groups[el]['group_members'].length - 1) { %>
+            <hr>
+            <% } %>
+          <% } %>
         </div>
       </div>
     </div>
   </div>
+  <% } %>
 
-
-
+  <% for (el = 0; el < groups.length; el++) { %>
   <!-- Actvity Feed Modal -->
-  <div class="modal fade" id="feedModal" tabindex="-1" role="dialog" aria-labelledby="feedModal" aria-hidden="true">
+  <div class="modal fade" id="feedModal<%=groups[el]['group_data']['id']%>" tabindex="-1" role="dialog" aria-labelledby="feedModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Activity Feed</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">x</span>
           </button>
         </div>
         <div class="modal-body">
-
+        <% for (a_ctr = 0; a_ctr < groups[el]['group_alerts'].length; a_ctr++) { %>
           <!-- Alert Card -->
-          <div class="card mb-4 py-3 rounded flex-row border-left-primary">
+          <div class="card mb-4 py-3 rounded flex-row border-left-<%=groups[el]['group_alerts'][a_ctr]['class']%>">
             <div class=" ml-4 mr-3 mt-1">
-              <div class="icon-circle bg-primary">
-                <i class="fas fa-file-alt text-white"></i>
-              </div>
+              <% if (groups[el]['group_alerts'][a_ctr]['class'] == 'primary') { %>
+                <div class="icon-circle bg-primary">
+                  <i class="fas fa-file-alt text-white"></i>
+                </div>
+              <% } else if (groups[el]['group_alerts'][a_ctr]['class'] == 'success') { %>
+                <div class="icon-circle bg-success">
+                  <i class="fas fa-donate text-white"></i>
+                </div>
+              <% } else if (groups[el]['group_alerts'][a_ctr]['class'] == 'warning') { %>
+                <div class="icon-circle bg-warning">
+                  <i class="fas fa-exclamation-triangle text-white"></i>
+                </div>
+              <% } else if (groups[el]['group_alerts'][a_ctr]['class'] == 'danger') { %>
+                <div class="icon-circle bg-danger">
+                  <i class="fas fa-exclamation text-white"></i>
+                </div>
+              <% } %>
             </div>
             <div>
-              <span class="font-weight-bold">A new payment task has been added!</span>
-              <div class="text-gray-500">December 12, 2019</div>
+              <span class="font-weight-bold"><%=groups[el]['group_alerts'][a_ctr]['message']%></span>
+              <div class="text-gray-500"><%=groups[el]['group_alerts'][a_ctr]['time']%></div>
             </div>
           </div>
-
-          <!-- Alert Card -->
-          <div class="card mb-4 py-3 rounded flex-row border-left-success">
-            <div class="ml-4 mr-3 mt-1">
-              <div class="icon-circle bg-success">
-                <i class="fas fa-donate text-white"></i>
-              </div>
-            </div>
-            <div>
-              You have made a transaction over $70.00!
-              <div class="text-gray-500">December 7, 2019</div>
-            </div>
-          </div>
-
-          <!-- Alert Card -->
-          <div class="card mb-4 py-3 rounded flex-row border-left-warning">
-            <div class="ml-4 pr-0 mt-1">
-              <div class="icon-circle bg-warning">
-                <i class="fas fa-exclamation-triangle text-white"></i>
-              </div>
-            </div>
-            <div class="ml-3">
-              Spending Alert: We've noticed unusually high spending from your group.
-              <div class="text-gray-500">December 2, 2019</div>
-            </div>
-          </div>
-
-          <!-- Error Card -->
-          <div class="card mb-4 py-3 rounded flex-row border-left-danger">
-            <div class="ml-4 mr-3 mt-1">
-              <div class="icon-circle bg-danger">
-                <i class="fas fa-exclamation text-white"></i>
-              </div>
-            </div>
-            <div>
-              Error: Your expense exceeds the group spending limit.
-              <div class="text-gray-500">December 1, 2019</div>
-            </div>
-          </div>
-
-          <!-- Info Card -->
-          <div class="card mb-4 py-3 rounded flex-row border-left-info">
-            <div class="ml-4 mr-3 mt-1">
-              <div class="icon-circle bg-info">
-                <i class="fas fa-info text-white"></i>
-              </div>
-            </div>
-            <div>
-              Jens Bühler has payed you $123.45 bucks!
-              <div class="text-gray-500">Novembre 29, 2019</div>
-            </div>
-          </div>
-
-
+        <% } %>
         </div>
       </div>
     </div>
   </div>
+  <% } %>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="js/cashare.min.js"></script>
+  <script src="/static/js/cashare.min.js"></script>
+  <script src="/static/js/groups-overview.js"></script>
 
 </body>
 

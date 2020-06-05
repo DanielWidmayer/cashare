@@ -76,6 +76,46 @@ function pollDataIncome() {
 
 pollDataIncome();
 
+function pollPieChartData()
+  {
+    var poll = function()
+    {
+    $.ajax({
+        url: '/jsondata/piechart-incomes',
+        dataType: 'json',
+        type: 'get',
+        success: function(data)
+              {
+                  
+                  console.log(PieChartIncome.data.datasets[0]);
+                  PieChartIncome.data.datasets[0].data = [];
+                  PieChartIncome.data.labels = [];
+                  for (let index = 0; index < data.categories.length; index++)
+                  {
+                      console.log(index);
+                      console.log(data.categories[index]);
+                      console.log(data.totalincomes[index]);
+                      PieChartIncome.data.labels.push(data.categories[index]);  
+                      PieChartIncome.data.datasets[0].data.push(data.totalincomes[index]);
+                    
+                  }
+                  PieChartIncome.update();
+  
+                  
+              },
+              error: function(){
+                //
+            }
+    })
+};
+poll();
+/*setInterval(function(){
+    poll();
+}, 1000);*/
+};
+
+pollPieChartData();
+
 
 
 $.get("/regular_income_overview").done(function(data) {

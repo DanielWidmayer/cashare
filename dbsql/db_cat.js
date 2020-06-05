@@ -7,10 +7,13 @@ const COLS = [
     'category_isExpense',
     'category_userID'
 ];
+
+const db_user = require('./db_user');
+
 module.exports.TBNAME = TBNAME;
 module.exports.COLS = COLS;
 
-module.exports.create_table = async function(db_user) {
+module.exports.create_table = async function() {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
     var sql2;
     try {

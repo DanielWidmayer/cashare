@@ -2,9 +2,9 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="./home">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home">
         <div class="sidebar-brand-icon">
-            <img src="img/cashare21.png" class="img-fluid" alt="Responsive image">
+            <img src="/static/img/cashare21.png" class="img-fluid" alt="Responsive image">
         </div>
         <div class="sidebar-brand-text mx-3">CA$HARE</div>
     </a>
@@ -14,7 +14,7 @@
 
     <!-- Nav Item - Ca$hboard -->
     <li class="nav-item  <% if (pagename === 'index') { %> active <% } %>">
-        <a class="nav-link" href="./home">
+        <a class="nav-link" href="/home">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Ca$hboard</span></a>
     </li>
@@ -29,7 +29,7 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item <% if (pagename === 'expenses') { %> active <% } %>">
-        <a class="nav-link" href="./expenses">
+        <a class="nav-link" href="/expenses">
             <i class="fas fa-fw fa-money-check-alt"></i>
             <span>Expenses</span>
         </a>
@@ -38,7 +38,7 @@
 
     <!-- Nav Item - Income -->
     <li class="nav-item <% if (pagename === 'income') { %> active <% } %>">
-        <a class="nav-link" href="./income">
+        <a class="nav-link" href="/income">
             <i class="fas fa-fw fa-dollar-sign"></i>
             <span>Income</span>
         </a>
@@ -47,7 +47,7 @@
 
     <!-- Nav Item - Logs -->
     <li class="nav-item <% if (pagename === 'logs') { %> active <% } %>">
-        <a class="nav-link" href="./tables">
+        <a class="nav-link" href="/tables">
             <i class="fas fa-fw fa-file-invoice-dollar"></i>
             <span>Logs</span>
         </a>
@@ -65,7 +65,7 @@
 
     <!-- Nav Item - Payment Groups -->
     <li class="nav-item <% if (pagename === 'groups') { %> active <% } %>">
-        <a class="nav-link collapsed" href="./groups" data-toggle="collapse" data-target="#collapsePayGroups"
+        <a class="nav-link collapsed" href="/groups" data-toggle="collapse" data-target="#collapsePayGroups"
             aria-expanded="true" aria-controls="collapseTestings">
             <i class="fas fa-fw fa-hand-holding-usd"></i>
             <span>Payment Groups</span></a>
@@ -73,11 +73,11 @@
         <div id="collapsePayGroups" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Total:</h6>
-                <a class="collapse-item font-weight-bold" href="./groups">Overview</a>
+                <a class="collapse-item font-weight-bold" href="/groups">Overview</a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">Payment Groups:</h6>
-                <a class="collapse-item" href="./groups-shareboard">Payment Group Title</a>
-                <a class="collapse-item" href="./groups-shareboard">Payment Group Title</a>
+                <a class="collapse-item" href="/groups/certaingroup">Payment Group Title</a>
+                <a class="collapse-item" href="/groups/certaingroup">Payment Group Title</a>
             </div>
         </div>
     </li>
@@ -92,7 +92,7 @@
 
     <!-- Nav Item - Charts -->
     <li class="nav-item <% if (pagename === 'profile') { %> active <% } %>">
-        <a class="nav-link" href="./profile">
+        <a class="nav-link" href="/profile">
             <i class="fas fa-fw fa-user"></i>
             <span>Profile</span></a>
     </li>

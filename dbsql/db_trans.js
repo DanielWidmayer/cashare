@@ -9,12 +9,16 @@ const COLS = [
     'source_id', // die richtige ID, die der User bei einer Transaktion auch angibt!!!!!!
     'comment'
 ];
+
+const db_user = require('./db_user');
+const db_cat = require('./db_cat');
+const db_group = require('./db_group');
+
 module.exports.TBNAME = TBNAME;
 module.exports.COLS = COLS;
 
 
-
-module.exports.create_table = async function(db_user, db_cat, db_group) {
+module.exports.create_table = async function() {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
     try {
         await query(sql);
@@ -471,3 +475,34 @@ var sqlgetcatval  = `select category_table.category_name,
     return{'categories':categories, 'totalexpenses': totalexpenses};
 
  }
+
+ module.exports.getArraysPieChartIncomes = async function(user_id){
+    var sqlgetcatval  = `select category_table.category_name, 
+                        ABS(SUM(transaction_value)) as total_value
+                        From transaction_table
+                        Inner Join category_table on transaction_table.category_id = category_table.category_id
+                        where (${COLS[3]} = '${user_id}' AND  transaction_value > 0)
+                        group by transaction_table.category_id
+                        order by total_value desc;`
+    
+        try {
+            let q_res = await query(sqlgetcatval);
+            var i= 0;
+            var categories = new Array(q_res.length);
+            var totalincomes = new Array(q_res.length);
+            for(;i < q_res.length;i++){
+                
+                categories[i]=q_res[i].category_name;
+                totalincomes[i]=q_res[i].total_value;
+            }
+           
+            
+        }
+        catch (err) {
+            throw err;
+        }
+        
+        return{'categories':categories, 'totalincomes': totalincomes};
+    
+     }
+    
