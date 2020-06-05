@@ -44,12 +44,28 @@
           <div class="d-md-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 text-primary font-weight-bold">$hareboard</h1>
             <div>
-              <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal"
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-sm shadow-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-plus text-white-50 mr-2"></i>New
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#incomeModal">
+                    <i class="fas fa-hand-holding-usd fa-fw text-gray-400 mr-3"></i>New Income</a>
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#expenseModal">
+                    <i class="fas fa-money-check-alt fa-fw text-gray-400 mr-3"></i>New Expense</a>
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#todoModal">
+                    <i class="fas fa-list fa-fw text-gray-400 mr-3"></i>New Todo</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#inviteModal">
+                    <i class="fas fa-user-plus fa-fw text-gray-400 mr-3"></i>Invite User</a>
+                </div>
+              </div>
+              <!-- <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal"
                 data-target="#incomeModal"><i class="fas fa-plus fa-sm text-white-50"></i> New Income</a>
               <a href="#" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal"
                 data-target="#expenseModal"><i class="fas fa-plus fa-sm text-white-50"></i> New Expense</a>
               <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal"
-                data-target="#todoModal"><i class="fas fa-plus fa-sm text-white-50"></i> New Todo</a>
+                data-target="#todoModal"><i class="fas fa-plus fa-sm text-white-50"></i> New Todo</a> -->
             </div>
           </div>
 
@@ -652,6 +668,39 @@
               </span>
               <span class="text">Add new Todo</span>
             </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invite Modal -->
+  <div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="inviteModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Invite users</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">x</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="/groups/certaingroup/invite">
+            <div class="text-center">
+              <div class="input-group mb-3">
+                <input type="text" name="usermail" class="form-control" placeholder="Search for User" aria-label="Payment Group Title"
+                  aria-describedby="basic-addon2">
+              </div>
+              <hr>
+              
+              <button type="submit" class="btn btn-success btn-icon-split">
+                <span class="icon text-white-50">
+                  <i class="fas fa-check"></i>
+                </span>
+                <span class="text">Send Invite</span>
+              </button>
+            </form>
           </div>
 
         </div>

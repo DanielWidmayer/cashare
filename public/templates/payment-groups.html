@@ -91,7 +91,13 @@
                   </div>
                 </div>
                 <div class="card-body">
-
+                  <div class="row">
+                    <div class="col-xl-12 col-md-12 mb-4">
+                      <div class="card border-primary shadow p-2">
+                        <%=groups[parts]['group_data']['description']%>
+                      </div>
+                    </div>
+                  </div>
 
                   <!-- Content Row -->
                   <div class="row">
@@ -134,13 +140,13 @@
 
                     <!-- Account Balance Card -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                      <a class="card border-primary shadow btn-link py-2" href="/groups/certaingroup">
+                      <a class="card border-primary shadow btn-link py-2" href="/groups/group<%=groups[parts]['group_data']['id']%>">
                         <div class="card-body">
                           <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                               <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Account Balance
                               </div>
-                              <div class="h5 mb-0 font-weight-bold text-success"><%=groups[parts]['group_data']['balance']%></div>
+                              <div class="h5 mb-0 font-weight-bold text-success">$<%=groups[parts]['group_data']['balance']%></div>
                             </div>
                             <div class="col-auto">
                               <i class="fas fa-dollar-sign fa-2x text-gray-600"></i>
@@ -210,6 +216,9 @@
                 <input type="text" name="groupname" class="form-control" placeholder="Payment Group Title" aria-label="Payment Group Title"
                   aria-describedby="basic-addon2">
               </div>
+              <div class="input-group mb-3">
+                <input type="text" name="groupdesc" class="form-control" placeholder="Description" aria-label="Payment Group Desc">
+              </div>
               <hr>
               <!-- Button Add new Payment Group-->
               <button type="submit" class="btn btn-success btn-icon-split">
@@ -274,15 +283,19 @@
           </button>
         </div>
         <div class="modal-body">
-
+        <form action="/groups/group<%=groups[el]['group_data']['id']%>" method="POST">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" value="<%=groups[el]['group_data']['name']%>" aria-label="Payment Group Title"
+            <input type="text" name="groupname" class="form-control" value="<%=groups[el]['group_data']['name']%>" aria-label="Payment Group Title"
+              aria-describedby="basic-addon2">
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" name="groupdesc" class="form-control" value="<%=groups[el]['group_data']['description']%>" aria-label="Payment Group Desc"
               aria-describedby="basic-addon2">
           </div>
           <hr>
           <div class="flex-row">
             <p class="font-weight-bold d-inline-flex m-0">Manage User rights</p>
-            <p class="d-inline-flex m-0">Write Admin</p>
+            <p class="d-inline-flex m-0 float-right">Write Admin</p>
           </div>
           <hr>
           <% for (m_ctr = 0; m_ctr < groups[el]['group_members'].length; m_ctr++) { %>
@@ -295,14 +308,20 @@
               <span class="ml-2 d-none d-inline text-secondary font-weight-bold small">
                 <%=groups[el]['group_members'][m_ctr]['firstname'] + ' ' + groups[el]['group_members'][m_ctr]['lastname']%></span>
               <div class="checkbox-triple">
-                <input type="checkbox" class="mr-3" 
-                <% if(groups[el]['group_members'][m_ctr]['role'] >= 2) { %>
-                  <%='checked'%>
-                <% } %>>
-                <input type="checkbox" class="mr-3" 
-                <% if(groups[el]['group_members'][m_ctr]['role'] > 2) { %>
-                  <%='checked'%>
-                <% } %>>     
+                <% if (groups[el]['group_members'][m_ctr]['role'] >= 2) { %>
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3 cb-role" checked>
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3" hidden>
+                <% } else { %>
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3 cb-role">
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3" hidden>
+                <% } %>
+                <% if (groups[el]['group_members'][m_ctr]['role'] > 2) { %>
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3 cb-role" checked> 
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3" hidden> 
+                <% } else { %>
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3 cb-role"> 
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3" hidden>   
+                <% } %>
               </div>
             </div>
             <hr>
@@ -310,13 +329,14 @@
           
           <div class="text-center">
             <!-- Save changes-->
-            <button type="button" class="btn btn-success btn-icon-split">
+            <button type="submit" class="btn btn-success btn-icon-split">
               <span class="icon text-white-50">
                 <i class="fas fa-check"></i>
               </span>
               <span class="text">Save Changes</span>
             </button>
           </div>
+        </form>
         </div>
       </div>
     </div>
@@ -337,8 +357,7 @@
         </div>
         <div class="modal-body">
           <div class="text-center">
-            <p class="text-danger">Select "Delete" below if you are sure you wanr to delete the Group "Payment Group
-              Title". Warning: This can not be undone!
+            <p class="text-danger">Select "Delete" below if you are sure you want to delete the Group "<%=groups[el]['group_data']['name']%>". Warning: This can not be undone!
             </p>
             <hr>
             <!-- Delete confirm-->
@@ -443,6 +462,7 @@
 
   <!-- Custom scripts for all pages-->
   <script src="/static/js/cashare.min.js"></script>
+  <script src="/static/js/groups-overview.js"></script>
 
 </body>
 

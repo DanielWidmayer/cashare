@@ -156,6 +156,6 @@ app.use(function (err, req, res, next) {
 // -------------------------------------------------------------------------------------------------------------------------------- /Error handler
 
 // -------------------------------------------------------------------------------------------------------------------------------- listen
-app.listen(process.env.PORT, process.env.LOC_HOST, function () {
+app.listen(process.env.PORT, function () {
   console.log(`Example app listening on port ${process.env.PORT}`);
 });
