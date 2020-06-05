@@ -1,4 +1,3 @@
-
 const TBNAME = 'message_table';
 const COLS = [
     'message_id',
@@ -20,11 +19,10 @@ module.exports.create_table = async function() {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
     try {
         await query(sql);
-        console.log("table message_table allready exists!");
-    }
-    catch(err) {
+        console.log('table message_table allready exists!');
+    } catch (err) {
         console.log(err);
-        console.log("No table message_table.."); 
+        console.log('No table message_table..');
 
         console.log("create table..");
         sql = "create table "+ TBNAME + " ("
@@ -44,11 +42,49 @@ module.exports.create_table = async function() {
             +");"
         try {
             await query(sql);
-            console.log("table message_table created!");
-        }
-        catch(err) {
-            console.log("cannot create table...");
+            console.log('table message_table created!');
+        } catch (err) {
+            console.log('cannot create table...');
             console.log(err);
         }
     }
-}
+};
+
+module.exports.getMessagesByUserID = async function (user_id) {
+    var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' OR ${COLS[4]} = '${user_id}')`;
+    try {
+        let res = await query(sql);
+        return res;
+    } catch (err) {
+        throw err;
+    }
+};
+
+module.exports.getMessagesByUserIDandTimestamp = async function (user_id) {};
+
+module.exports.insertMessage = async function (timetag, text, user_send_id, user_receive_id, group_id) {
+    var sql, res;
+
+    if (user_receive_id != null) {
+        try {
+            sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}) ` + `VALUES ('${timetag}', '${text}', ${user_send_id}, ${user_receive_id});`;
+            res = await query(sql);
+            return res;
+        } catch (err) {
+            throw err;
+        }
+    } else if (group_id != null) {
+        try {
+            sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[5]}) ` + `VALUES ('${timetag}', '${text}', ${user_send_id}, ${group_id});`;
+
+            res = await query(sql);
+            return res;
+        } catch (err) {
+            throw err;
+        }
+    } else {
+        console.log('Error: Both group_id and user_receive_id are null, but at least one value should be != null');
+    }
+
+
+};

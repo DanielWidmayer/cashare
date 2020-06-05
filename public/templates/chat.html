@@ -1,329 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="Webapplication to share and manage finances" content="" />
+        <meta name="Daniel Widmayer" content="Financing" />
 
-<head>
+        <title>Cashare Chat</title>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="Webapplication to share and manage finances" content="">
-    <meta name="Daniel Widmayer" content="Financing">
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
 
-    <title>Cashare Chat</title>
+        <!-- Custom fonts for this template-->
+        <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
 
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <!-- Custom styles for this template-->
+        <link href="/static/css/cashare.min.css" rel="stylesheet" />
+    </head>
 
-    <!-- Custom fonts for this template-->
-    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <body id="page-top">
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+            <%- include('sidebar'); -%>
 
-    <!-- Custom styles for this template-->
-    <link href="/static/css/cashare.min.css" rel="stylesheet">
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+                <!-- Main Content -->
+                <div id="content">
+                    <%- include('topbar'); -%>
 
-
-</head>
-
-<body id="page-top">
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
-        <%- include('sidebar'); -%>
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <%- include('topbar'); -%>
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-primary font-weight-bold">Messages</h1>
-                    </div>
-
-                    <div class="card rounded border-left-primary">
-                        <div class="row">
-                            <div class="col-xl-4">
-
-                                <div class="inbox_chat">
-                                    <div class="row pt-3 border">
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-primary font-weight-bold">Messages</h1>
+                            <div id="userid">
+                                <%=(userid)%>
+                            </div>
+                        </div>
+                        <div class="card rounded border-left-primary">
+                            <div class="row">
+                                <div class="col-xl-4">
+                                    <div class="row pt-3">
                                         <div class="col-sm-4 ml-4 mt-1">
                                             <h4 class="text-primary font-weight-bold">Recent</h4>
                                         </div>
-                                        <div class="col-sm-6 ml-4 mr-2">
-                                            <div class="input-group mb-3">
-                                                <input type="text" class="form-control" placeholder="Search"
-                                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                        <div class="col-sm-6 mr-2">
+                                            <div class="input-group mb-3 ml-2 mr-1">
+                                                <input id="searchUserInput" type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2" />
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-outline-primary" type="button">
+                                                    <button id="searchUserButton" class="btn btn-outline-primary" type="button">
                                                         <i class="fas fa-search text-black"></i>
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="btn chat_list">
-                                        <div class="chat_people">
-                                            <div class="chat_img"> <img
-                                                    src="https://ptetutorials.com/images/user-profile.png" alt="user">
-                                            </div>
-                                            <div class="chat_ib">
-                                                <h5>Jens Bühler <span class="chat_date">2min</span></h5>
-                                                <p>Ich brauch Geld.</p>
-                                            </div>
-                                        </div>
-                                    </button>
-                                    <button class="btn chat_list active_chat">
-                                        <div class="chat_people">
-                                            <div class="chat_img"> <img
-                                                    src="https://ptetutorials.com/images/user-profile.png" alt="user">
-                                            </div>
-                                            <div class="chat_ib">
-                                                <h5>Jens Bühler <span class="chat_date">2min</span></h5>
-                                                <p>Ich brauch Geld.</p>
-                                            </div>
-                                        </div>
-                                    </button>
-                                    <button class="btn chat_list">
-                                        <div class="chat_people">
-                                            <div class="chat_img"> <img
-                                                    src="https://ptetutorials.com/images/user-profile.png" alt="user">
-                                            </div>
-                                            <div class="chat_ib">
-                                                <h5>Jens Bühler <span class="chat_date">2min</span></h5>
-                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus amet
-                                                    quisquam velit minima dignissimos sunt numquam culpa consectetur
-                                                    saepe. Saepe iste velit odio quia nisi nobis, quisquam quos unde
-                                                    perferendis?</p>
-                                            </div>
-                                        </div>
-                                    </button>
-                                    <button class="btn chat_list">
-                                        <div class="chat_people">
-                                            <div class="chat_img"> <img
-                                                    src="https://ptetutorials.com/images/user-profile.png" alt="user">
-                                            </div>
-                                            <div class="chat_ib">
-                                                <h5>Denis Alber <span class="chat_date">7min</span></h5>
-                                                <p>Was geht?</p>
-                                            </div>
-                                        </div>
-                                    </button>
-                                    <button class="btn chat_list">
-                                        <div class="chat_people">
-                                            <div class="chat_img"> <img
-                                                    src="https://ptetutorials.com/images/user-profile.png" alt="user">
-                                            </div>
-                                            <div class="chat_ib">
-                                                <h5>Philemon Weber <span class="chat_date">32min</span></h5>
-                                                <p>Hab dir mal 2 Riesen ber BitCoin geschickt..</p>
-                                            </div>
-                                        </div>
-                                    </button>
-                                    <button class="btn chat_list">
-                                        <div class="chat_people">
-                                            <div class="chat_img"> <img
-                                                    src="https://ptetutorials.com/images/user-profile.png" alt="user">
-                                            </div>
-                                            <div class="chat_ib">
-                                                <h5>Andre Schwagerick <span class="chat_date">50min</span></h5>
-                                                <p>Absolut Krank Bruder</p>
-                                            </div>
-                                        </div>
-                                    </button>
-                                    <button class="btn chat_list">
-                                        <div class="chat_people">
-                                            <div class="chat_img"> <img
-                                                    src="https://ptetutorials.com/images/user-profile.png" alt="user">
-                                            </div>
-                                            <div class="chat_ib">
-                                                <h5>Timmy <span class="chat_date">yesterday</span></h5>
-                                                <p>Bis dann</p>
-                                            </div>
-                                        </div>
-                                    </button>
-                                    <button class="btn chat_list">
-                                        <div class="chat_people">
-                                            <div class="chat_img"> <img
-                                                    src="https://ptetutorials.com/images/user-profile.png" alt="user">
-                                            </div>
-                                            <div class="chat_ib">
-                                                <h5>Tobias Stauch <span class="chat_date">Dec 25</span></h5>
-                                                <p>Kannst du mir noch das Geld schicken?</p>
-                                            </div>
-                                        </div>
-                                    </button>
-                                    <button class="btn chat_list">
-                                        <div class="chat_people">
-                                            <div class="chat_img"> <img
-                                                    src="https://ptetutorials.com/images/user-profile.png" alt="user">
-                                            </div>
-                                            <div class="chat_ib">
-                                                <h5>Daniel Widmayer <span class="chat_date">Dec 24</span></h5>
-                                                <p>Merry X-mas</p>
-                                            </div>
-                                        </div>
-                                    </button>
+                                    <div class="inbox_chat border-top"></div>
                                 </div>
-                            </div>
-                            <div class="col-xl-8 p-0" id="toggleChat">
-                                <div class="msg_history" id="messageBody">
-                                    <div class="incoming_msg">
-                                        <div class="incoming_msg_img"> <img
-                                                src="https://ptetutorials.com/images/user-profile.png" alt="user">
+                                <div class="col-xl-8 p-0" id="toggleChat">
+                                    <div class="msg_history" id="messageBody"></div>
+                                    <div class="type_msg">
+                                        <div class="row">
+                                            <input type="text" id="messageInput" class="write_msg input_msg_write" placeholder="Type a message" />
+                                            <button id="sendMessageButton" class="btn btn-primary btn-circle mt-1 ml-2 mr-2" type="button">
+                                                <i class="fas fa-paper-plane text-white"></i>
+                                            </button>
                                         </div>
-                                        <div class="received_msg">
-                                            <div class="received_withd_msg">
-                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                                    Similique nobis culpa
-                                                    fuga eos obcaecati id ex inventore, repellendus neque
-                                                    voluptatibus aperiam
-                                                    perferendis fugiat natus numquam! Adipisci voluptatem enim
-                                                    impedit suscipit?</p>
-                                                <span class="time_date"> 11:11 AM | January 9</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="outgoing_msg">
-                                        <div class="sent_msg">
-                                            <p>Alles klar?!</p>
-                                            <span class="time_date"> 11:12 AM | January 9</span>
-                                        </div>
-                                    </div>
-                                    <div class="incoming_msg">
-                                        <div class="incoming_msg_img"> <img
-                                                src="https://ptetutorials.com/images/user-profile.png" alt="user">
-                                        </div>
-                                        <div class="received_msg">
-                                            <div class="received_withd_msg">
-                                                <p>Ja Danke!</p>
-                                                <span class="time_date"> 18:34 AM | Yesterday</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="outgoing_msg">
-                                        <div class="sent_msg">
-                                            <p>Oke.</p>
-                                            <span class="time_date"> 9:31 AM | Today</span>
-                                        </div>
-                                    </div>
-                                    <div class="incoming_msg">
-                                        <div class="incoming_msg_img"> <img
-                                                src="https://ptetutorials.com/images/user-profile.png" alt="user">
-                                        </div>
-                                        <div class="received_msg">
-                                            <div class="received_withd_msg">
-                                                <p>We work directly with our designers and suppliers,
-                                                    and sell direct to you, which means quality, exclusive
-                                                    products, at a price anyone can afford.</p>
-                                                <span class="time_date"> 11:01 AM | Today</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="outgoing_msg">
-                                        <div class="sent_msg">
-                                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores quod
-                                                hic molestiae quos, nemo temporibus rerum quo iure voluptate, eaque sunt
-                                                placeat ad perspiciatis vero incidunt, aspernatur nobis odit officiis?.
-                                            </p>
-                                            <span class="time_date"> 9:31 AM | Today</span>
-                                        </div>
-                                    </div>
-                                    <div class="incoming_msg">
-                                        <div class="incoming_msg_img"> <img
-                                                src="https://ptetutorials.com/images/user-profile.png" alt="user">
-                                        </div>
-                                        <div class="received_msg">
-                                            <div class="received_withd_msg">
-                                                <p>We work directly with our designers and suppliers,
-                                                    and sell direct to you, which means quality, exclusive
-                                                    products, at a price anyone can afford.</p>
-                                                <span class="time_date"> 11:01 AM | Today</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="type_msg">
-                                    <div class="row">
-                                        <input type="text" class="write_msg input_msg_write "
-                                            placeholder="Type a message" />
-                                        <button class="btn btn-primary btn-circle mt-1 ml-2 mr-2" type="button">
-                                            <i class="fas fa-paper-plane text-white"></i></button>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
+                    <!-- /.container-fluid -->
                 </div>
-                <!-- /.container-fluid -->
+                <!-- End of Main Content -->
 
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; Your Website 2020</span>
+                        </div>
                     </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="./logout">Logout</a>
-                </div>
+                </footer>
+                <!-- End of Footer -->
             </div>
+            <!-- End of Content Wrapper -->
         </div>
-    </div> -->
+        <!-- End of Page Wrapper -->
 
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
+        <!-- Bootstrap core JavaScript-->
+        <script src="/static/vendor/jquery/jquery.min.js"></script>
+        <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="/static/vendor/jquery/jquery.min.js"></script>
-    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
 
+        <!-- Custom scripts for all pages-->
+        <script src="/static/js/cashare.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="/static/js/cashare.min.js"></script>
-
-    <!-- Custom script for chat -->
-    <script src="/static/js/chat.js"></script>
-</body>
-
+        <!-- Custom script for chat -->
+        <script src="/static/js/chat.js"></script>
+        <script src="/static/js/autocomplete.js"></script>
+    </body>
 </html>

@@ -210,3 +210,25 @@ module.exports.registerUser = async function(firstname, lastname, mail, password
         throw err;
     }
 }
+
+module.exports.getMailData = async function() {
+    var sql, res;
+    sql = `SELECT * FROM ${TBNAME};`
+    try {
+        let q_res = await query(sql);
+        let res = [];
+        for (i in q_res) {
+            for (const key in q_res[i]) {
+            switch(key) {
+                case COLS[3]: res.push(q_res[i][key]);
+                break;
+                default: break;
+            }
+            }
+        }
+        return res;
+    }
+    catch(err) {
+        throw err;
+    }
+}

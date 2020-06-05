@@ -177,18 +177,27 @@
       </div>
       <!-- End of Main Content -->
 
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
-
     </div>
     <!-- End of Content Wrapper -->
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; Your Website 2019</span>
+        </div>
+      </div>
+    </footer>
+    <!-- End of Footer -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; Your Website 2020</span>
+        </div>
+      </div>
+    </footer>
+    <!-- End of Footer -->
 
   </div>
   <!-- End of Page Wrapper -->
@@ -299,9 +308,9 @@
           </div>
           <hr>
           <% for (m_ctr = 0; m_ctr < groups[el]['group_members'].length; m_ctr++) { %>
-            <div class="flex-row">
+            <div class="flex-row userDisplay">
               <% if (groups[el]['group_members'][m_ctr]['picture']) { %>
-                <div class="profilepic profilepic-sm" style="background-image: url(/static/img/profiles/<%=groups[el]['group_members'][m_ctr]['picture']%>);"></div>
+                <div class="profilepic profilepic-sm " style="background-image: url(/static/img/profiles/<%=groups[el]['group_members'][m_ctr]['picture']%>);"></div>
               <% } else {%>
                 <i class="fas fa-user fa-fw btn btn-primary btn-circle"></i>
               <% } %>
@@ -387,7 +396,7 @@
         </div>
         <div class="modal-body">
           <% for (m_ctr = 0; m_ctr < groups[el]['group_members'].length; m_ctr++) { %>
-            <div class="flex-row">
+            <div class="flex-row userDisplay">
               <% if (groups[el]['group_members'][m_ctr]['picture']) { %>
                 <div class="profilepic profilepic-sm" style="background-image: url(/static/img/profiles/<%=groups[el]['group_members'][m_ctr]['picture']%>)"></div>
               <% } else {%>
