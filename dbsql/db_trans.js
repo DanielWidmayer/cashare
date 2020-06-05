@@ -254,11 +254,9 @@ module.exports.insertTransaction = async function(value, transonce, category, is
     }
 }
 
-module.exports.setRegularTransaction = async function(user_id, value) {
-
-};
 
 module.exports.deleteRegularTransaction = async function(user_id, value) {
+
 // stop now
 // delete 
 };
@@ -449,7 +447,7 @@ var sqlgetcatval  = `select category_table.category_name,
 
  }
 
- module.exports.getArraysPieChartIncomes = async function(user_id){
+module.exports.getArraysPieChartIncomes = async function(user_id){
     var sqlgetcatval  = `select category_table.category_name, 
                         ABS(SUM(transaction_value)) as total_value
                         From transaction_table
@@ -477,5 +475,27 @@ var sqlgetcatval  = `select category_table.category_name,
         
         return{'categories':categories, 'totalincomes': totalincomes};
     
-     }
+}
     
+module.exports.getRegularTransactions = async function(user_id, isExpense) {
+    try{
+    let json_event_val = await query(`SELECT EVENT_DEFINITION, INTERVAL_VALUE, INTERVAL_FIELD, LAST_ALTERED, EVENT_NAME FROM INFORMATION_SCHEMA.EVENTS;`);
+    var eventData;
+    for (i in json_event_val) {
+        eventData = json_event_val[i]['EVENT_DEFINITION'].split('VALUES')[1].replace(/ |\'|\(|\)/g, '').split(',');
+
+        json_event_val[i]['TRANSACTION_VALUE'] = eventData[0];
+        json_event_val[i]['USER_ID'] = eventData[2];
+        json_event_val[i]['EVENT_DEFINITION'] = eventData[3]; // category
+        if(isExpense){
+            json_event_val[i]['IS_EXPENSE'] = '1'; // is expense is true = 1
+        }else{
+            json_event_val[i]['IS_EXPENSE'] = '0'; // is income is expense false = 0
+        }
+    }
+    console.log(json_event_val);
+    return json_event_val;
+    } catch(err){
+        throw err;
+    }
+};

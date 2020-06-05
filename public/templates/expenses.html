@@ -185,20 +185,6 @@
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-secondary">Categories</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -290,9 +276,6 @@
                                                         <option value="1">Years</option>
                                                         <option value="2">Months</option>
                                                         <option value="3">Days</option>
-                                                        <option value="4">Hours</option>
-                                                        <option value="5">Minutes</option>
-                                                        <option value="6">Seconds</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -318,13 +301,12 @@
                                         <div id="destination_account_input_group" class="input-group mb-3">
                                             <div class="input-group">
                                                 <input type="text" class="form-control"
-                                                    placeholder="Enter ID" id="destination_id" disabled>
-                                                <div class="input-group-append">
+                                                    placeholder="Enter ID" id="destination_id" hidden>
+                                                <div class="input-group">
                                                     <select class="custom-select form-control" id="destination_account">
-                                                        <option value="0" selected>Choose destination account</option>
-                                                        <option value="1">Transfer to my account</option>
-                                                        <option value="2">Transfer to another user's account</option>
-                                                        <option value="3">Transfer to the account of a payment group</option>
+                                                        <option value="0" selected>Transfer to my account (default)</option>
+                                                        <option value="1">Transfer to another user's account</option>
+                                                        <option value="2">Transfer to the account of a payment group</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -332,7 +314,7 @@
 
 
                                         <div class="input-group mb-3">
-                                            <select class="custom-select" id="chooseCategory" disabled>
+                                            <select class="custom-select" id="chooseCategory">
                                                 <option selected>Choose Category</option>
                                                 <% categorys.forEach(function(cat){ %>
                                                 <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
@@ -341,17 +323,12 @@
                                             <div class="input-group-append">
 
                                                 <button type="button" class="btn btn-outline-secondary"
-                                                    data-toggle="modal" data-target="#Category" id="new_category_button" disabled>
+                                                    data-toggle="modal" data-target="#Category" id="new_category_button">
                                                     <i class="fas fa-plus fa-sm text-gray-50"></i>
                                                     New Category
                                                 </button>
 
                                             </div>
-                                        </div>
-                                        <div class="input-group autocomplete">
-                                            <input type="text" lang="en" class="form-control"
-                                                placeholder="contractual partner" aria-label="contractualPartner"
-                                                aria-describedby="basic-addon2" id="contractualPartner">
                                         </div>
                                         <hr>
                                         <!-- Button Add new Expense-->
@@ -568,9 +545,6 @@
                                         <option value="1">Years</option>
                                         <option value="2">Months</option>
                                         <option value="3">Days</option>
-                                        <option value="4">Hours</option>
-                                        <option value="5">Minutes</option>
-                                        <option value="6">Seconds</option>
                                     </select>
                                 </div>
                             </div>
@@ -594,13 +568,12 @@
                         <div id="destination_account_input_group_modal" class="input-group mb-3">
                             <div class="input-group">
                                 <input type="text" class="form-control"
-                                    placeholder="Enter ID" id="destination_id_modal" disabled>
-                                <div class="input-group-append">
+                                    placeholder="Enter ID" id="destination_id_modal" hidden>
+                                <div class="input-group">
                                     <select class="custom-select form-control" id="destination_account_modal">
-                                        <option value="0" selected>Choose destination account</option>
-                                        <option value="1">Transfer to my account</option>
-                                        <option value="2">Transfer to another user's account</option>
-                                        <option value="3">Transfer to the account of a payment group</option>
+                                        <option value="0" selected>Transfer to my account</option>
+                                        <option value="1">Transfer to another user's account</option>
+                                        <option value="2">Transfer to the account of a payment group</option>
                                     </select>
                                 </div>
                             </div>
@@ -608,7 +581,7 @@
 
 
                         <div class="input-group mb-3">
-                            <select class="custom-select" id="chooseCategory_modal" disabled>
+                            <select class="custom-select" id="chooseCategory_modal">
                                 <option selected>Choose Category</option>
                                 <% categorys.forEach(function(cat){ %>
                                 <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
@@ -617,7 +590,7 @@
                             <div class="input-group-append">
 
                                 <button type="button" class="btn btn-outline-secondary"
-                                    data-toggle="modal" data-target="#Category" id="new_category_button_modal" disabled>
+                                    data-toggle="modal" data-target="#Category" id="new_category_button_modal">
                                     <i class="fas fa-plus fa-sm text-gray-50"></i>
                                     New Category
                                 </button>

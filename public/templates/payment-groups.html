@@ -295,7 +295,8 @@
           <hr>
           <div class="flex-row">
             <p class="font-weight-bold d-inline-flex m-0">Manage User rights</p>
-            <p class="d-inline-flex m-0 float-right">Write Admin</p>
+            <p class="d-inline-flex m-0 mr-1 float-right">Write</p>
+            <p class="d-inline-flex m-0 mr-2 float-right">Admin</p>
           </div>
           <hr>
           <% for (m_ctr = 0; m_ctr < groups[el]['group_members'].length; m_ctr++) { %>
@@ -307,17 +308,17 @@
               <% } %>
               <span class="ml-2 d-none d-inline text-secondary font-weight-bold small">
                 <%=groups[el]['group_members'][m_ctr]['firstname'] + ' ' + groups[el]['group_members'][m_ctr]['lastname']%></span>
-              <div class="checkbox-triple">
+              <div class="checkbox-multiple">
                 <% if (groups[el]['group_members'][m_ctr]['role'] >= 2) { %>
-                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3 cb-role" checked>
-                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3" hidden>
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-4 cb-role" checked>
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-4" hidden>
                 <% } else { %>
                   <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3 cb-role">
                   <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3" hidden>
                 <% } %>
                 <% if (groups[el]['group_members'][m_ctr]['role'] > 2) { %>
-                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3 cb-role" checked> 
-                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3" hidden> 
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-4 cb-role" checked> 
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-4" hidden> 
                 <% } else { %>
                   <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3 cb-role"> 
                   <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3" hidden>   
