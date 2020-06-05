@@ -254,15 +254,6 @@ module.exports.insertTransaction = async function(value, transonce, category, is
     }
 }
 
-module.exports.setRegularTransaction = async function(user_id, value) {
-
-};
-
-module.exports.deleteRegularTransaction = async function(user_id, value) {
-// stop now
-// delete 
-};
-
 
 module.exports.getTransactionsByUserID = async function(user_id, isExpense) {
     var sql_getTransactions;
