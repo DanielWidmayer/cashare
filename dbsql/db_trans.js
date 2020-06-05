@@ -8,12 +8,16 @@ const COLS = [
     'category_id',   
     'comment'
 ];
+
+const db_user = require('./db_user');
+const db_cat = require('./db_cat');
+const db_group = require('./db_group');
+
 module.exports.TBNAME = TBNAME;
 module.exports.COLS = COLS;
 
 
-
-module.exports.create_table = async function(db_user, db_cat, db_group) {
+module.exports.create_table = async function() {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
     try {
         await query(sql);

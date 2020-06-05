@@ -36,3 +36,59 @@ module.exports.create_table = async function() {
         }
     }
 }
+
+
+module.exports.getGroup = async function(groupid) {
+    var sql = `SELECT * FROM ${TBNAME} WHERE ${COLS[0]}='${groupid}';`;
+    try {   
+        let row = await query(sql);
+        return row[0];
+    } catch (err) {
+        throw (err);
+    }
+}
+
+
+module.exports.createGroup = async function(groupname, groupdesc) {
+    var sql1 = `SELECT MAX(${COLS[0]}) AS 'index' FROM ${TBNAME} WHERE ${COLS[1]}='${groupname}' AND ${COLS[2]}='${groupdesc}';`;
+    var sql2 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}) VALUES ('${groupname}', '${groupdesc}', 0);`;
+    try {
+
+        await query(sql2);
+        let index = await query(sql1);
+        index = index[0]['index'];
+        return index;
+    } catch (err) {
+        throw (err);
+    }
+}
+
+module.exports.deleteGroup = async function (groupid) {
+    var sql = `DELETE FROM ${TBNAME} WHERE ${COLS[0]}='${groupid}';`;
+    try {
+        await query(sql);
+        return 1;
+    } catch (err) {
+        throw (err);
+    }
+}
+
+module.exports.changeGroupName = async function (groupid, groupname) {
+    var sql = `UPDATE ${TBNAME} SET ${COLS[1]}='${groupname}' WHERE ${COLS[0]}='${groupid}';`;
+    try {
+        await query(sql);
+        return 1;
+    } catch (err) {
+        throw (err);
+    }
+}
+
+module.exports.changeGroupDesc = async function (groupid, groupdesc) {
+    var sql = `UPDATE ${TBNAME} SET ${COLS[2]}='${groupdesc}' WHERE ${COLS[0]}='${groupid}';`;
+    try {
+        await query(sql);
+        return 1;
+    } catch (err) {
+        throw (err);
+    }
+}
