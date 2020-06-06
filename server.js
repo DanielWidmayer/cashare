@@ -13,11 +13,15 @@ const app = express();
 const flash = require('connect-flash');
 const flash_mw = require('./modules/flashes');
 const dbsql = require('./dbsql');
-
+const redis = require('redis);
+const redisClient = redis.createClient(process.env.REDIS_URL);
+const redisStore = require('connect-redis')(session);
 
 if (dotenv.error) throw dotenv.error;
 
-
+redisClient.on('error', (err) => {
+  console.log('redis error: ', err);
+});
 
 const IN_PROD = process.env.NODE_ENV === 'production';
 const TTL = parseInt(process.env.SESS_LIFETIME);
@@ -41,7 +45,8 @@ app.use(
       sameSite: true,
       secure: IN_PROD,
     },
-    rolling: true
+    rolling: true,
+    store: new redisStore({client: redisClient});
   })
 );
 
