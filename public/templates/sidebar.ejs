@@ -74,10 +74,13 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Total:</h6>
                 <a class="collapse-item font-weight-bold" href="/groups">Overview</a>
-                <div class="collapse-divider"></div>
-                <h6 class="collapse-header">Payment Groups:</h6>
-                <a class="collapse-item" href="/groups/certaingroup">Payment Group Title</a>
-                <a class="collapse-item" href="/groups/certaingroup">Payment Group Title</a>
+                <% if (static_groups.length > 0) { %> 
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Payment Groups:</h6>
+                    <% for (g_ctr = 0; g_ctr < static_groups.length; g_ctr++) { %>
+                    <a class="collapse-item" href="/groups/group<%=static_groups[g_ctr]['id']%>"><%=static_groups[g_ctr]['name']%></a>
+                    <% } %>
+                <% } %>
             </div>
         </div>
     </li>
@@ -99,7 +102,7 @@
 
     <!-- Nav Item - Settings -->
     <li class="nav-item">
-        <a class="nav-link" href="blank.html">
+        <a class="nav-link" href="/settings">
             <i class="fas fa-fw fa-cog"></i>
             <span>Settings</span></a>
     </li>

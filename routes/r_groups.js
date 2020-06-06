@@ -58,6 +58,14 @@ router.get('/:group', function (req, res) {
     return res.render('paymentgroup-shareboard.html', { pagename: 'groups' });
 });
 
+router.post('/join', function (req, res) {
+  //let groupid = req.params.group.replace(/[^\d]/g, '');
+  console.log(req.params);
+  console.log(req.query);
+  console.log(req.boy);
+  return res.redirect('/groups/:group');
+});
+
 router.post('/:group', async function (req, res) {
   let groupid = req.params.group.replace(/[^\d]/g, '');
   let groupname = req.body['groupname'];
@@ -101,7 +109,7 @@ router.post('/:group', async function (req, res) {
   } catch (err) {
     console.log(err);
   }
-  return res.redirect('/groups/:group');
+  return res.redirect('/groups/' + req.params.group);
 })
 
 router.get('/:group/rem', async function(req, res) {

@@ -27,4 +27,5 @@ router.get('/piechart-incomes', async function(req,res){
   var q_trans = await dbsql.db_trans.getArraysPieChartIncomes(req.user[0]);
   res.json(q_trans);
 });
+
 module.exports = router;

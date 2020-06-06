@@ -3,7 +3,8 @@ const TBNAME = 'user_group_table';
 const COLS = [
     'user_id',
     'group_id',
-    'user_role'                 // 0 = invited , 1 = basic (only read) , 2 = advanced (edit payment goals e.g.) , 3 = admin
+    'user_role',                 // 0 = invited , 1 = basic (only read) , 2 = advanced (edit payment goals e.g.) , 3 = admin
+    'invited_by',
 ];
 
 const db_user = require('./db_user');
@@ -31,6 +32,9 @@ module.exports.create_table = async function() {
             +`Foreign Key (${COLS[1]}) REFERENCES ${db_group.TBNAME}(${db_group.COLS[0]}) `
             +"ON DELETE CASCADE,"
             + COLS[2] + " int not null,"
+            + COLS[3] + " int,"
+            +`FOREIGN KEY (${COLS[3]}) REFERENCES ${db_user.TBNAME}(${db_user.COLS[0]}) `
+            +"ON DELETE CASCADE,"
             +`PRIMARY KEY (${COLS[0]},${COLS[1]})`
             +");"
         try {
@@ -55,6 +59,19 @@ module.exports.getUserGroups = async function(userid) {
     }
 }
 
+module.exports.getInvitedGroups = async function (userid) {
+    var sql = `SELECT ${COLS[1]}, ${COLS[3]} FROM ${TBNAME} WHERE ${COLS[0]}='${userid}' AND ${COLS[2]}=0;`;
+    try {
+        let res = [];
+        let rows = await query(sql);
+        for (x = 0; x < rows.length; x++) {
+            res.push([rows[x][COLS[1]], rows[x][COLS[3]]]);
+        }
+        return res;
+    } catch (err) {
+        throw (err);
+    }
+}
 
 module.exports.getMembers = async function(groupid) {
     var sql = `SELECT ${COLS[0]}, ${COLS[2]} FROM ${TBNAME} WHERE ${COLS[1]}='${groupid}';`;

@@ -264,30 +264,26 @@
                       </tr>
                   </thead>
                     <tbody>
+                      <% if (inv_groups.length > 0) { %>
+                        <% for (i_ctr = 0; i_ctr < inv_groups.length; i_ctr++) { %>
                         <tr>
-                            <td scope="row">Jens the Bühler</td>
-                            <td>Project Eagle</td>
+                            <td scope="row"><%=inv_groups[i_ctr]['inv']%></td>
+                            <td><%=inv_groups[i_ctr]['name']%></td>
                             <td>
-                                <button class="btn btn-circle btn-success"><i
-                                        class="fas fa-check text-white" data-toggle="modal"
-                                        data-target="#acceptInvitation"></i></button>
-                                <button class="btn btn-circle btn-danger"><i
-                                        class="fas fa-times text-white" data-toggle="modal"
-                                        data-target="#declineInvitation"></i></button>
+                              <form method="POST" action="/groups/join" id="inv_<%=i_ctr%>">
+                                <button class="btn btn-circle btn-success" id="acc_<%=i_ctr%>"><i
+                                        class="fas fa-check text-white"></i></button>
+                                <input type="checkbox" name="choice" id="racc_<%=i_ctr%>" value="1" hidden>
+                                <button class="btn btn-circle btn-danger" id="den_<%=i_ctr%>"><i
+                                        class="fas fa-times text-white"></i></button>
+                                <input type="checkbox" name="choice" id="rden_<%=i_ctr%>" value="0" hidden>
+                              </form>
                             </td>
                         </tr>
-                        <tr>
-                            <td scope="row">Denis Alber</td>
-                            <td>WG im Schloss</td>
-                            <td>
-                                <button class="btn btn-circle btn-success"><i
-                                        class="fas fa-check text-white" data-toggle="modal"
-                                        data-target="#acceptInvitation"></i></button>
-                                <button class="btn btn-circle btn-danger"><i
-                                        class="fas fa-times text-white" data-toggle="modal"
-                                        data-target="#declineInvitation"></i></button>
-                            </td>
-                        </tr>
+                        <% } %>
+                      <% } else { %>
+                        <tr>You have not been invited to any Groups lately.</tr>
+                      <% } %>
                     </tbody>
                 </table>
                 </div>
@@ -346,6 +342,25 @@
   <script src="/static/js/chart-area.js"></script>
   <script src="/static/js/charts.js" type="text/javascript"></script>
 
+  <script>
+    $('form button').on('click', (function(ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      let id_el = $(this).prop('id').split(/_/);
+
+      if(id_el[0] == 'acc') {
+        let s_id = '#racc_' + id_el[1];
+        $(s_id).prop('checked', true);
+      }
+      if(id_el[0] == 'den') {
+        let s_id = '#rden_' + id_el[1];
+        $(s_id).prop('checked', true);
+      }
+      if($('#rden_0').is(':checked')) console.log('checked');
+      let s_id = '#inv_' + id_el[1];
+      $(s_id).submit();
+    }));
+  </script>
 </body>
 
 </html>

@@ -35,8 +35,8 @@ module.exports.create_table = async function() {
             + COLS[2] + " int,"
             + `FOREIGN KEY (${COLS[2]}) REFERENCES ${db_group.TBNAME}(${db_group.COLS[0]}) ON DELETE CASCADE,`
             + COLS[3] + " datetime not null,"
-            + COLS[4] + " varchar(500) not null,"
-            + COLS[5] + " varchar(255) not null,"
+            + COLS[4] + " varchar(255) not null,"
+            + COLS[5] + " varchar(500) not null,"
             + COLS[6] + " int not null default(0)"
             +");"
         try {
