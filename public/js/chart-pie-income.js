@@ -12,8 +12,8 @@ var PieChartIncome = new Chart(ctx, {
     datasets: [
       {
         data: [],
-        backgroundColor: ['#3493FF', '#36b9cc', '#6e707e'],
-        hoverBackgroundColor: ['#4FAFFF', '#4FCFDF', '#7e808e'],
+        backgroundColor: ['#3493FF', '#99c9ff','#e6f1ff','#8598ad', '94999e', '#999999'],
+        hoverBackgroundColor: ['#66adff', '#80bbff', '#cce4ff', '#8a98a8', '#99c9ff'],
         hoverBorderColor: 'rgba(234, 236, 244, 1)'
       }
     ]

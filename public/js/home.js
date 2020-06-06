@@ -58,7 +58,7 @@ $(document).ready(function(){
                 sum += 100*data[key]['current']/data[key]['value'];
             }
     
-            $('#payment_tasks_average').text(sum/counter);
+            $('#payment_tasks_average').text(sum/counter + '%');
             $('#payment_tasks_average_width').css('width', sum/counter + '%');
     
         },

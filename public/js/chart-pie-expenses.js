@@ -13,8 +13,8 @@ var PieChart_Expenses = new Chart(ctx, {
     datasets: [
       {
         data: [],
-        backgroundColor: ['#3493FF', '#36b9cc','#FFFFFF','#56b110'],
-        hoverBackgroundColor: ['#4FAFFF', '#4FCFDF'],
+        backgroundColor: ['#3493FF', '#99c9ff','#e6f1ff','#8598ad', '94999e', '#999999'],
+        hoverBackgroundColor: ['#66adff', '#80bbff', '#cce4ff', '#8a98a8', '#99c9ff'],
         hoverBorderColor: 'rgba(234, 236, 244, 1)'
       }
     ]
