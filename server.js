@@ -13,7 +13,7 @@ const app = express();
 const flash = require('connect-flash');
 const flash_mw = require('./modules/flashes');
 const dbsql = require('./dbsql');
-const redis = require('redis);
+const redis = require('redis');
 const redisClient = redis.createClient(process.env.REDIS_URL);
 const redisStore = require('connect-redis')(session);
 
