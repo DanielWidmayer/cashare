@@ -127,28 +127,32 @@ $("#transactionValueModal").on("keypress keyup blur", function (event) {
 
 
 $('#destination_account').change(function() {
-    $('#destination_id').prop('disabled', false);
+    $('#destination_id').prop('hidden', false);
+    $('#destination_id').next().removeClass('input-group').addClass('input-group-append');
 
-    $('#chooseCategory').prop('disabled', true);
-    $('#new_category_button').prop('disabled', true);
-    if ($(this).val() == "0" || $(this).val() == "1") {
-      $('#destination_id').prop('disabled', true);
+    $('#chooseCategory').prop('hidden', true);
+    $('#new_category_button').prop('hidden', true);
+    if ($(this).val() == "0") {
+      $('#destination_id').prop('hidden', true);
+      $('#destination_id').next().removeClass('input-group-append').addClass('input-group');
 
-      $('#chooseCategory').prop('disabled', false);
-      $('#new_category_button').prop('disabled', false);
+      $('#chooseCategory').prop('hidden', false);
+      $('#new_category_button').prop('hidden', false);
     }
 });
 
 $('#destination_account_modal').change(function() {
-    $('#destination_id_modal').prop('disabled', false);
+    $('#destination_id_modal').prop('hidden', false);
+    $('#destination_id_modal').next().removeClass('input-group').addClass('input-group-append');
 
-    $('#chooseCategory_modal').prop('disabled', true);
-    $('#new_category_button_modal').prop('disabled', true);
-    if ($(this).val() == "0" || $(this).val() == "1") {
-      $('#destination_id_modal').prop('disabled', true);
+    $('#chooseCategory_modal').prop('hidden', true);
+    $('#new_category_button_modal').prop('hidden', true);
+    if ($(this).val() == "0") {
+      $('#destination_id_modal').prop('hidden', true);
+      $('#destination_id_modal').next().removeClass('input-group-append').addClass('input-group');
 
-      $('#chooseCategory_modal').prop('disabled', false);
-      $('#new_category_button_modal').prop('disabled', false);
+      $('#chooseCategory_modal').prop('hidden', false);
+      $('#new_category_button_modal').prop('hidden', false);
     }
 });
 
@@ -384,4 +388,88 @@ $("#filterByCategoryExpensesButton").click(function(){
 
 $("button[data-dismiss-modal=modal2]").click(function(){
     $('#CategoryModal').modal('hide');
+});
+
+
+var categorysById = {};
+$(document).ready(function(){
+    $.ajax({
+        url: '/income/user_categories',
+        type: 'GET',
+        success: function (data) {
+            for (const key in data) {
+                categorysById[data[key]['category_id']] = data[key]['category_name'];
+            }
+        },error: function (request, error) {
+            console.log(error + 'Request:' + JSON.stringify(request));
+        },
+    });
+
+    $.ajax({
+        url: '/income/regular_income_overview',
+        type: 'GET',
+        success: function (data) {
+            var tableRef = document.getElementById('regular_expense_overview').getElementsByTagName('tbody')[0];
+            for (const key in data) {
+                if(parseInt(data[key]['TRANSACTION_VALUE']) < 0){
+                    // Insert a row in the table at the last row
+                    var newRow = tableRef.insertRow();
+                    newRow.id = 'regularExpenseRow' + key;
+                    for (let index = 0; index < 5; index++) {
+                        if(index != 4){
+                            var newCell  = newRow.insertCell(index); // Insert the cells in the row
+                        }
+                        // Append a text node to each cell
+                        var newText;
+                    switch (index) {
+                        case 0: 
+                                newText = document.createTextNode('$' + data[key]['TRANSACTION_VALUE']);
+                                newCell.appendChild(newText);
+                                break;
+                            case 1:
+                                newText = document.createTextNode(data[key]['INTERVAL_VALUE'] + ' ' + data[key]['INTERVAL_FIELD']);
+                                newCell.appendChild(newText);
+                                break;
+                            case 2:
+                                newText = document.createTextNode(data[key]['LAST_ALTERED']);
+                                newCell.appendChild(newText);
+                                break;
+                            case 3: 
+                                newText = document.createTextNode(categorysById[parseInt(data[key]['EVENT_DEFINITION'])]);
+                                newCell.appendChild(newText);
+                                break;
+                            case 4: 
+                                newText = '<td><button id="deleteRegularExpense' + key + '" class="btn btn-circle btn-primary bg-gradient-primary"><i class="fas fa-trash text-white"></i></button></td>';
+                                $('#regularExpenseRow' + key).append(newText);
+                                break;
+                        default: console.log('error');
+                            break;
+                    }
+                    
+                    }
+
+                    $('#deleteRegularExpense' + key).click(function(){
+                        $.ajax({
+                            url: '/income/delete_regular_income',
+                            type: 'POST',
+                            data: {event_name: data[key]['EVENT_NAME']},
+                            success: function (data) {
+                                console.log(typeof data);
+                                if(data == 'OK'){
+                                    $('#regularExpenseRow' + key).remove();
+                                }
+                            },
+                                error: function (request, error) {
+                                console.log(error + 'Request:' + JSON.stringify(request));
+                            }
+
+                        });
+                    });
+                }
+            }      
+        },
+        error: function (request, error) {
+            console.log(error + 'Request:' + JSON.stringify(request));
+        },
+    });
 });

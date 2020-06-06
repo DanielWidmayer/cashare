@@ -81,14 +81,14 @@ function pollPieChartData()
         success: function(data)
               {
                   
-                  console.log(PieChartIncome.data.datasets[0]);
+                  //console.log(PieChartIncome.data.datasets[0]);
                   PieChartIncome.data.datasets[0].data = [];
                   PieChartIncome.data.labels = [];
                   for (let index = 0; index < data.categories.length; index++)
                   {
-                      console.log(index);
-                      console.log(data.categories[index]);
-                      console.log(data.totalincomes[index]);
+                    //   console.log(index);
+                    //   console.log(data.categories[index]);
+                    //   console.log(data.totalincomes[index]);
                       PieChartIncome.data.labels.push(data.categories[index]);  
                       PieChartIncome.data.datasets[0].data.push(data.totalincomes[index]);
                     
@@ -97,15 +97,12 @@ function pollPieChartData()
   
                   
               },
-              error: function(){
-                //
+              error: function(err){
+                console.log(err);
             }
     })
 };
 poll();
-/*setInterval(function(){
-    poll();
-}, 1000);*/
 };
 
 pollPieChartData();
@@ -319,4 +316,87 @@ $("#addNewCategoryModal").click(function(){
 
 $("button[data-dismiss-modal=modal2]").click(function(){
     $('#CategoryModal').modal('hide');
+});
+
+var categorysById = {};
+$(document).ready(function(){
+    $.ajax({
+        url: '/income/user_categories',
+        type: 'GET',
+        success: function (data) {
+            for (const key in data) {
+                categorysById[data[key]['category_id']] = data[key]['category_name'];
+            }
+        },error: function (request, error) {
+            console.log(error + 'Request:' + JSON.stringify(request));
+        },
+    });
+
+    $.ajax({
+        url: '/income/regular_income_overview',
+        type: 'GET',
+        success: function (data) {
+            var tableRef = document.getElementById('regular_income_overview').getElementsByTagName('tbody')[0];
+            for (const key in data) {
+                if(parseInt(data[key]['TRANSACTION_VALUE']) >= 0){
+                    // Insert a row in the table at the last row
+                    var newRow = tableRef.insertRow();
+                    newRow.id = 'regularIncomeRow' + key;
+                    for (let index = 0; index < 5; index++) {
+                        if(index != 4){
+                            var newCell  = newRow.insertCell(index); // Insert the cells in the row
+                        }
+                        // Append a text node to each cell
+                        var newText;
+                    switch (index) {
+                        case 0: 
+                                newText = document.createTextNode('$' + data[key]['TRANSACTION_VALUE']);
+                                newCell.appendChild(newText);
+                                break;
+                            case 1:
+                                newText = document.createTextNode(data[key]['INTERVAL_VALUE'] + ' ' + data[key]['INTERVAL_FIELD']);
+                                newCell.appendChild(newText);
+                                break;
+                            case 2:
+                                newText = document.createTextNode(data[key]['LAST_ALTERED']);
+                                newCell.appendChild(newText);
+                                break;
+                            case 3: 
+                                newText = document.createTextNode(categorysById[parseInt(data[key]['EVENT_DEFINITION'])]);
+                                newCell.appendChild(newText);
+                                break;
+                            case 4: 
+                                newText = '<td><button id="deleteRegularIncome' + key + '" class="btn btn-circle btn-primary bg-gradient-primary"><i class="fas fa-trash text-white"></i></button></td>';
+                                $('#regularIncomeRow' + key).append(newText);
+                                break;
+                        default: console.log('error');
+                            break;
+                    }
+                    
+                    }
+
+                    $('#deleteRegularIncome' + key).click(function(){
+                        $.ajax({
+                            url: '/income/delete_regular_income',
+                            type: 'POST',
+                            data: {event_name: data[key]['EVENT_NAME']},
+                            success: function (data) {
+                                console.log(typeof data);
+                                if(data == 'OK'){
+                                    $('#regularIncomeRow' + key).remove();
+                                }
+                            },
+                                error: function (request, error) {
+                                console.log(error + 'Request:' + JSON.stringify(request));
+                            }
+
+                        });
+                    });
+                }
+            }      
+        },
+        error: function (request, error) {
+            console.log(error + 'Request:' + JSON.stringify(request));
+        },
+    });
 });
