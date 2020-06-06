@@ -46,7 +46,7 @@ app.use(
       secure: IN_PROD,
     },
     rolling: true,
-    store: new redisStore({client: redisClient});
+    store: new redisStore({client: redisClient}),
   })
 );
 
