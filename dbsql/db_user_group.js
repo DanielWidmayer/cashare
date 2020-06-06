@@ -17,7 +17,7 @@ module.exports.create_table = async function() {
     var sql = "SELECT 1 FROM " + TBNAME  + " LIMIT 1;"
     try {
         await query(sql);
-        console.log("table user_group_table allready exists!");
+        console.log("table user_group_table already exists!");
     }
     catch(err) {
         console.log(err);
