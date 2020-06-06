@@ -90,8 +90,6 @@ const redirectHome = function (req, res, next) {
   else return next();
 }
 
-app.get('*', require('./modules/static_info'));
-
 // -------------------------------------------------------------------------------------------------------------------------------- /Middleware
 
 // -------------------------------------------------------------------------------------------------------------------------------- Routes
@@ -101,9 +99,6 @@ app.get('/', function (req, res) {            // could be handled in own file as
   return res.render('home.html');
 });
 
-app.use('/home', isAuthenticated, require('./routes/r_home'));
-// Home - Cashboard
-
 app.use('/login', redirectHome, require('./routes/r_login'));
 
 app.use('/jsondata', isAuthenticated, require('./routes/r_jsondata'));
@@ -111,6 +106,10 @@ app.use('/jsondata', isAuthenticated, require('./routes/r_jsondata'));
 app.use('/logout', isAuthenticated, require('./routes/r_logout'));
 
 app.use('/register', redirectHome, require('./routes/r_register'));
+
+app.get('*', require('./modules/static_info'));
+
+app.use('/home', isAuthenticated, require('./routes/r_home'));
 
 app.use('/groups', isAuthenticated, require('./routes/r_groups'));
 

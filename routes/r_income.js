@@ -22,12 +22,20 @@ router.post('/', async function (req, res) {
 });
 
 router.get('/regular_income_overview', async function (req, res) {
-  var regular_income_overview = await dbsql.db_trans.getRegularTransactions(req.user[0], false); // false: isExpense = false!
+  try {
+    var regular_income_overview = await dbsql.db_trans.getRegularTransactions(req.user[0], false); // false: isExpense = false!
+  } catch (err) {
+    console.log(err);
+  }
   res.json(regular_income_overview);
 });
 
 router.get('/user_categories', async function (req, res) {
-  var user_categories = await dbsql.db_cat.getCategorysByUserID(req.user[0], false); 
+  try {
+    var user_categories = await dbsql.db_cat.getCategorysByUserID(req.user[0]); 
+  } catch (err) {
+    console.log(err);
+  }
   res.json(user_categories);
 });
 
