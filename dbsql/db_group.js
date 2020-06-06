@@ -13,7 +13,7 @@ module.exports.create_table = async function() {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
     try {
         await query(sql);
-        console.log("table group_table allready exists!");
+        console.log("table group_table already exists!");
     }
     catch(err) {
         console.log(err);
@@ -24,7 +24,7 @@ module.exports.create_table = async function() {
             + COLS[0] + " int not null auto_increment primary key," 
             + COLS[1] + " varchar(255) not null,"
             + COLS[2] + " varchar(500),"
-            + COLS[3] + " decimal(10,2) not null default('0')"
+            + COLS[3] + " decimal(10,2) not null default '0'"
             +");"
         try {
             await query(sql);

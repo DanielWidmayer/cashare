@@ -19,7 +19,7 @@ module.exports.create_table = async function() {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
     try {
         await query(sql);
-        console.log('table message_table allready exists!');
+        console.log('table message_table already exists!');
     } catch (err) {
         console.log(err);
         console.log('No table message_table..');
@@ -38,7 +38,7 @@ module.exports.create_table = async function() {
             + COLS[5] + " int,"
             +`Foreign Key (${COLS[5]}) REFERENCES ${db_group.TBNAME}(${db_group.COLS[0]}) `
             +"ON DELETE CASCADE,"
-            + COLS[6] + " int not null default(0)"
+            + COLS[6] + " int not null default 0"
             +");"
         try {
             await query(sql);
