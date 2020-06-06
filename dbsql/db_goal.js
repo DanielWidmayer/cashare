@@ -5,7 +5,6 @@ const COLS = [
     'value',
     'current',
     'title',
-    'category_id',
     'group_id',
     'user_id'
 ];
@@ -33,13 +32,11 @@ module.exports.create_table = async function() {
             + COLS[1] + " decimal(10,2) not null default('0'),"
             + COLS[2] + " decimal(10,2) not null default('0'),"
             + COLS[3] + " varchar(255) not null,"
-            + COLS[4] + " int not null,"
-            +`Foreign Key (${COLS[4]}) REFERENCES ${db_cat.TBNAME}(${db_cat.COLS[0]}),`
-            + COLS[5] + " int,"
-            +`Foreign Key (${COLS[5]}) REFERENCES ${db_group.TBNAME}(${db_group.COLS[0]}) `
+            + COLS[4] + " int,"
+            +`Foreign Key (${COLS[4]}) REFERENCES ${db_group.TBNAME}(${db_group.COLS[0]}) `
             +"ON DELETE CASCADE,"
-            + COLS[6] + " int,"
-            +`Foreign Key (${COLS[6]}) REFERENCES ${db_user.TBNAME}(${db_user.COLS[0]}) `
+            + COLS[5] + " int,"
+            +`Foreign Key (${COLS[5]}) REFERENCES ${db_user.TBNAME}(${db_user.COLS[0]}) `
             +"ON DELETE CASCADE"
             +");"
         try {
@@ -53,12 +50,32 @@ module.exports.create_table = async function() {
     }
 }
 
-module.exports.insertPaymentGoal = async function (value, title, category_id, group_id, user_id) {
-    var sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}, ${COLS[6]}) ` + `VALUES ('${value}', ${title}, ${category_id} , ${group_id}, ${user_id});`;
+module.exports.insertPaymentGoal = async function (value, title, group_id, user_id) {
+    var sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}) ` + `VALUES ('${value}', '${title}', ${group_id}, ${user_id});`;
     try {
         var ret = await query(sql);
-        return ret;
+        return 0;
     } catch (error) {
         throw error;
+    }
+}
+
+module.exports.getPaymentGoalsByUserID = async function(userid){
+    var sql = `SELECT * FROM ${TBNAME} WHERE ${COLS[5]} = '${userid}'`;
+    try {
+        let res = await query(sql);
+        return res;
+    } catch (err) {
+        throw err;
+    }
+}
+
+module.exports.addPaymentGoalValue = async function(value, goal_id){
+    var sql = `UPDATE ${TBNAME} SET ${COLS[1]} = ${value} WHERE ${COLS[0]} = ${goal_id}`
+    try {
+        let res = await query(sql);
+        return 0;
+    } catch (err) {
+        throw err;
     }
 }
