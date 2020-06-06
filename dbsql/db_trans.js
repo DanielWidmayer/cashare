@@ -66,6 +66,22 @@ module.exports.trialtrans = function () {
     console.log("trial function triggered");
 }
 
+module.exports.getAllTransactions = async function(user_id) {
+    sql_getAll_transactions = `SELECT transaction_value, category_table.category_name, transaction_date FROM ${TBNAME} INNER JOIN category_table on transaction_table.category_id = category_table.category_id WHERE (${COLS[3]} = '${user_id}');`;
+    //var tr_type, tr_value, tr_cat_id, tr_date; 
+    var q_res;
+    
+    try {
+        q_res = await query(sql_getAll_transactions);
+        return q_res;
+    }
+    catch (err) {
+        return {"error": "transaction_wrong_username"};
+    }
+    
+    //tr_value = q_res[0].transaction_value;
+}
+
 
 // hier noch speziell für User? Payment-Groups?
 module.exports.insertTransaction = async function(value, transonce, category, isExpense, userID, repetitionValue, timeUnit, dateTimeID, contractualPartner, destinationAccount) {
@@ -327,6 +343,21 @@ module.exports.getTransactionsByUserID = async function(user_id, isExpense) {
 
 }
 
+
+module.exports.getAnnualEarnings = async function(user_id){
+        var number_of_months = new Date().getMonth()+1;
+        // calc annual value
+        var sql_get_annual_val = `SELECT sum(${COLS[1]}) AS annual FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value > 0 AND transaction_date > (SELECT DATE_SUB(CURDATE(), INTERVAL ${number_of_months} MONTH)));`;
+        try {
+            let q_res = await query(sql_get_annual_val);
+            annual_val = q_res[0].annual;
+        }
+        catch(err) {
+            throw err;
+        }
+
+        return {"annualEarnings":annual_val};
+}
 
 module.exports.getPersonalBalance = async function(user_id){
     var personal_balance;

@@ -79,12 +79,10 @@ function pollPieChartData()
         type: 'get',
         success: function(data)
             {
-                console.log(PieChart_Expenses.data.datasets[0]);
                 PieChart_Expenses.data.datasets[0].data = [];
                 PieChart_Expenses.data.labels = [];
                 for (let index = 0; index < data.categories.length; index++)
                 {
-                    console.log(data.totalexpenses[index]);
                     PieChart_Expenses.data.labels.push(data.categories[index]);  
                     PieChart_Expenses.data.datasets[0].data.push(data.totalexpenses[index]);  
                 }
@@ -195,9 +193,10 @@ $("#addExpense").click(function(){
 
 
 
-    // temporär bis einheitliches Fehlermanagment vorhanden ist..
-    /*
-    if(chooseCategory == "Choose Category" || timePeriod == "Choose Income Type" || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) || transactionValue.charAt(0) == '.' || transactionValue == "")
+    // Fehlermanagment
+    if(chooseCategory == "Choose Category" || timePeriod == "Choose Expense Type" 
+    || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) 
+    || transactionValue.charAt(0) == '.' || transactionValue == "" || destinationAccount =="Choose destination account")
     {
         if(transactionValue.charAt(0) == '.' || transactionValue == "")
         {
@@ -209,7 +208,7 @@ $("#addExpense").click(function(){
             $("#chooseCategory").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
             $('#chooseCategory').css('border-color', 'red');
         }
-        if(timePeriod == "Choose Income Type")
+        if(timePeriod == "Choose Expense Type")
         {
             $("#timePeriod").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
             $('#timePeriod').css('border-color', 'red');
@@ -226,7 +225,7 @@ $("#addExpense").click(function(){
         }
         return false;
     }
-    */
+    
 
     var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 
         'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID, 'destinationID':destinationID,
@@ -277,38 +276,37 @@ $("#addExpenseModal").click(function(){
     var destinationID = $("#destination_id_modal").val();
 
 
-    // temporär bis einheitliches Fehlermanagment vorhanden ist..
-    /*
-    if(chooseCategory == "Choose Category" || timePeriod == "Choose Income Type" || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) || transactionValue.charAt(0) == '.' || transactionValue == "")
+    //Fehlermanagment
+    if(chooseCategory == "Choose Category" || timePeriod == "Choose Expense Type" || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) || transactionValue.charAt(0) == '.' || transactionValue == "")
     {
         if(transactionValue.charAt(0) == '.' || transactionValue == "")
         {
-            $("#transactionValue").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-            $('#transactionValue').css('border-color', 'red');
+            $("#transactionValueModal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#transactionValueModal').css('border-color', 'red');
         }
         if(chooseCategory == "Choose Category")
         {
-            $("#chooseCategory").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-            $('#chooseCategory').css('border-color', 'red');
+            $("#chooseCategoryModal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#chooseCategoryModal').css('border-color', 'red');
         }
-        if(timePeriod == "Choose Income Type")
+        if(timePeriod == "Choose Expense Type")
         {
-            $("#timePeriod").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-            $('#timePeriod').css('border-color', 'red');
+            $("#timePeriodModal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#timePeriodModal').css('border-color', 'red');
         }
         if (timePeriod == "2" && timeUnit == "Choose Time unit")
         {
-            $("#timeUnit").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-            $('#timeUnit').css('border-color', 'red');
+            $("#timeUnitModal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#timeUnitModal').css('border-color', 'red');
         }
         if (timePeriod == "2" && repetitionValue == "")
         {
-            $("#repetition_value").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-            $('#repetition_value').css('border-color', 'red');
+            $("#repetition_valueModal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#repetition_valueModal').css('border-color', 'red');
         }
         return false;
     }
-    */
+    
 
     var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 
         'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID, 'destinationID':destinationID,
@@ -393,11 +391,13 @@ $("button[data-dismiss-modal=modal2]").click(function(){
 
 
 var categorysById = {};
+var paymentGoals;
 $(document).ready(function(){
     $.ajax({
         url: '/expenses/user_categories',
         type: 'GET',
         success: function (data) {
+            console.log(data);
             for (const key in data) {
                 categorysById[data[key]['category_id']] = data[key]['category_name'];
             }
@@ -424,7 +424,7 @@ $(document).ready(function(){
                         var newText;
                     switch (index) {
                         case 0: 
-                                newText = document.createTextNode('$' + data[key]['TRANSACTION_VALUE']);
+                                newText = document.createTextNode(data[key]['TRANSACTION_VALUE'] + '$');
                                 newCell.appendChild(newText);
                                 break;
                             case 1:
@@ -473,6 +473,29 @@ $(document).ready(function(){
             console.log(error + 'Request:' + JSON.stringify(request));
         },
     });
+
+    $.ajax({
+        url: '/expenses/user_goals',
+        type: 'GET',
+        success: function (data) {
+            paymentGoals = data;
+            console.log(data);
+            var sum = 0, counter = 0;;
+            for (const key in data) {
+                $('#payment_goal_overview').append('<h4 class="small font-weight-bold">' + data[key]['title'] + '<span id="paymentGoalSpan' + key + '" class="float-right">' + 100*data[key]['current']/data[key]['value'] + '% - ' + data[key]['current'] + '/' + data[key]['value'] + '$</span></h4><div class="progress mb-4"><div class="progress-bar bg-primary" role="progressbar" style="width: ' + 100*data[key]['current']/data[key]['value'] + '%"></div></div>');
+                counter++;
+                sum += 100*data[key]['current']/data[key]['value'];
+            }
+
+            $('#payment_tasks_average').text(sum/counter);
+            $('#payment_tasks_average_width').css('width', sum/counter + '%');
+
+        },
+        error: function (request, error) {
+            console.log(error + 'Request:' + JSON.stringify(request));
+        }
+    });
+
 });
 
 
@@ -482,24 +505,19 @@ $('#addPaymentGoal').click(() => {
     var payment_goal_value = $('#paymentGoalValue').val();
     var payment_goal_category = $('#choosePaymentGoalCategory').val();
     if(payment_goal_title != ''){
-        if(payment_goal_value != ''){
-            if(payment_goal_category != 'Choose Category'){
-                $.ajax({
-                    url: '/expenses/insert_payment_goal',
-                    type: 'POST',
-                    data: {title: payment_goal_title, value: payment_goal_value, category: payment_goal_category},
-                    success: function (data) {
-                        console.log(data);
-                        $('#payment_goal_overview').append('<h4 class="small font-weight-bold">' + payment_goal_title + '<span class="float-right">0%</span></h4><div class="progress mb-4"><div class="progress-bar bg-primary" role="progressbar" style="width: 0%"aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div>');
-                    },
-                    error: function (request, error) {
-                        console.log(error + 'Request:' + JSON.stringify(request));
-                    },
-                });
-            }else{
-                $("#choosePaymentGoalCategory").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-                $('#choosePaymentGoalCategory').css('border-color', 'red');
-            }
+        if(payment_goal_value != '' && parseInt(payment_goal_value) != 0){
+            $.ajax({
+                url: '/expenses/insert_payment_goal',
+                type: 'POST',
+                data: {title: payment_goal_title, value: payment_goal_value, category: payment_goal_category},
+                success: function (data) {
+                    console.log(data);
+                    $('#payment_goal_overview').append('<h4 class="small font-weight-bold">' + payment_goal_title + '<span class="float-right">0% - 0/ ' + payment_goal_value + '$</span></h4><div class="progress mb-4"><div class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div></div>');
+                },
+                error: function (request, error) {
+                    console.log(error + 'Request:' + JSON.stringify(request));
+                },
+            });
         }else{
             $("#paymentGoalValue").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
             $('#paymentGoalValue').css('border-color', 'red');
@@ -507,6 +525,42 @@ $('#addPaymentGoal').click(() => {
     }else{
         $("#paymentGoalTitle").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
         $('#paymentGoalTitle').css('border-color', 'red');
+    }
+
+    
+});
+
+$('#addPaymentGoalValue').click(() => {
+    var payment_goal_id = $('#choosePaymentGoal').val();
+    var payment_goal_title;
+    var payment_goal_value = $('#paymentGoalAddValue').val();
+    console.log(payment_goal_id);
+    if(payment_goal_id != 'Choose Payment Goal'){
+        if(payment_goal_value != '' && parseInt(payment_goal_value) != 0){
+            for (const key in paymentGoals) {
+                if(paymentGoals[key]['goal_id'] == payment_goal_id){
+                    payment_goal_title = paymentGoals[key]['title'];
+                }
+            }
+            
+            $.ajax({
+                url: '/expenses/goal_add_value',
+                type: 'POST',
+                data: {value: payment_goal_value, goal_id: payment_goal_id},
+                success: function (data) {
+                    location.reload();
+                },
+                error: function (request, error) {
+                    console.log(error + 'Request:' + JSON.stringify(request));
+                },
+            });
+        }else{
+            $("#paymentGoalAddValue").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#paymentGoalAddValue').css('border-color', 'red');
+        }
+    }else{
+        $("#choosePaymentGoal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+        $('#choosePaymentGoal').css('border-color', 'red');
     }
 
     
