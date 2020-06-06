@@ -27,19 +27,4 @@ router.get('/messages', async function (req, res) {
     return res.json(ret);
 });
 
-router.get('/user', async function (req, res) {
-    let ret = await dbsql.db_user.getMailData();
-    return res.json(ret);
-});
-
-router.post('/userdata', async function (req, res) {
-    let ret = await dbsql.db_user.getDataByMail(req.body.data);
-    return res.json(ret);
-});
-
-router.post('/userDataById', async function (req, res) {
-    let ret = await dbsql.db_user.getDataByID(req.body.data);
-    return res.json(ret);
-});
-
 module.exports = router;

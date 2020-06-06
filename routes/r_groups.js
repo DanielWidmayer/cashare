@@ -53,8 +53,17 @@ router.post('/', async function(req,res) {
 })
 
 router.get('/:group', function (req, res) {
-  console.log(req.params.group);
-    return res.render('paymentgroup-shareboard.html', { pagename: 'groups' });
+  let groupid = req.params.group.replace(/[^\d]/g, '');
+  try{
+    let checker = await dbsql.db_user_group.getUserRole(groupid, req.user[0]);
+    if (!checker) return res.redirect('/groups');
+    var group_data = await get_group_data(groupid);
+    var members = await get_group_members(groupid);
+    var alerts = await get_group_alerts(req.user[0], groupid);
+  } catch (err) {
+    console.log(err);
+  }
+  return res.render('paymentgroup-shareboard.html', { group_data: group_data, members: members, alerts: alerts, pagename: 'groups' });
 });
 
 router.post('/:group/join', async function (req, res) {
@@ -79,6 +88,25 @@ router.post('/:group/join', async function (req, res) {
   return res.redirect('/groups');
 });
 
+router.post('/:group/inv', async function (req, res) {
+  let groupid = req.params.group.replace(/[^\d]/g, '');
+  let mail = req.body['usermail'];
+  let now = getcurrentDateTime();
+  try {
+    let checker = await dbsql.db_user_group.getUserRole(groupid, req.user[0]);
+    if (!checker || checker < 2) return res.redirect('/groups');
+    let group = await dbsql.db_group.getGroup(groupid);
+    group = group[dbsql.db_group.COLS[1]];
+    let user = await dbsql.db_user.getDataByMail(mail);
+    await dbsql.db_user_group.setUserInvited(groupid, user[0], req.user[0]);
+    dbsql.db_alerts.createUserAlert(user[0], 'primary', req.user[1] + ' ' + req.user[2] + ' has invited you to join "' + group + '".', now);
+    dbsql.db_alerts.createGroupAlert(groupid, 'primary', user[1] + ' ' + user[2] + ' has been invited to join the Group.', now)
+  } catch (err) {
+    throw (err);
+  }
+  return res.redirect('/groups/' + req.params.group);
+});
+
 router.post('/:group', async function (req, res) {
   let groupid = req.params.group.replace(/[^\d]/g, '');
   let groupname = req.body['groupname'];
@@ -98,18 +126,37 @@ router.post('/:group', async function (req, res) {
     }
   }
   
+  if (req.body.kick) {
+    for (x = 0; x < req.body.kick.length; x++) {
+      for (y = 0; y < members.length; y++) {
+        if (members[y]['id'] == req.body.kick[x]) {
+          members[y]['role'] = -1;
+        }
+      }
+    }
+  }
+
   try {
     if (await dbsql.db_user_group.getUserRole(groupid, req.user[0]) == 3) {
       for (m_ctr = 0; m_ctr < members.length; m_ctr++) {
         let userid = members[m_ctr]['id'];
-        if(members[m_ctr]['roles'][1] == 1) {
+        let user_data = await dbsql.db_user.getDataByID(userid);
+        if(members[m_ctr]['roles'] == -1) {
+          await dbsql.db_user_group.kickUser(groupid, userid);
+          dbsql.db_alerts.createGroupAlert(groupid, 'primary', user_data[1] + ' ' + user_data[2] + ' has been kicked out of the Group "' + groupname + '".', getcurrentDateTime());
+          dbsql.db_alerts.createUserAlert(userid, 'primary', 'You have been kicked out of Group "' + groupname + '".', getcurrentDateTime());
+        }
+        else if(members[m_ctr]['roles'][1] == 1) {
           await dbsql.db_user_group.setUserAdmin(groupid, userid);
+          dbsql.db_alerts.createUserAlert(userid, 'primary', 'Your access rights in Group "' + groupname + '" might have been changed.', getcurrentDateTime());
         }
         else if (members[m_ctr]['roles'][0] == 1) {
           await dbsql.db_user_group.setUserWrite(groupid, userid);
+          dbsql.db_alerts.createUserAlert(userid, 'primary', 'Your access rights in Group "' + groupname + '" might have been changed.', getcurrentDateTime());
         }
         else {
           await dbsql.db_user_group.setUserRead(groupid, userid);
+          dbsql.db_alerts.createUserAlert(userid, 'primary', 'Your access rights in Group "' + groupname + '" might have been changed.', getcurrentDateTime());
         }
       }
       if (/\p{L}{1,}/u.test(groupname)) {
@@ -118,11 +165,12 @@ router.post('/:group', async function (req, res) {
       if (/\p{L}{1,}/u.test(groupdesc)) {
         await dbsql.db_group.changeGroupDesc(groupid, req.body['groupdesc']);
       } 
+      return res.redirect('/groups/' + req.params.group);
     }
   } catch (err) {
     console.log(err);
   }
-  return res.redirect('/groups/' + req.params.group);
+  return res.redirect('/groups');
 })
 
 router.get('/:group/rem', async function(req, res) {

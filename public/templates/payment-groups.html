@@ -245,10 +245,10 @@
           </button>
         </div>
         <div class="modal-body">
-          <form method="POST" action="/groups/group<%=groups[el]['group_data']['id']%>/invite">
+          <form method="POST" action="/groups/group<%=groups[el]['group_data']['id']%>/inv">
             <div class="text-center">
               <div class="input-group mb-3">
-                <input type="text" name="usermail" class="form-control" placeholder="Search for User" aria-label="Payment Group Title"
+                <input type="text" name="usermail" id="searchUserInput" class="form-control" placeholder="Search for User" aria-label="Payment Group Title"
                   aria-describedby="basic-addon2">
               </div>
               <hr>
@@ -295,6 +295,7 @@
             <p class="font-weight-bold d-inline-flex m-0">Manage User rights</p>
             <p class="d-inline-flex m-0 mr-2 float-right">Admin</p>
             <p class="d-inline-flex m-0 mr-1 float-right">Write</p>
+            <p class="d-inline-flex m-0 mr-4 float-right">Kick</p>
           </div>
           <hr>
           <% for (m_ctr = 0; m_ctr < groups[el]['group_members'].length; m_ctr++) { %>
@@ -306,7 +307,8 @@
               <% } %>
               <span class="ml-2 d-none d-inline text-secondary font-weight-bold small">
                 <%=groups[el]['group_members'][m_ctr]['firstname'] + ' ' + groups[el]['group_members'][m_ctr]['lastname']%></span>
-              <div class="checkbox-multiple">
+              <div class="checkbox-multiple mt-0">
+                <input type="checkbox" class="mr-5" name="kick" value="<%=groups[el]['group_members'][m_ctr]['id']%>">
                 <% if (groups[el]['group_members'][m_ctr]['role'] >= 2) { %>
                   <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-4 cb-role" checked>
                   <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-4" hidden>
@@ -463,6 +465,7 @@
   <script src="/static/js/cashare.min.js"></script>
   <script src="/static/js/groups-overview.js"></script>
   <script src="/static/js/bars.js"></script>
+  <script src="/static/js/autocomplete.js"></script>
 
 </body>
 

@@ -5,3 +5,14 @@ $('.cb-role').on('change', (function() {
         $('input[name="' + $(this).prop('name') + '"]:hidden').prop('checked', true);
     }
 }));
+
+$.ajax({
+    url: '/user',
+    type: 'GET',
+    success: function (data) {
+        autocomplete(document.getElementById('searchUserInput'), data);
+    },
+    error: function (request, error) {
+        console.log(error + 'Request:' + JSON.stringify(request));
+    },
+});
