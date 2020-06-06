@@ -20,7 +20,7 @@ module.exports.create_table = async function() {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
     try {
         await query(sql);
-        console.log("table goal_table allready exists!");
+        console.log("table goal_table already exists!");
     }
     catch(err) {
         console.log(err);
@@ -29,8 +29,8 @@ module.exports.create_table = async function() {
         console.log("create table..");
         sql = "create table " + TBNAME + " ("
             + COLS[0] + " int not null auto_increment primary key,"
-            + COLS[1] + " decimal(10,2) not null default('0'),"
-            + COLS[2] + " decimal(10,2) not null default('0'),"
+            + COLS[1] + " decimal(10,2) not null default '0',"
+            + COLS[2] + " decimal(10,2) not null default '0',"
             + COLS[3] + " varchar(255) not null,"
             + COLS[4] + " int,"
             +`Foreign Key (${COLS[4]}) REFERENCES ${db_group.TBNAME}(${db_group.COLS[0]}) `
