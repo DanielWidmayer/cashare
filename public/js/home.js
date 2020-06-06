@@ -16,6 +16,11 @@ function pollData()
                 } else {
                  $('#personalBalance').text("$" + data.balance.personal_balance);
             }
+            if (data.annualEarnings.annualEarnings == null){
+                $("#annualEarnings").text("$0");
+            } else {
+             $('#annualEarnings').text("$" + data.annualEarnings.annualEarnings);
+            }
             
             ChartArea_home.data.labels = [];
             for(let index = 0; index < thisMonth; index++)

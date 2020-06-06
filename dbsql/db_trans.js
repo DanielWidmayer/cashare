@@ -344,6 +344,21 @@ module.exports.getTransactionsByUserID = async function(user_id, isExpense) {
 }
 
 
+module.exports.getAnnualEarnings = async function(user_id){
+        var number_of_months = new Date().getMonth()+1;
+        // calc annual value
+        var sql_get_annual_val = `SELECT sum(${COLS[1]}) AS annual FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}' AND transaction_value > 0 AND transaction_date > (SELECT DATE_SUB(CURDATE(), INTERVAL ${number_of_months} MONTH)));`;
+        try {
+            let q_res = await query(sql_get_annual_val);
+            annual_val = q_res[0].annual;
+        }
+        catch(err) {
+            throw err;
+        }
+
+        return {"annualEarnings":annual_val};
+}
+
 module.exports.getPersonalBalance = async function(user_id){
     var personal_balance;
     var sql_get_personal_balance = `SELECT sum(${COLS[1]}) AS balance FROM ${TBNAME} WHERE (${COLS[3]} = '${user_id}');`;
