@@ -17,6 +17,8 @@ const dbsql = require('./dbsql');
 
 if (dotenv.error) throw dotenv.error;
 
+
+
 const IN_PROD = process.env.NODE_ENV === 'production';
 const TTL = parseInt(process.env.SESS_LIFETIME);
 
