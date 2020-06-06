@@ -49,7 +49,7 @@ module.exports.query = async function (sql_query) {
 }
 
 module.exports.connect = async function () {
-    con.connect(async function (err) {
+    con.getConnection(async function (err) {
         if (err) throw err;
         console.log("Connected to database!");
 
