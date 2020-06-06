@@ -1,13 +1,12 @@
 const dbsql = require('../dbsql');
 
 module.exports = async function(req, res, next) {
-    if(/jsondata/.test(req.originalUrl)) return next();
+    if(!req.user) return next();
     var messages = [];
       var alerts = [];
       var groups = [];
       try {
           let raw_messages = await dbsql.db_msg.getUnreadMessages(req.user[0]);
-
           for (m_ctr = 0; m_ctr < raw_messages.length; m_ctr++) {
               let sender_obj = {};
               let gr_flag = false;

@@ -256,15 +256,15 @@
                 </div>
                 <div class="pl-2">
                   <table class="table">
+                    <% if (inv_groups.length > 0) { %>
                     <thead>
                       <tr>
                           <th scope="col">Invited by</th>
                           <th scope="col">Payment Group Title</th>
                           <th scope="col">Accept/Decline</th>
                       </tr>
-                  </thead>
+                    </thead>
                     <tbody>
-                      <% if (inv_groups.length > 0) { %>
                         <% for (i_ctr = 0; i_ctr < inv_groups.length; i_ctr++) { %>
                         <tr>
                             <td scope="row"><%=inv_groups[i_ctr]['inv']%></td>
@@ -281,10 +281,12 @@
                             </td>
                         </tr>
                         <% } %>
-                      <% } else { %>
-                        <tr>You have not been invited to any Groups lately.</tr>
-                      <% } %>
                     </tbody>
+                    <% } else { %>
+                      <tr>
+                        <td>You have not been invited to any Groups lately.</td>
+                      </tr>
+                    <% } %>
                 </table>
                 </div>
               </div>

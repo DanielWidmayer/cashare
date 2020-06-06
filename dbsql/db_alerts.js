@@ -71,6 +71,16 @@ module.exports.readSingleAlert = async function (alertid) {
     }
 }
 
+module.exports.getUserAlerts = async function (userid) {
+    var sql = `SELECT * FROM ${TBNAME} WHERE ${COLS[1]}='${userid}';`;
+    try {
+        let rows = await query(sql);
+        return rows;
+    } catch(err) {
+        throw (err);
+    }
+}
+
 module.exports.getUnreadAlerts = async function (userid) {
     var sql = `SELECT * FROM ${TBNAME} WHERE ${COLS[1]}='${userid}' AND ${COLS[6]}=0;`;
     try {
