@@ -21,7 +21,7 @@ module.exports.create_table = async function() {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
     try {
         await query(sql);
-        console.log("table alert_table allready exists!");
+        console.log("table alert_table already exists!");
     }
     catch(err) {
         console.log(err);
@@ -37,7 +37,7 @@ module.exports.create_table = async function() {
             + COLS[3] + " datetime not null,"
             + COLS[4] + " varchar(255) not null,"
             + COLS[5] + " varchar(500) not null,"
-            + COLS[6] + " int not null default(0)"
+            + COLS[6] + " int not null default 0"
             +");"
         try {
             await query(sql);
