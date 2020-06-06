@@ -22,7 +22,7 @@ module.exports.create_table = async function() {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
     try {
         await query(sql);
-        console.log("table transaction_table allready exists!");
+        console.log("table transaction_table already exists!");
     }
     catch(err) {
         console.log(err);
