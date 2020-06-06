@@ -127,32 +127,28 @@ $("#transactionValueModal").on("keypress keyup blur", function (event) {
 
 
 $('#destination_account').change(function() {
-    $('#destination_id').prop('hidden', false);
-    $('#destination_id').next().removeClass('input-group').addClass('input-group-append');
+    $('#destination_id').prop('disabled', false);
 
-    $('#chooseCategory').prop('hidden', true);
-    $('#new_category_button').prop('hidden', true);
-    if ($(this).val() == "0") {
-      $('#destination_id').prop('hidden', true);
-      $('#destination_id').next().removeClass('input-group-append').addClass('input-group');
+    $('#chooseCategory').prop('disabled', true);
+    $('#new_category_button').prop('disabled', true);
+    if ($(this).val() == "0" || $(this).val() == "1") {
+      $('#destination_id').prop('disabled', true);
 
-      $('#chooseCategory').prop('hidden', false);
-      $('#new_category_button').prop('hidden', false);
+      $('#chooseCategory').prop('disabled', false);
+      $('#new_category_button').prop('disabled', false);
     }
 });
 
 $('#destination_account_modal').change(function() {
-    $('#destination_id_modal').prop('hidden', false);
-    $('#destination_id_modal').next().removeClass('input-group').addClass('input-group-append');
+    $('#destination_id_modal').prop('disabled', false);
 
-    $('#chooseCategory_modal').prop('hidden', true);
-    $('#new_category_button_modal').prop('hidden', true);
-    if ($(this).val() == "0") {
-      $('#destination_id_modal').prop('hidden', true);
-      $('#destination_id_modal').next().removeClass('input-group-append').addClass('input-group');
+    $('#chooseCategory_modal').prop('disabled', true);
+    $('#new_category_button_modal').prop('disabled', true);
+    if ($(this).val() == "0" || $(this).val() == "1") {
+      $('#destination_id_modal').prop('disabled', true);
 
-      $('#chooseCategory_modal').prop('hidden', false);
-      $('#new_category_button_modal').prop('hidden', false);
+      $('#chooseCategory_modal').prop('disabled', false);
+      $('#new_category_button_modal').prop('disabled', false);
     }
 });
 
@@ -249,7 +245,11 @@ $("#addExpense").click(function(){
             {
                 if (destinationAccount > 1) 
                 {
-                    $("#user_transaction_alert").modal('show');
+                    if (data=="transaction_wrong_username") {
+                        $("#transaction_wrong_user").modal('show');
+                    } else {
+                        $("#user_transaction_alert").modal('show');
+                    }
                 } else
                 {
                     location.reload();
@@ -314,6 +314,7 @@ $("#addExpenseModal").click(function(){
         'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID, 'destinationID':destinationID,
         'destinationAccount':destinationAccount};
 
+
     $.post( "/expenses", transaction ) 
     .done(function( data ) {
         if (data == "past_error") {
@@ -327,7 +328,11 @@ $("#addExpenseModal").click(function(){
             {
                 if (destinationAccount > 1) 
                 {
-                    $("#user_transaction_alert").modal('show');
+                    if (data=="transaction_wrong_username") {
+                        $("#transaction_wrong_user").modal('show');
+                    } else {
+                        $("#user_transaction_alert").modal('show');
+                    }
                 } else
                 {
                     $('#ExpenseModal').modal('hide');
@@ -390,7 +395,7 @@ $("button[data-dismiss-modal=modal2]").click(function(){
 var categorysById = {};
 $(document).ready(function(){
     $.ajax({
-        url: '/income/user_categories',
+        url: '/expenses/user_categories',
         type: 'GET',
         success: function (data) {
             for (const key in data) {
@@ -468,4 +473,41 @@ $(document).ready(function(){
             console.log(error + 'Request:' + JSON.stringify(request));
         },
     });
+});
+
+
+
+$('#addPaymentGoal').click(() => {
+    var payment_goal_title = $('#paymentGoalTitle').val();
+    var payment_goal_value = $('#paymentGoalValue').val();
+    var payment_goal_category = $('#choosePaymentGoalCategory').val();
+    if(payment_goal_title != ''){
+        if(payment_goal_value != ''){
+            if(payment_goal_category != 'Choose Category'){
+                $.ajax({
+                    url: '/expenses/insert_payment_goal',
+                    type: 'POST',
+                    data: {title: payment_goal_title, value: payment_goal_value, category: payment_goal_category},
+                    success: function (data) {
+                        console.log(data);
+                        $('#payment_goal_overview').append('<h4 class="small font-weight-bold">' + payment_goal_title + '<span class="float-right">0%</span></h4><div class="progress mb-4"><div class="progress-bar bg-primary" role="progressbar" style="width: 0%"aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div>');
+                    },
+                    error: function (request, error) {
+                        console.log(error + 'Request:' + JSON.stringify(request));
+                    },
+                });
+            }else{
+                $("#choosePaymentGoalCategory").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+                $('#choosePaymentGoalCategory').css('border-color', 'red');
+            }
+        }else{
+            $("#paymentGoalValue").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#paymentGoalValue').css('border-color', 'red');
+        }
+    }else{
+        $("#paymentGoalTitle").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+        $('#paymentGoalTitle').css('border-color', 'red');
+    }
+
+    
 });

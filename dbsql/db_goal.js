@@ -4,7 +4,7 @@ const COLS = [
     'goal_id',
     'value',
     'current',
-    'period_days',
+    'title',
     'category_id',
     'group_id',
     'user_id'
@@ -32,7 +32,7 @@ module.exports.create_table = async function() {
             + COLS[0] + " int not null auto_increment primary key,"
             + COLS[1] + " decimal(10,2) not null default('0'),"
             + COLS[2] + " decimal(10,2) not null default('0'),"
-            + COLS[3] + " int,"
+            + COLS[3] + " varchar(255) not null,"
             + COLS[4] + " int not null,"
             +`Foreign Key (${COLS[4]}) REFERENCES ${db_cat.TBNAME}(${db_cat.COLS[0]}),`
             + COLS[5] + " int,"
@@ -50,5 +50,15 @@ module.exports.create_table = async function() {
             console.log("cannot create table...");
             console.log(err);
         }
+    }
+}
+
+module.exports.insertPaymentGoal = async function (value, title, category_id, group_id, user_id) {
+    var sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}, ${COLS[6]}) ` + `VALUES ('${value}', ${title}, ${category_id} , ${group_id}, ${user_id});`;
+    try {
+        var ret = await query(sql);
+        return ret;
+    } catch (error) {
+        throw error;
     }
 }

@@ -54,7 +54,7 @@
                     <div class="row">
 
                         <!-- Income (Monthly) Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -74,7 +74,7 @@
                         </div>
 
                         <!-- Expenses (annual) -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -93,7 +93,7 @@
                             </div>
                         </div>
                         <!-- Income last month -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -106,24 +106,6 @@
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-600"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Payment Tasks Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
-                                                Days until next salary
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">17</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-600"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -255,9 +237,11 @@
                                         <div class="input-group mb-3">
                                             <select class="custom-select" id="chooseCategory">
                                                 <option selected>Choose Category</option>
-                                                <% categorys.forEach(function(cat){ %>
-                                                <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
-                                                <% }); %>
+                                                <% for (var i = 0; i < categorys.length; i++){ %>
+                                                    <% if (categorys[i].category_name != "credit"){ %>
+                                                        <option value="<%=categorys[i].category_id%>"><%=categorys[i].category_name%></option>
+                                                    <% } %>
+                                                <% } %>
                                             </select>
                                             <div class="input-group-append">
 
@@ -404,9 +388,11 @@
                                 <div class="input-group mb-3">
                                     <select class="custom-select" id="chooseCategoryModal">
                                         <option selected>Choose Category</option>
-                                        <% categorys.forEach(function(cat){ %>
-                                        <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
-                                        <% }); %>
+                                        <% for (var i = 0; i < categorys.length; i++){ %>
+                                            <% if (categorys[i].category_name != "credit"){ %>
+                                                <option value="<%=categorys[i].category_id%>"><%=categorys[i].category_name%></option>
+                                            <% } %>
+                                        <% } %>
                                     </select>
                                     <div class="input-group-append">
 
@@ -419,7 +405,6 @@
 
                                     </div>
                                 </div>
-                                
                             </div>
 
                         </div>
@@ -590,9 +575,11 @@
                         <div class="input-group mb-3">
                             <select class="custom-select" id="categoryToFilter">
                                 <option selected>Choose Category</option>
-                                <% categorys.forEach(function(cat){ %>
-                                <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
-                                <% }); %>
+                                <% for (var i = 0; i < categorys.length; i++){ %>
+                                    <% if (categorys[i].category_name != "credit"){ %>
+                                        <option value="<%=categorys[i].category_id%>"><%=categorys[i].category_name%></option>
+                                    <% } %>
+                                <% } %>
                             </select>
                         </div>
                         <p>To show the income for all categories, just reload the page.</p>

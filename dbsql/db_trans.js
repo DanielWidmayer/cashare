@@ -36,9 +36,9 @@ module.exports.create_table = async function() {
             + COLS[3] + " int not null,"
             +`Foreign Key (${COLS[3]}) REFERENCES ${db_user.TBNAME}(${db_user.COLS[0]}) `
             +"ON DELETE CASCADE,"
-            + COLS[4] + " int,"
-            +`Foreign Key (${COLS[4]}) REFERENCES ${db_cat.TBNAME}(${db_cat.COLS[0]}) `
-            +"ON DELETE SET NULL,"
+            + COLS[4] + " int, "
+            // +`Foreign Key (${COLS[4]}) REFERENCES ${db_cat.TBNAME}(${db_cat.COLS[0]}), `
+            // +"ON DELETE SET NULL,"
             +`Foreign Key (${COLS[5]}) REFERENCES ${db_user.TBNAME}(${db_user.COLS[0]}) `
             +"ON DELETE CASCADE,"
             + COLS[5] + " int"
@@ -69,7 +69,7 @@ module.exports.trialtrans = function () {
 
 // hier noch speziell für User? Payment-Groups?
 module.exports.insertTransaction = async function(value, transonce, category, isExpense, userID, repetitionValue, timeUnit, dateTimeID, contractualPartner, destinationAccount) {
-    
+ 
     let count_events = await query(`SELECT count(*) AS events FROM INFORMATION_SCHEMA.EVENTS;`);
     var event_counter = parseInt(JSON.stringify(count_events[0].events)) + 1;
     console.log(event_counter);
@@ -89,14 +89,14 @@ module.exports.insertTransaction = async function(value, transonce, category, is
         destination_userID = userID;
     }
     if (destinationAccount == "2") {
-        console.log("Partner: " + contractualPartner);
+
         var nameArray = contractualPartner.split(' '); // contractual partner als "richtige" User ID... variablenbenennung destinationUserID hier sehr unglücklich...
         try {
             let q_res = await query(`SELECT user_id FROM user_table WHERE firstname = '${nameArray[0]}' AND lastname = '${nameArray[1]}'`);
             destination_userID = q_res[0].user_id;
         }
         catch (err) {
-            throw err;
+            return {"error": "transaction_wrong_username"};
         }
     }
     if (destinationAccount == "3") {
@@ -114,21 +114,41 @@ module.exports.insertTransaction = async function(value, transonce, category, is
             }
             sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}) `
             + `VALUES ('${value}', '${currenttime}', '${destination_userID}', '${category}', null);`;
-            res = await query(sql);
-            return res;
+            console.log(sql);
+            try {
+                await query(sql);
+                return {"error": "-"};
+            }
+            catch(err) {
+                console.log(err);
+            }
         }
 
         if (destinationAccount == "2"  && isExpense){ // Transaktionen zu anderen Usern / Groups können nur in Form von Expenses stattfinden
             let res, sql1, sql2;
 
             sql1 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}) ` // + on other user account
-            + `VALUES ('${value}', '${currenttime}', '${destination_userID}', null, '${userID}');`;
-            res = await query(sql1);
-            sql2 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}) ` // - on this user account
-            + `VALUES ('${value * (-1)}', '${currenttime}', '${userID}', null, null);`;
-            await query(sql2);
+            + `VALUES ('${value}', '${currenttime}', '${destination_userID}', '1', '${userID}');`;
 
-            return res; // is that really necessary
+            console.log(sql1);
+            try {
+                await query(sql1);
+            }
+            catch(err) {
+                console.log(err);
+            }
+
+            sql2 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}) ` // - on this user account
+            + `VALUES ('${value * (-1)}', '${currenttime}', '${userID}', '0', null);`;
+
+            console.log(sql2);
+            try {
+                await query(sql2);
+                return {"error": "-"};
+            }
+            catch(err) {
+                console.log(err);
+            }
         }
 
 
@@ -136,12 +156,24 @@ module.exports.insertTransaction = async function(value, transonce, category, is
             let res, sql1, sql2;
             sql1 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}) ` // + on other user account
             + `VALUES ('${value}', '${currenttime}', '${destination_userID}', null, '${userID}');`;
-            res = await query(sql1);
+            console.log(sql1);
+            try {
+                await query(sql1);
+            }
+            catch(err) {
+                console.log(err);
+            }
             sql2 = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}) ` // - on this user account
             + `VALUES ('${value * (-1)}', '${currenttime}', '${userID}', null, null);`;
-            await query(sql2);
 
-            return res; //??? is that really necessary
+            console.log(sql2);
+            try {
+                await query(sql2);
+                return {"error": "-"};
+            }
+            catch(err) {
+                console.log(err);
+            }
         }
     }
 
@@ -197,7 +229,7 @@ module.exports.insertTransaction = async function(value, transonce, category, is
                     STARTS '${dateTimeID}'
                     DO
                     INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]})
-                    VALUES ('${value}', NOW(), '${destination_userID}', null, '${userID}');`;
+                    VALUES ('${value}', NOW(), '${destination_userID}', '1', '${userID}');`;
             try {
                 await query(sql1);
             }
@@ -210,7 +242,7 @@ module.exports.insertTransaction = async function(value, transonce, category, is
                     STARTS '${dateTimeID}'
                     DO
                     INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]})
-                    VALUES ('${value * (-1)}', NOW(), '${userID}', null, null);`;        
+                    VALUES ('${value * (-1)}', NOW(), '${userID}', '0', null);`;        
 
             try {
                 await query(sql2);
