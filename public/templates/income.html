@@ -237,9 +237,11 @@
                                         <div class="input-group mb-3">
                                             <select class="custom-select" id="chooseCategory">
                                                 <option selected>Choose Category</option>
-                                                <% categorys.forEach(function(cat){ %>
-                                                <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
-                                                <% }); %>
+                                                <% for (var i = 0; i < categorys.length; i++){ %>
+                                                    <% if (i!=0){ %>
+                                                        <option value="<%=categorys[i].category_id%>"><%=categorys[i].category_name%></option>
+                                                    <% } %>
+                                                <% } %>
                                             </select>
                                             <div class="input-group-append">
 
@@ -386,9 +388,11 @@
                                 <div class="input-group mb-3">
                                     <select class="custom-select" id="chooseCategoryModal">
                                         <option selected>Choose Category</option>
-                                        <% categorys.forEach(function(cat){ %>
-                                        <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
-                                        <% }); %>
+                                        <% for (var i = 0; i < categorys.length; i++){ %>
+                                            <% if (i!=0){ %>
+                                                <option value="<%=categorys[i].category_id%>"><%=categorys[i].category_name%></option>
+                                            <% } %>
+                                        <% } %>
                                     </select>
                                     <div class="input-group-append">
 
@@ -401,7 +405,6 @@
 
                                     </div>
                                 </div>
-                                
                             </div>
 
                         </div>
@@ -572,9 +575,11 @@
                         <div class="input-group mb-3">
                             <select class="custom-select" id="categoryToFilter">
                                 <option selected>Choose Category</option>
-                                <% categorys.forEach(function(cat){ %>
-                                <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
-                                <% }); %>
+                                <% for (var i = 0; i < categorys.length; i++){ %>
+                                    <% if (i!=0){ %>
+                                        <option value="<%=categorys[i].category_id%>"><%=categorys[i].category_name%></option>
+                                    <% } %>
+                                <% } %>
                             </select>
                         </div>
                         <p>To show the income for all categories, just reload the page.</p>

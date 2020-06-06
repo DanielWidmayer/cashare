@@ -101,6 +101,17 @@ module.exports.getDataByMail = async function(mail, arr = true) {
     }
 }
 
+module.exports.getName = async function (userid) {
+    var sql = `SELECT ${COLS[1]}, ${COLS[2]} FROM ${TBNAME} WHERE ${COLS[0]}='${userid}';`;
+    try {
+        let row = await query(sql);
+        row = row[0][COLS[1]] + ' ' + row[0][COLS[2]];
+        return row;
+    } catch (err) {
+        throw (err);
+    }
+}
+
 module.exports.getDataByID = async function(user_id, arr = true) {
     var sql = `SELECT ${COLS[0]}, ${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[7]}, ${COLS[8]}, ${COLS[9]}, ${COLS[10]} FROM ${TBNAME} WHERE ${COLS[0]} = '${user_id}';`
     try {

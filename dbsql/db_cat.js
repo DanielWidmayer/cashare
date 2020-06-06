@@ -37,7 +37,7 @@ module.exports.create_table = async function() {
             sql2 = "INSERT INTO "+ TBNAME +"("
             + COLS[1] + "," + COLS[2] + "," + COLS[3] + ") " + "VALUES"
             + "('direct debit', 'UserTransaction', True),"
-            + "('TransferToMe', 'UserTransaction', False),"
+            + "('credit', 'UserTransaction', False),"
             + "('Travel', 'Travelaround', True),"
             + "('Amusement', 'For Hedonism', True),"
             + "('Food', 'For xx', True),"
@@ -80,6 +80,7 @@ module.exports.getCategorysByUserID = async function(user_id, isExpense) {
             let q_res = await query(sql);
             let res = [];
             for (i in q_res) {
+                
                 res.push(q_res[i]);
             }
             return res;
