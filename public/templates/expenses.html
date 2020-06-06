@@ -208,7 +208,7 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-secondary">Payment Goals</h6>
                                 </div>
-                                <div class="card-body">
+                                <div id="payment_goal_overview" class="card-body">
                                     <h4 class="small font-weight-bold">Car <span class="float-right">45%</span>
                                     </h4>
                                     <div class="progress mb-4">
@@ -364,12 +364,12 @@
                                         <div class="input-group mb-3">
                                             <input type="text" lang="en" class="form-control"
                                                 placeholder="Title" aria-label="Transaction Value"
-                                                aria-describedby="basic-addon2" id="transactionValue">
+                                                aria-describedby="basic-addon2" id="paymentGoalTitle">
                                         </div>
                                         <div class="input-group mb-3">
                                             <input type="number" step="0.01" min="0" lang="en" class="form-control"
                                                 placeholder="Value" aria-label="Transaction Value"
-                                                aria-describedby="basic-addon2" id="transactionValue">
+                                                aria-describedby="basic-addon2" id="paymentGoalValue">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" id="basic-addon2">$</span>
                                                 </div>
@@ -377,7 +377,7 @@
                                         
                                         
                                         <div class="input-group mb-3">
-                                            <select class="custom-select" id="chooseCategory">
+                                            <select class="custom-select" id="choosePaymentGoalCategory">
                                                 <option selected>Choose Category</option>
                                                 <% for (var i = 0; i < categorys.length; i++){ %>
                                                     <% if (i!=0){ %>

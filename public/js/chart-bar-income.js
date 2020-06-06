@@ -89,8 +89,8 @@ var BarChart_Incomes = new Chart(ctx_incomes, {
     labels: [], //getMonths(),
     datasets: [{
       label: "Revenue",
-      backgroundColor: "#4e73df",
-      hoverBackgroundColor: "#2e59d9",
+      backgroundColor: "#3493FF",
+      hoverBackgroundColor: "#4FAFFF",
       borderColor: "#4e73df",
       data: []//getData()
     }],
