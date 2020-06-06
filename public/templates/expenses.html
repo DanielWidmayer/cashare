@@ -361,12 +361,12 @@
                                         <div class="input-group mb-3">
                                             <input type="text" lang="en" class="form-control"
                                                 placeholder="Title" aria-label="Transaction Value"
-                                                aria-describedby="basic-addon2" id="transactionValue">
+                                                aria-describedby="basic-addon2" id="paymentGoalTitle">
                                         </div>
                                         <div class="input-group mb-3">
                                             <input type="number" step="0.01" min="0" lang="en" class="form-control"
                                                 placeholder="Value" aria-label="Transaction Value"
-                                                aria-describedby="basic-addon2" id="transactionValue">
+                                                aria-describedby="basic-addon2" id="paymentGoalValue">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" id="basic-addon2">$</span>
                                                 </div>
@@ -374,7 +374,7 @@
                                         
                                         
                                         <div class="input-group mb-3">
-                                            <select class="custom-select" id="chooseCategory">
+                                            <select class="custom-select" id="choosePaymentGoalCategory">
                                                 <option selected>Choose Category</option>
                                                 <% categorys.forEach(function(cat){ %>
                                                 <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
