@@ -424,7 +424,7 @@ $(document).ready(function(){
                         var newText;
                     switch (index) {
                         case 0: 
-                                newText = document.createTextNode('$' + data[key]['TRANSACTION_VALUE']);
+                                newText = document.createTextNode(data[key]['TRANSACTION_VALUE'] + '$');
                                 newCell.appendChild(newText);
                                 break;
                             case 1:
@@ -480,14 +480,22 @@ $(document).ready(function(){
         success: function (data) {
             paymentGoals = data;
             console.log(data);
+            var sum = 0, counter = 0;;
             for (const key in data) {
-                $('#payment_goal_overview').append('<h4 class="small font-weight-bold">' + data[key]['title'] + '<span class="float-right">' + data[key]['current']/data[key]['value'] + '% - ' + data[key]['current'] + '/' + data[key]['value'] + '$</span></h4><div class="progress mb-4"><div class="progress-bar bg-primary" role="progressbar" style="width: ' + data[key]['current']/data[key]['value'] + '%"></div></div>');
+                $('#payment_goal_overview').append('<h4 class="small font-weight-bold">' + data[key]['title'] + '<span id="paymentGoalSpan' + key + '" class="float-right">' + 100*data[key]['current']/data[key]['value'] + '% - ' + data[key]['current'] + '/' + data[key]['value'] + '$</span></h4><div class="progress mb-4"><div class="progress-bar bg-primary" role="progressbar" style="width: ' + 100*data[key]['current']/data[key]['value'] + '%"></div></div>');
+                counter++;
+                sum += 100*data[key]['current']/data[key]['value'];
             }
+
+            $('#payment_tasks_average').text(sum/counter);
+            $('#payment_tasks_average_width').css('width', sum/counter + '%');
+
         },
         error: function (request, error) {
             console.log(error + 'Request:' + JSON.stringify(request));
         }
     });
+
 });
 
 
@@ -540,8 +548,7 @@ $('#addPaymentGoalValue').click(() => {
                 type: 'POST',
                 data: {value: payment_goal_value, goal_id: payment_goal_id},
                 success: function (data) {
-                    console.log(data);
-                    $('#payment_goal_overview').replaceWith('<h4 class="small font-weight-bold">' + payment_goal_title + '<span class="float-right">0% - 0/ ' + payment_goal_value + '$</span></h4><div class="progress mb-4"><div class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div></div>');
+                    location.reload();
                 },
                 error: function (request, error) {
                     console.log(error + 'Request:' + JSON.stringify(request));

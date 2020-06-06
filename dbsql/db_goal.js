@@ -71,7 +71,8 @@ module.exports.getPaymentGoalsByUserID = async function(userid){
 }
 
 module.exports.addPaymentGoalValue = async function(value, goal_id){
-    var sql = `UPDATE ${TBNAME} SET ${COLS[1]} = ${value} WHERE ${COLS[0]} = ${goal_id}`
+    //var current = `SELECT 1 FROM ${TBNAME} WHERE ${COLS[]}`
+    var sql = `UPDATE ${TBNAME} SET ${COLS[2]} = (${value} + ${COLS[2]}) WHERE ${COLS[0]} = ${goal_id}`
     try {
         let res = await query(sql);
         return 0;

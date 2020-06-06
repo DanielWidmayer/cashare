@@ -36,12 +36,33 @@ function pollData()
             alert(data.toString);
         }
     });
-    // setInterval(function(){
-    //     poll();
-    // }, 1000);
 }
-
 pollData();
+
+$(document).ready(function(){
+    $.ajax({
+        url: '/expenses/user_goals',
+        type: 'GET',
+        success: function (data) {
+            paymentGoals = data;
+            console.log(data);
+            var sum = 0, counter = 0;;
+            for (const key in data) {
+                $('#payment_goal_overview').append('<h4 class="small font-weight-bold">' + data[key]['title'] + '<span id="paymentGoalSpan' + key + '" class="float-right">' + 100*data[key]['current']/data[key]['value'] + '% - ' + data[key]['current'] + '/' + data[key]['value'] + '$</span></h4><div class="progress mb-4"><div class="progress-bar bg-primary" role="progressbar" style="width: ' + 100*data[key]['current']/data[key]['value'] + '%"></div></div>');
+                counter++;
+                sum += 100*data[key]['current']/data[key]['value'];
+            }
+    
+            $('#payment_tasks_average').text(sum/counter);
+            $('#payment_tasks_average_width').css('width', sum/counter + '%');
+    
+        },
+        error: function (request, error) {
+            console.log(error + 'Request:' + JSON.stringify(request));
+        }
+    });
+});
+
 
 
 
