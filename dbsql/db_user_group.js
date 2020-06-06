@@ -104,10 +104,11 @@ module.exports.getUserRole = async function (groupid, userid) {
     }
 }
 
-module.exports.setUserInvited = async function (groupid, userid) {
+module.exports.setUserInvited = async function (groupid, userid, inv) {
+    var sql = `INSERT INTO ${TBNAME} (${COLS[0]}, ${COLS[1]}, ${COLS[2]}, ${COLS[3]}) VALUES ('${userid}', '${groupid}', 0, '${inv}');`;
     try {
-        let res = await this.editUserGroupRole(groupid, userid, 0);
-        return res;
+        await query(sql);
+        return 1;
     } catch (err) {
         throw (err);
     }

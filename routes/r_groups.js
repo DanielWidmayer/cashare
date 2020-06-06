@@ -53,8 +53,17 @@ router.post('/', async function(req,res) {
 })
 
 router.get('/:group', function (req, res) {
-  console.log(req.params.group);
-    return res.render('paymentgroup-shareboard.html', { pagename: 'groups' });
+  let groupid = req.params.group.replace(/[^\d]/g, '');
+  try{
+    let checker = await dbsql.db_user_group.getUserRole(groupid, req.user[0]);
+    if (!checker) return res.redirect('/groups');
+    var group_data = await get_group_data(groupid);
+    var members = await get_group_members(groupid);
+    var alerts = await get_group_alerts(req.user[0], groupid);
+  } catch (err) {
+    console.log(err);
+  }
+  return res.render('paymentgroup-shareboard.html', { group_data: group_data, members: members, alerts: alerts, pagename: 'groups' });
 });
 
 router.post('/:group/join', async function (req, res) {
@@ -84,16 +93,18 @@ router.post('/:group/inv', async function (req, res) {
   let mail = req.body['usermail'];
   let now = getcurrentDateTime();
   try {
+    let checker = await dbsql.db_user_group.getUserRole(groupid, req.user[0]);
+    if (!checker || checker < 2) return res.redirect('/groups');
     let group = await dbsql.db_group.getGroup(groupid);
     group = group[dbsql.db_group.COLS[1]];
     let user = await dbsql.db_user.getDataByMail(mail);
-    await dbsql.db_user_group.setUserInvited(groupid, user[0]);
+    await dbsql.db_user_group.setUserInvited(groupid, user[0], req.user[0]);
     dbsql.db_alerts.createUserAlert(user[0], 'primary', req.user[1] + ' ' + req.user[2] + ' has invited you to join "' + group + '".', now);
     dbsql.db_alerts.createGroupAlert(groupid, 'primary', user[1] + ' ' + user[2] + ' has been invited to join the Group.', now)
   } catch (err) {
     throw (err);
   }
-  return res.redirect('/groups');
+  return res.redirect('/groups/' + req.params.group);
 });
 
 router.post('/:group', async function (req, res) {
@@ -154,11 +165,12 @@ router.post('/:group', async function (req, res) {
       if (/\p{L}{1,}/u.test(groupdesc)) {
         await dbsql.db_group.changeGroupDesc(groupid, req.body['groupdesc']);
       } 
+      return res.redirect('/groups/' + req.params.group);
     }
   } catch (err) {
     console.log(err);
   }
-  return res.redirect('/groups/' + req.params.group);
+  return res.redirect('/groups');
 })
 
 router.get('/:group/rem', async function(req, res) {
