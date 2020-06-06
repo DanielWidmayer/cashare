@@ -231,6 +231,7 @@ function loadMessagesIntoMessageBody(data) {
     currentChatPartnerID = data[0];
     var latestMessage;
     $('#messageBody').empty();
+    console.log(messages);
     for (i in messages) {
         if (messages[i]['user_receive_id'] == data[0] || messages[i]['user_send_id'] == data[0]) {
             if (currentUserID == currentChatPartnerID) {

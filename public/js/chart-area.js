@@ -52,7 +52,7 @@ var ChartArea_home = new Chart(ctx, {
       {
         label: 'Editions',
         lineTension: 0.01,
-        backgroundColor: 'rgba(255, 20, 47, 0.01)',
+        backgroundColor: 'rgba(255, 20, 47, 0.1)',
         borderColor: 'rgba(255, 20, 52, 1)',
         pointRadius: 3,
         pointBackgroundColor: 'rgba(255, 20, 78, 1)',
