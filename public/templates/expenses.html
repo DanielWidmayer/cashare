@@ -318,7 +318,7 @@
                                         <div id="destination_account_input_group" class="input-group mb-3">
                                             <div class="input-group">
                                                 <input type="text" class="form-control"
-                                                    placeholder="Enter ID" id="destination_id" disabled>
+                                                    placeholder="Enter user name" id="destination_id" disabled>
                                                 <div class="input-group-append">
                                                     <select class="custom-select form-control" id="destination_account">
                                                         <option value="0" selected>Choose destination account</option>
@@ -334,9 +334,11 @@
                                         <div class="input-group mb-3">
                                             <select class="custom-select" id="chooseCategory" disabled>
                                                 <option selected>Choose Category</option>
-                                                <% categorys.forEach(function(cat){ %>
-                                                <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
-                                                <% }); %>
+                                                <% for (var i = 0; i < categorys.length; i++){ %>
+                                                    <% if (i!=0){ %>
+                                                        <option value="<%=categorys[i].category_id%>"><%=categorys[i].category_name%></option>
+                                                    <% } %>
+                                                <% } %>
                                             </select>
                                             <div class="input-group-append">
 
@@ -348,11 +350,6 @@
 
                                             </div>
                                         </div>
-                                        <!-- <div class="input-group autocomplete">
-                                            <input type="text" lang="en" class="form-control"
-                                                placeholder="contractual partner" aria-label="contractualPartner"
-                                                aria-describedby="basic-addon2" id="contractualPartner">
-                                        </div> -->
                                         <hr>
                                         <!-- Button Add new Expense-->
                                         <button class="btn btn-success btn-icon-split" id="addExpense">
@@ -399,9 +396,11 @@
                                         <div class="input-group mb-3">
                                             <select class="custom-select" id="chooseCategory">
                                                 <option selected>Choose Category</option>
-                                                <% categorys.forEach(function(cat){ %>
-                                                <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
-                                                <% }); %>
+                                                <% for (var i = 0; i < categorys.length; i++){ %>
+                                                    <% if (i!=0){ %>
+                                                        <option value="<%=categorys[i].category_id%>"><%=categorys[i].category_name%></option>
+                                                    <% } %>
+                                                <% } %>
                                             </select>
                                             <div class="input-group-append">
 
@@ -594,7 +593,7 @@
                         <div id="destination_account_input_group_modal" class="input-group mb-3">
                             <div class="input-group">
                                 <input type="text" class="form-control"
-                                    placeholder="Enter ID" id="destination_id_modal" disabled>
+                                    placeholder="Enter user name" id="destination_id_modal" disabled>
                                 <div class="input-group-append">
                                     <select class="custom-select form-control" id="destination_account_modal">
                                         <option value="0" selected>Choose destination account</option>
@@ -610,9 +609,11 @@
                         <div class="input-group mb-3">
                             <select class="custom-select" id="chooseCategory_modal" disabled>
                                 <option selected>Choose Category</option>
-                                <% categorys.forEach(function(cat){ %>
-                                <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
-                                <% }); %>
+                                <% for (var i = 0; i < categorys.length; i++){ %>
+                                    <% if (i!=0){ %>
+                                        <option value="<%=categorys[i].category_id%>"><%=categorys[i].category_name%></option>
+                                    <% } %>
+                                <% } %>
                             </select>
                             <div class="input-group-append">
 
@@ -697,9 +698,11 @@
                         <div class="input-group mb-3">
                             <select class="custom-select" id="categoryToFilter">
                                 <option selected>Choose Category</option>
-                                <% categorys.forEach(function(cat){ %>
-                                <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
-                                <% }); %>
+                                <% for (var i = 0; i < categorys.length; i++){ %>
+                                    <% if (i!=0){ %>
+                                        <option value="<%=categorys[i].category_id%>"><%=categorys[i].category_name%></option>
+                                    <% } %>
+                                <% } %>
                             </select>
                         </div>
                         <p>To show the expenses for all categories, just reload the page.</p>
@@ -787,6 +790,30 @@
         </div>
       </div>
     </div>    
+
+
+            <!-- Modal Time Alert (Start Time of the event in the past) -->
+            <div class="modal" id="transaction_wrong_user" tabindex="-1" role="dialog" style="display: none; z-index: 1999;" aria-hidden="true"
+            data-backdrop="static" data-keyboard="false">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title text-danger">ALERT</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    The entered user does not exist. Enter firstname, whitespace and surname and make sure that the user exists.
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Edit transaction</button>
+                    <!--- <button type="button" class="btn btn-danger" id="conduct_transaction_anyway_button">Conduct transaction anyway</button>
+                    -->
+                  </div>
+                </div>
+              </div>
+            </div>        
 
 
     <!-- Bootstrap core JavaScript-->

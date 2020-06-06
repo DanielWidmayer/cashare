@@ -245,7 +245,11 @@ $("#addExpense").click(function(){
             {
                 if (destinationAccount > 1) 
                 {
-                    $("#user_transaction_alert").modal('show');
+                    if (data=="transaction_wrong_username") {
+                        $("#transaction_wrong_user").modal('show');
+                    } else {
+                        $("#user_transaction_alert").modal('show');
+                    }
                 } else
                 {
                     location.reload();
