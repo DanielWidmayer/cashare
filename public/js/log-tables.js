@@ -11,7 +11,6 @@ $(document).ready(function(){
         //     }
         // },error: function (request, error) {
         //     console.log(error + 'Request:' + JSON.stringify(request));
-            console.log(data);
 
             for (var i = 0; i<data.length; i++){
                 var tr_category = data[i].category_name;
@@ -26,7 +25,9 @@ $(document).ready(function(){
                 transaction_log_list.append('<tr><td>' 
                 + tr_type + '</td><td>' + tr_value + '</td><td>' + tr_category + '</td><td>' + tr_date + '</td></tr>');
             }
-            $('#dataTable').DataTable({"recordsTotal":data.length, paging: false,searching: false});
+                    /*DataTables instantiation.*/
+            $( "#dataTable" ).DataTable();
+            //$('#dataTable').DataTable({"recordsTotal":data.length, paging: false,searching: false});
         }
     });
 });
