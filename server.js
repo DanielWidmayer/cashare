@@ -102,6 +102,7 @@ app.get('/', function (req, res) {            // could be handled in own file as
 });
 
 app.use('/home', isAuthenticated, require('./routes/r_home'));
+// Home - Cashboard
 
 app.use('/login', redirectHome, require('./routes/r_login'));
 

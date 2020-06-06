@@ -28,95 +28,78 @@
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Dezember"];
   
 
-  function pollDataExpenses() 
-  {
-      var poll = function()
-      {
-          $.ajax({
-              url: '/jsondata/expenses',
-              dataType: 'json',
-              type: 'get',
-              success: function(data)
-              {
-                  
-                  BarChart_Expenses.data.datasets[0].data = [];
-                  BarChart_Expenses.data.labels = [];
-                  for (let index = 0; index < thisMonth; index++)
-                  {
-                    BarChart_Expenses.data.labels.push(months[index]);  
-                    BarChart_Expenses.data.datasets[0].data.push(Math.abs(data.expenses_eachMonth[thisMonth-index-1]));
-                    BarChart_Expenses.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(Math.abs(data.expenses_eachMonth[thisMonth-index-1]), BarChart_Expenses.options.scales.yAxes[0].ticks.max);
-                  }
-                  BarChart_Expenses.update();
+function pollDataExpenses() 
+{
+    $.ajax({
+        url: '/jsondata/expenses',
+        dataType: 'json',
+        type: 'get',
+        success: function(data)
+        {
+            
+            BarChart_Expenses.data.datasets[0].data = [];
+            BarChart_Expenses.data.labels = [];
+            for (let index = 0; index < thisMonth; index++)
+            {
+              BarChart_Expenses.data.labels.push(months[index]);  
+              BarChart_Expenses.data.datasets[0].data.push(Math.abs(data.expenses_eachMonth[thisMonth-index-1]));
+              BarChart_Expenses.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(Math.abs(data.expenses_eachMonth[thisMonth-index-1]), BarChart_Expenses.options.scales.yAxes[0].ticks.max);
+            }
+            BarChart_Expenses.update();
+
+            if (data.average_expenses == null){
+                $("#average_expenses").text("$0");
+            } else {
+                $('#average_expenses').text("$" + Math.abs(data.average_expenses));
+            }
+            if(data.annual_expenses == null){
+                $('#annual_expenses').text("$0");
+            } else {
+                $('#annual_expenses').text("$" + Math.abs(data.annual_expenses));
+            }
+            if (data.lastMonth_expenses == null){
+                $('#last_month_expenses').text("$0");
+            } else {
+                $('#last_month_expenses').text("$" + Math.abs(data.lastMonth_expenses));
+            }
+        },
+        error: function(){
+            //
+        }
+    });
+}
   
-                  if (data.average_expenses == null){
-                      $("#average_expenses").text("$0");
-                  } else {
-                      $('#average_expenses').text("$" + Math.abs(data.average_expenses));
-                  }
-                  if(data.annual_expenses == null){
-                      $('#annual_expenses').text("$0");
-                  } else {
-                      $('#annual_expenses').text("$" + Math.abs(data.annual_expenses));
-                  }
-                  if (data.lastMonth_expenses == null){
-                      $('#last_month_expenses').text("$0");
-                  } else {
-                      $('#last_month_expenses').text("$" + Math.abs(data.lastMonth_expenses));
-                  }
-              },
-              error: function(){
-                  //
-              }
-          })
-      };
-      poll();
-      setInterval(function(){
-          poll();
-      }, 1000);
-  }
+pollDataExpenses();
   
-  pollDataExpenses();
-  
-  function pollPieChartData()
-  {
-    var poll = function()
-    {
+function pollPieChartData()
+{
     $.ajax({
         url: '/jsondata/piechart-expenses',
         dataType: 'json',
         type: 'get',
         success: function(data)
-              {
-                  console.log(PieChart_Expenses.data.datasets[0]);
-                  PieChart_Expenses.data.datasets[0].data = [];
-                  PieChart_Expenses.data.labels = [];
-                  for (let index = 0; index < data.categories.length; index++)
-                  {
-                      console.log(data.totalexpenses[index]);
+            {
+                console.log(PieChart_Expenses.data.datasets[0]);
+                PieChart_Expenses.data.datasets[0].data = [];
+                PieChart_Expenses.data.labels = [];
+                for (let index = 0; index < data.categories.length; index++)
+                {
+                    console.log(data.totalexpenses[index]);
                     PieChart_Expenses.data.labels.push(data.categories[index]);  
-                    PieChart_Expenses.data.datasets[0].data.push(data.totalexpenses[index]);
-                    
-                  }
-                  PieChart_Expenses.update();
-  
-                  
-              },
-              error: function(){
-                //
-            }
-    })
+                    PieChart_Expenses.data.datasets[0].data.push(data.totalexpenses[index]);  
+                }
+                PieChart_Expenses.update();   
+            },
+        error: function(){
+            //
+        }
+    });
 };
-poll();
 /*setInterval(function(){
     poll();
 }, 1000);*/
-};
 
 pollPieChartData();
-
-
-
 
 $("#transactionValue").on("keypress keyup blur", function (event) {
     $(this).val($(this).val().replace(/[^0-9\.|\,]/g,''));
@@ -144,28 +127,59 @@ $("#transactionValueModal").on("keypress keyup blur", function (event) {
 
 
 $('#destination_account').change(function() {
-    $('#destination_id').prop('disabled', false);
+    $('#destination_id').prop('hidden', false);
+    $('#destination_id').next().removeClass('input-group').addClass('input-group-append');
 
-    $('#chooseCategory').prop('disabled', true);
-    $('#new_category_button').prop('disabled', true);
-    if ($(this).val() == "0" || $(this).val() == "1") {
-      $('#destination_id').prop('disabled', true);
+    $('#chooseCategory').prop('hidden', true);
+    $('#new_category_button').prop('hidden', true);
+    if ($(this).val() == "0") {
+      $('#destination_id').prop('hidden', true);
+      $('#destination_id').next().removeClass('input-group-append').addClass('input-group');
 
-      $('#chooseCategory').prop('disabled', false);
-      $('#new_category_button').prop('disabled', false);
+      $('#chooseCategory').prop('hidden', false);
+      $('#new_category_button').prop('hidden', false);
     }
 });
 
 $('#destination_account_modal').change(function() {
-    $('#destination_id_modal').prop('disabled', false);
+    $('#destination_id_modal').prop('hidden', false);
+    $('#destination_id_modal').next().removeClass('input-group').addClass('input-group-append');
 
-    $('#chooseCategory_modal').prop('disabled', true);
-    $('#new_category_button_modal').prop('disabled', true);
-    if ($(this).val() == "0" || $(this).val() == "1") {
-      $('#destination_id_modal').prop('disabled', true);
+    $('#chooseCategory_modal').prop('hidden', true);
+    $('#new_category_button_modal').prop('hidden', true);
+    if ($(this).val() == "0") {
+      $('#destination_id_modal').prop('hidden', true);
+      $('#destination_id_modal').next().removeClass('input-group-append').addClass('input-group');
 
-      $('#chooseCategory_modal').prop('disabled', false);
-      $('#new_category_button_modal').prop('disabled', false);
+      $('#chooseCategory_modal').prop('hidden', false);
+      $('#new_category_button_modal').prop('hidden', false);
+    }
+});
+
+
+
+$("#filterByCategoryExpensesButton").click(function(){
+    var categoryToFilter = $("#categoryToFilter").val();
+    if (categoryToFilter == "Choose Category") {
+        $("#categoryToFilter").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+        $('#categoryToFilter').css('border-color', 'red');
+        $("#filterByCategoryExpensesButton").disabled = true;
+    } else {
+        $("#filterByCategoryExpensesButton").disabled = false;
+        var categoryToFilterJSON = {'categoryToFilter':categoryToFilter};
+
+        $.post( "/jsondata/filterByCategoryExpenses", categoryToFilterJSON).done(function(data) {
+            BarChart_Expenses.data.datasets[0].data = [];
+            BarChart_Expenses.data.labels = [];
+            for (let index = 0; index < thisMonth; index++)
+            {
+                BarChart_Expenses.data.labels.push(months[index]);
+                BarChart_Expenses.data.datasets[0].data.push(data.filtered_income_eachMonth[thisMonth-index-1]);
+                BarChart_Expenses.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(data.filtered_income_eachMonth[thisMonth-index-1], BarChart_Expenses.options.scales.yAxes[0].ticks.max);
+            }
+            BarChart_Expenses.update();
+            $("#filter_data").modal('hide');
+        });
     }
 });
 

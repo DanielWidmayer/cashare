@@ -5,6 +5,16 @@ router.get('/income', async function (req, res) {
     var q_trans = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 0);
     res.json(q_trans);
   });
+
+router.post('/filterByCategoryIncome', async function (req, res) {
+  var q_trans = await dbsql.db_trans.getArrayForFilteredBarchart(req.user[0], req.body.categoryToFilter, 0);
+  res.json(q_trans);
+});
+
+router.post('/filterByCategoryExpenses', async function (req, res) {
+  var q_trans = await dbsql.db_trans.getArrayForFilteredBarchart(req.user[0], req.body.categoryToFilter, 1);
+  res.json(q_trans);
+});
   
 router.get('/expenses', async function (req, res) {
     var q_trans = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 1);

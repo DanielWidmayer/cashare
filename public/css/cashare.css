@@ -11531,8 +11531,9 @@ img {
   z-index: 0;
 }
 
-.checkbox-triple {
+.checkbox-multiple {
   float: right;
+  margin-left: auto;
   margin-top: 1em;
 }
 

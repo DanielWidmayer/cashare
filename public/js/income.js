@@ -28,56 +28,50 @@ var thisMonth = new Date().getMonth()+1;
 var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "Dezember"];
 
 function pollDataIncome() {
-    var poll = function(){
-        $.ajax({
-            url: '/jsondata/income',
-            dataType: 'json',
-            type: 'get',
-            success: function(data){
+    $.ajax({
+        url: '/jsondata/income',
+        dataType: 'json',
+        type: 'get',
+        success: function(data){
 
-                BarChart_Incomes.data.datasets[0].data = [];
-                BarChart_Incomes.data.labels = [];
-                for (let index = 0; index < thisMonth; index++)
-                {
-                    BarChart_Incomes.data.labels.push(months[index]);
-                    BarChart_Incomes.data.datasets[0].data.push(data.income_eachMonth[thisMonth-index-1]);
-                    BarChart_Incomes.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(data.income_eachMonth[thisMonth-index-1], BarChart_Incomes.options.scales.yAxes[0].ticks.max);
-                }
-                BarChart_Incomes.update();
-
-                if (data.average_income == null){
-                    $("#average_income").text("$0");
-                } else {
-                    $('#average_income').text("$" + data.average_income);
-                }
-                if(data.annual_income == null){
-                    $('#annual_income').text("$0");
-                } else {
-                    $('#annual_income').text("$" + data.annual_income);
-                }
-                if (data.lastMonth_income == null){
-                    $('#last_month_income').text("$0");
-                } else {
-                    $('#last_month_income').text("$" + data.lastMonth_income);
-                }
-
-                //$("#last_month_income").text("Hellooo");
-            },
-            error: function(){
-                alert(data.toString);
+            BarChart_Incomes.data.datasets[0].data = [];
+            BarChart_Incomes.data.labels = [];
+            for (let index = 0; index < thisMonth; index++)
+            {
+                BarChart_Incomes.data.labels.push(months[index]);
+                BarChart_Incomes.data.datasets[0].data.push(data.income_eachMonth[thisMonth-index-1]);
+                BarChart_Incomes.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(data.income_eachMonth[thisMonth-index-1], BarChart_Incomes.options.scales.yAxes[0].ticks.max);
             }
-        })
-    };
-    poll();
-    setInterval(function(){
-        poll();
-    }, 1000);
+            BarChart_Incomes.update();
+
+            if (data.average_income == null){
+                $("#average_income").text("$0");
+            } else {
+                $('#average_income').text("$" + data.average_income);
+            }
+            if(data.annual_income == null){
+                $('#annual_income').text("$0");
+            } else {
+                $('#annual_income').text("$" + data.annual_income);
+            }
+            if (data.lastMonth_income == null){
+                $('#last_month_income').text("$0");
+            } else {
+                $('#last_month_income').text("$" + data.lastMonth_income);
+            }
+
+            //$("#last_month_income").text("Hellooo");
+        },
+        error: function(){
+            alert(data.toString);
+        }
+    });
 }
 
 pollDataIncome();
 
 function pollPieChartData()
-  {
+{
     var poll = function()
     {
     $.ajax({
@@ -87,14 +81,14 @@ function pollPieChartData()
         success: function(data)
               {
                   
-                  console.log(PieChartIncome.data.datasets[0]);
+                  //console.log(PieChartIncome.data.datasets[0]);
                   PieChartIncome.data.datasets[0].data = [];
                   PieChartIncome.data.labels = [];
                   for (let index = 0; index < data.categories.length; index++)
                   {
-                      console.log(index);
-                      console.log(data.categories[index]);
-                      console.log(data.totalincomes[index]);
+                    //   console.log(index);
+                    //   console.log(data.categories[index]);
+                    //   console.log(data.totalincomes[index]);
                       PieChartIncome.data.labels.push(data.categories[index]);  
                       PieChartIncome.data.datasets[0].data.push(data.totalincomes[index]);
                     
@@ -103,28 +97,15 @@ function pollPieChartData()
   
                   
               },
-              error: function(){
-                //
+              error: function(err){
+                console.log(err);
             }
     })
 };
 poll();
-/*setInterval(function(){
-    poll();
-}, 1000);*/
 };
 
 pollPieChartData();
-
-
-var tableRef = document.getElementById('regular_income_overview').getElementsByTagName('tbody')[0];
-// Insert a row in the table at the last row
-var newRow = tableRef.insertRow();
-// Insert a cell in the row at index 0
-var newCell  = newRow.insertCell(0);
-// Append a text node to the cell
-var newText  = document.createTextNode('New row');
-newCell.appendChild(newText);
 
 
 $('#repetition_value').on("keypress keyup blur",function (event) {
@@ -166,6 +147,32 @@ $("#transactionValueModal").on("keypress keyup blur", function (event) {
     if (!regex.test(event.key) && event.keyCode != 46) {
         event.preventDefault();
         return false;
+    }
+});
+
+
+$("#filterByCategoryIncomeButton").click(function(){
+    var categoryToFilter = $("#categoryToFilter").val();
+    if (categoryToFilter == "Choose Category") {
+        $("#categoryToFilter").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+        $('#categoryToFilter').css('border-color', 'red');
+        $("#filterByCategoryIncomeButton").disabled = true;
+    } else {
+        $("#filterByCategoryIncomeButton").disabled = false;
+        var categoryToFilterJSON = {'categoryToFilter':categoryToFilter};
+
+        $.post( "/jsondata/filterByCategoryIncome", categoryToFilterJSON).done(function(data) {
+            BarChart_Incomes.data.datasets[0].data = [];
+            BarChart_Incomes.data.labels = [];
+            for (let index = 0; index < thisMonth; index++)
+            {
+                BarChart_Incomes.data.labels.push(months[index]);
+                BarChart_Incomes.data.datasets[0].data.push(data.filtered_income_eachMonth[thisMonth-index-1]);
+                BarChart_Incomes.options.scales.yAxes[0].ticks.max = checkMaxValueExceeded(data.filtered_income_eachMonth[thisMonth-index-1], BarChart_Incomes.options.scales.yAxes[0].ticks.max);
+            }
+            BarChart_Incomes.update();
+            $("#filter_data").modal('hide');
+        });
     }
 });
 
@@ -309,4 +316,76 @@ $("#addNewCategoryModal").click(function(){
 
 $("button[data-dismiss-modal=modal2]").click(function(){
     $('#CategoryModal').modal('hide');
+});
+
+var categorysById = {};
+$(document).ready(function(){
+    $.ajax({
+        url: '/income/user_categories',
+        type: 'GET',
+        success: function (data) {
+            for (const key in data) {
+                categorysById[data[key]['category_id']] = data[key]['category_name'];
+            }
+        },error: function (request, error) {
+            console.log(error + 'Request:' + JSON.stringify(request));
+        },
+    });
+
+    $.ajax({
+        url: '/income/regular_income_overview',
+        type: 'GET',
+        success: function (data) {
+            console.log(data);
+            var tableRef = document.getElementById('regular_income_overview').getElementsByTagName('tbody')[0];
+            console.log(tableRef);
+            for (const key in data) {
+                // Insert a row in the table at the last row
+                var newRow = tableRef.insertRow();
+                newRow.id = 'regularIncomeRow' + key;
+                for (let index = 0; index < 5; index++) {
+                    if(index != 4){
+                        var newCell  = newRow.insertCell(index); // Insert the cells in the row
+                    }
+                    // Append a text node to each cell
+                    var newText;
+                   switch (index) {
+                       case 0: 
+                            newText = document.createTextNode('$' + data[key]['TRANSACTION_VALUE']);
+                            newCell.appendChild(newText);
+                            break;
+                        case 1:
+                            newText = document.createTextNode(data[key]['INTERVAL_VALUE'] + ' ' + data[key]['INTERVAL_FIELD']);
+                            newCell.appendChild(newText);
+                            break;
+                        case 2:
+                            newText = document.createTextNode(data[key]['LAST_ALTERED']);
+                            newCell.appendChild(newText);
+                            break;
+                        case 3: 
+                            newText = document.createTextNode(categorysById[parseInt(data[key]['EVENT_DEFINITION'])]);
+                            newCell.appendChild(newText);
+                            break;
+                        case 4: 
+                            newText = '<td><button class="btn btn-circle btn-primary bg-gradient-primary" data-toggle="modal" data-target="#deleteIncomeModal"><i class="fas fa-trash text-white"></i></button></td>';
+                            $('#regularIncomeRow' + key).append(newText);
+                            break;
+                       default: console.log('error');
+                           break;
+                   }
+                   
+                }
+
+                $('#regularIncomeRow' + key).click(function(){
+
+                });
+                
+            }      
+        },
+        error: function (request, error) {
+            console.log(error + 'Request:' + JSON.stringify(request));
+        },
+    }
+
+    );
 });
