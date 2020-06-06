@@ -66,6 +66,22 @@ module.exports.trialtrans = function () {
     console.log("trial function triggered");
 }
 
+module.exports.getAllTransactions = async function(user_id) {
+    sql_getAll_transactions = `SELECT transaction_value, category_table.category_name, transaction_date FROM ${TBNAME} INNER JOIN category_table on transaction_table.category_id = category_table.category_id WHERE (${COLS[3]} = '${user_id}');`;
+    //var tr_type, tr_value, tr_cat_id, tr_date; 
+    var q_res;
+    
+    try {
+        q_res = await query(sql_getAll_transactions);
+        return q_res;
+    }
+    catch (err) {
+        return {"error": "transaction_wrong_username"};
+    }
+    
+    //tr_value = q_res[0].transaction_value;
+}
+
 
 // hier noch speziell für User? Payment-Groups?
 module.exports.insertTransaction = async function(value, transonce, category, isExpense, userID, repetitionValue, timeUnit, dateTimeID, contractualPartner, destinationAccount) {

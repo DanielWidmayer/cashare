@@ -1,6 +1,11 @@
 const router = require('express').Router();
 const dbsql = require('../dbsql');
 
+router.get('/transactionLogs', async function (req, res) {
+  var q_trans = await dbsql.db_trans.getAllTransactions(req.user[0]);
+  res.json(q_trans);
+});
+
 router.get('/income', async function (req, res) {
     var q_trans = await dbsql.db_trans.getTransactionValueByUserID(req.user[0], 0);
     res.json(q_trans);
