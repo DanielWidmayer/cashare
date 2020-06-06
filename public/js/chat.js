@@ -99,7 +99,7 @@ $(document).ready(function () {
             // create inbox from inboxData
             for (const key in inboxData) {
                 $.ajax({
-                    url: '/chat/userDataById',
+                    url: '/user/DataById',
                     data: { data: key },
                     type: 'POST',
                     success: function (data) {
@@ -164,7 +164,7 @@ $(document).ready(function () {
     });
 
     $.ajax({
-        url: '/chat/user',
+        url: '/user',
         type: 'GET',
         success: function (data) {
             autocomplete(document.getElementById('searchUserInput'), data);
@@ -178,7 +178,7 @@ $(document).ready(function () {
         var searchData = $('#searchUserInput').val();
         // post search Data from Mail to console
         $.ajax({
-            url: '/chat/userdata',
+            url: 'user/data',
             data: { data: searchData },
             type: 'POST',
             success: function (data) {

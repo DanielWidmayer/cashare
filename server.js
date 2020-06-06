@@ -127,6 +127,8 @@ app.use('/profile', isAuthenticated, require('./routes/r_profile'));
 
 app.use('/chat', isAuthenticated, require('./routes/r_chat'));
 
+app.use('/user', isAuthenticated, require('./routes/r_user'));
+
 app.use('/alerts', isAuthenticated, require('./routes/r_alerts'));
 
 app.get('/blank', isAuthenticated, function (req, res) {        // could be handled in own file as well
