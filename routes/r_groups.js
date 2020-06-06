@@ -52,7 +52,7 @@ router.post('/', async function(req,res) {
   return res.redirect('/groups');
 })
 
-router.get('/:group', function (req, res) {
+router.get('/:group', async function (req, res) {
   let groupid = req.params.group.replace(/[^\d]/g, '');
   try{
     let checker = await dbsql.db_user_group.getUserRole(groupid, req.user[0]);

@@ -26,7 +26,7 @@ $(document).ready(function(){
                 + tr_type + '</td><td>' + tr_value + '</td><td>' + tr_category + '</td><td>' + tr_date + '</td></tr>');
             }
                     /*DataTables instantiation.*/
-            $( "#dataTable" ).DataTable();
+            $( "#table_id" ).DataTable();
             //$('#dataTable').DataTable({"recordsTotal":data.length, paging: false,searching: false});
         }
     });
