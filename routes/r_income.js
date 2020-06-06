@@ -27,9 +27,21 @@ router.get('/regular_income_overview', async function (req, res) {
 });
 
 router.get('/user_categories', async function (req, res) {
-  console.log(req.user[0]);
   var user_categories = await dbsql.db_cat.getCategorysByUserID(req.user[0]); 
   res.json(user_categories);
+});
+
+router.post('/delete_regular_income', async function (req, res) {
+  try {
+    let sqlret = await dbsql.db_trans.deleteRegularTransaction(req.body.event_name);
+    if(sqlret == 0){
+      res.sendStatus(200);
+    } else{
+      res.sendStatus(500);
+    }
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 module.exports = router;

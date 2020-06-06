@@ -259,10 +259,14 @@ module.exports.insertTransaction = async function(value, transonce, category, is
 }
 
 
-module.exports.deleteRegularTransaction = async function(user_id, value) {
-
-// stop now
-// delete 
+module.exports.deleteRegularTransaction = async function(event_name) {
+    try {
+        var sql = `DROP EVENT IF EXISTS ${event_name};`;
+        res = await query(sql);
+        return 0;
+    } catch (error) {
+        throw error;
+    }
 };
 
 
@@ -529,7 +533,6 @@ module.exports.getRegularTransactions = async function(user_id, isExpense) {
             json_event_val[i]['IS_EXPENSE'] = '0'; // is income is expense false = 0
         }
     }
-    console.log(json_event_val);
     return json_event_val;
     } catch(err){
         throw err;
