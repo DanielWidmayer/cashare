@@ -238,7 +238,7 @@
                                             <select class="custom-select" id="chooseCategory">
                                                 <option selected>Choose Category</option>
                                                 <% for (var i = 0; i < categorys.length; i++){ %>
-                                                    <% if (i!=0){ %>
+                                                    <% if (categorys[i].category_name != "credit"){ %>
                                                         <option value="<%=categorys[i].category_id%>"><%=categorys[i].category_name%></option>
                                                     <% } %>
                                                 <% } %>
@@ -389,7 +389,7 @@
                                     <select class="custom-select" id="chooseCategoryModal">
                                         <option selected>Choose Category</option>
                                         <% for (var i = 0; i < categorys.length; i++){ %>
-                                            <% if (i!=0){ %>
+                                            <% if (categorys[i].category_name != "credit"){ %>
                                                 <option value="<%=categorys[i].category_id%>"><%=categorys[i].category_name%></option>
                                             <% } %>
                                         <% } %>
@@ -576,7 +576,7 @@
                             <select class="custom-select" id="categoryToFilter">
                                 <option selected>Choose Category</option>
                                 <% for (var i = 0; i < categorys.length; i++){ %>
-                                    <% if (i!=0){ %>
+                                    <% if (categorys[i].category_name != "credit"){ %>
                                         <option value="<%=categorys[i].category_id%>"><%=categorys[i].category_name%></option>
                                     <% } %>
                                 <% } %>
