@@ -35,7 +35,7 @@ module.exports.create_table = async function() {
               + COLS[2] + " varchar(255) not null,"
               + COLS[3] + " VARCHAR(255) not null,"
               + COLS[4] + " varchar(255) not null,"
-              + COLS[5] + " boolean default(false),"
+              + COLS[5] + " tinyint default(false),"
               + COLS[6] + " varchar(255),"
               + COLS[7] + " varchar(255),"
               + COLS[8] + " decimal(10,2) not null default '0',"
