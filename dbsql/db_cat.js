@@ -28,7 +28,7 @@ module.exports.create_table = async function() {
             + COLS[0] + " int not null auto_increment primary key," 
             + COLS[1] + " varchar(255) not null,"
             + COLS[2] + " varchar(500), "
-            + COLS[3] + " boolean not null,"
+            + COLS[3] + " tinyint not null,"
             + COLS[4] + " int,"
             +`Foreign Key (${COLS[4]}) References ${db_user.TBNAME}(${db_user.COLS[0]}) `
             + "ON DELETE CASCADE"
