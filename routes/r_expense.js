@@ -13,13 +13,11 @@ router.get('/', async function (req, res) {
 
 router.post('/', async function (req, res) {
   try {
-    //console.log(req.body);
-
     var debt_free = await dbsql.db_trans.checkBalance(req.user[0], req.body.transactionValue);
 
     if (debt_free){
       let sqlret = await dbsql.db_trans.insertTransaction(req.body.transactionValue, req.body.timePeriod, req.body.chooseCategory, 1, req.user[0], req.body.repetitionValue, req.body.timeUnit, req.body.dateTimeID, req.body.destinationID, req.body.destinationAccount);
-      res.send(sqlret.error); //res.send(req.user[1] + " " + sqlret);
+      res.send(sqlret.error);
 
     } else {
       res.send("debts_alert");

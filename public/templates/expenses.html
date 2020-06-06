@@ -304,9 +304,10 @@
                                                     placeholder="Enter user name" id="destination_id" disabled>
                                                 <div class="input-group-append">
                                                     <select class="custom-select form-control" id="destination_account">
-                                                        <option value="0" selected>Transfer to my account (default)</option>
-                                                        <option value="1">Transfer to another user's account</option>
-                                                        <option value="2">Transfer to the account of a payment group</option>
+                                                        <option value="0" selected>Choose destination account</option>
+                                                        <option value="1">Transfer to my account</option>
+                                                        <option value="2">Transfer to another user's account</option>
+                                                        <option value="3">Transfer to the account of a payment group</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -314,7 +315,7 @@
 
 
                                         <div class="input-group mb-3">
-                                            <select class="custom-select" id="chooseCategory">
+                                            <select class="custom-select" id="chooseCategory" disabled>
                                                 <option selected>Choose Category</option>
                                                 <% for (var i = 0; i < categorys.length; i++){ %>
                                                     <% if (i!=0){ %>
@@ -325,7 +326,7 @@
                                             <div class="input-group-append">
 
                                                 <button type="button" class="btn btn-outline-secondary"
-                                                    data-toggle="modal" data-target="#Category" id="new_category_button">
+                                                    data-toggle="modal" data-target="#Category" id="new_category_button" disabled>
                                                     <i class="fas fa-plus fa-sm text-gray-50"></i>
                                                     New Category
                                                 </button>
@@ -547,9 +548,10 @@
                                     placeholder="Enter user name" id="destination_id_modal" disabled>
                                 <div class="input-group-append">
                                     <select class="custom-select form-control" id="destination_account_modal">
-                                        <option value="0" selected>Transfer to my account</option>
-                                        <option value="1">Transfer to another user's account</option>
-                                        <option value="2">Transfer to the account of a payment group</option>
+                                        <option value="0" selected>Choose destination account</option>
+                                        <option value="1">Transfer to my account</option>
+                                        <option value="2">Transfer to another user's account</option>
+                                        <option value="3">Transfer to the account of a payment group</option>
                                     </select>
                                 </div>
                             </div>
@@ -557,7 +559,7 @@
 
 
                         <div class="input-group mb-3">
-                            <select class="custom-select" id="chooseCategory_modal">
+                            <select class="custom-select" id="chooseCategory_modal" disabled>
                                 <option selected>Choose Category</option>
                                 <% for (var i = 0; i < categorys.length; i++){ %>
                                     <% if (i!=0){ %>
@@ -568,7 +570,7 @@
                             <div class="input-group-append">
 
                                 <button type="button" class="btn btn-outline-secondary"
-                                    data-toggle="modal" data-target="#Category" id="new_category_button_modal">
+                                    data-toggle="modal" data-target="#Category" id="new_category_button_modal" disabled>
                                     <i class="fas fa-plus fa-sm text-gray-50"></i>
                                     New Category
                                 </button>
