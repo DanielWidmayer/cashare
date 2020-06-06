@@ -193,9 +193,10 @@ $("#addExpense").click(function(){
 
 
 
-    // temporär bis einheitliches Fehlermanagment vorhanden ist..
-    /*
-    if(chooseCategory == "Choose Category" || timePeriod == "Choose Income Type" || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) || transactionValue.charAt(0) == '.' || transactionValue == "")
+    // Fehlermanagment
+    if(chooseCategory == "Choose Category" || timePeriod == "Choose Expense Type" 
+    || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) 
+    || transactionValue.charAt(0) == '.' || transactionValue == "" || destinationAccount =="Choose destination account")
     {
         if(transactionValue.charAt(0) == '.' || transactionValue == "")
         {
@@ -207,7 +208,7 @@ $("#addExpense").click(function(){
             $("#chooseCategory").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
             $('#chooseCategory').css('border-color', 'red');
         }
-        if(timePeriod == "Choose Income Type")
+        if(timePeriod == "Choose Expense Type")
         {
             $("#timePeriod").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
             $('#timePeriod').css('border-color', 'red');
@@ -224,7 +225,7 @@ $("#addExpense").click(function(){
         }
         return false;
     }
-    */
+    
 
     var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 
         'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID, 'destinationID':destinationID,
@@ -275,38 +276,37 @@ $("#addExpenseModal").click(function(){
     var destinationID = $("#destination_id_modal").val();
 
 
-    // temporär bis einheitliches Fehlermanagment vorhanden ist..
-    /*
-    if(chooseCategory == "Choose Category" || timePeriod == "Choose Income Type" || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) || transactionValue.charAt(0) == '.' || transactionValue == "")
+    //Fehlermanagment
+    if(chooseCategory == "Choose Category" || timePeriod == "Choose Expense Type" || (timePeriod == "2" && (timeUnit == "Choose Time unit" || repetitionValue == "")) || transactionValue.charAt(0) == '.' || transactionValue == "")
     {
         if(transactionValue.charAt(0) == '.' || transactionValue == "")
         {
-            $("#transactionValue").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-            $('#transactionValue').css('border-color', 'red');
+            $("#transactionValueModal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#transactionValueModal').css('border-color', 'red');
         }
         if(chooseCategory == "Choose Category")
         {
-            $("#chooseCategory").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-            $('#chooseCategory').css('border-color', 'red');
+            $("#chooseCategoryModal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#chooseCategoryModal').css('border-color', 'red');
         }
-        if(timePeriod == "Choose Income Type")
+        if(timePeriod == "Choose Expense Type")
         {
-            $("#timePeriod").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-            $('#timePeriod').css('border-color', 'red');
+            $("#timePeriodModal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#timePeriodModal').css('border-color', 'red');
         }
         if (timePeriod == "2" && timeUnit == "Choose Time unit")
         {
-            $("#timeUnit").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-            $('#timeUnit').css('border-color', 'red');
+            $("#timeUnitModal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#timeUnitModal').css('border-color', 'red');
         }
         if (timePeriod == "2" && repetitionValue == "")
         {
-            $("#repetition_value").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
-            $('#repetition_value').css('border-color', 'red');
+            $("#repetition_valueModal").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#repetition_valueModal').css('border-color', 'red');
         }
         return false;
     }
-    */
+    
 
     var transaction = {'transactionValue':transactionValue, 'timePeriod':timePeriod,'chooseCategory':chooseCategory, 
         'repetitionValue':repetitionValue, 'timeUnit':timeUnit, 'dateTimeID':dateTimeID, 'destinationID':destinationID,
