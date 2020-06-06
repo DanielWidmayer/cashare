@@ -27,7 +27,7 @@ router.get('/regular_income_overview', async function (req, res) {
 });
 
 router.get('/user_categories', async function (req, res) {
-  var user_categories = await dbsql.db_cat.getCategorysByUserID(req.user[0]); 
+  var user_categories = await dbsql.db_cat.getCategorysByUserID(req.user[0], false); 
   res.json(user_categories);
 });
 

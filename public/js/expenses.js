@@ -394,7 +394,7 @@ $("button[data-dismiss-modal=modal2]").click(function(){
 var categorysById = {};
 $(document).ready(function(){
     $.ajax({
-        url: '/income/user_categories',
+        url: '/expenses/user_categories',
         type: 'GET',
         success: function (data) {
             for (const key in data) {
@@ -472,4 +472,41 @@ $(document).ready(function(){
             console.log(error + 'Request:' + JSON.stringify(request));
         },
     });
+});
+
+
+
+$('#addPaymentGoal').click(() => {
+    var payment_goal_title = $('#paymentGoalTitle').val();
+    var payment_goal_value = $('#paymentGoalValue').val();
+    var payment_goal_category = $('#choosePaymentGoalCategory').val();
+    if(payment_goal_title != ''){
+        if(payment_goal_value != ''){
+            if(payment_goal_category != 'Choose Category'){
+                $.ajax({
+                    url: '/expenses/insert_payment_goal',
+                    type: 'POST',
+                    data: {title: payment_goal_title, value: payment_goal_value, category: payment_goal_category},
+                    success: function (data) {
+                        console.log(data);
+                        $('#payment_goal_overview').append('<h4 class="small font-weight-bold">' + payment_goal_title + '<span class="float-right">0%</span></h4><div class="progress mb-4"><div class="progress-bar bg-primary" role="progressbar" style="width: 0%"aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div>');
+                    },
+                    error: function (request, error) {
+                        console.log(error + 'Request:' + JSON.stringify(request));
+                    },
+                });
+            }else{
+                $("#choosePaymentGoalCategory").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+                $('#choosePaymentGoalCategory').css('border-color', 'red');
+            }
+        }else{
+            $("#paymentGoalValue").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+            $('#paymentGoalValue').css('border-color', 'red');
+        }
+    }else{
+        $("#paymentGoalTitle").css("box-shadow", "0 0 0 3px rgba(255, 0, 0, 0.5)");
+        $('#paymentGoalTitle').css('border-color', 'red');
+    }
+
+    
 });

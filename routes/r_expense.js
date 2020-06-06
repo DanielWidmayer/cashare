@@ -30,4 +30,23 @@ router.post('/', async function (req, res) {
   }
 });
 
+router.get('/user_categories', async function (req, res) {
+  var user_categories = await dbsql.db_cat.getCategorysByUserID(req.user[0], true); 
+  console.log(user_categories);
+  res.json(user_categories);
+});
+
+router.post('/insert_payment_goal', async function (req, res) {
+  try {
+    let sqlret = await dbsql.db_goal.insertPaymentGoal(req.body.value, req.body.title, req.body.category, null, req.user[0]);
+    if(sqlret == 0){
+      res.sendStatus(200);
+    } else{
+      res.sendStatus(500);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = router;
