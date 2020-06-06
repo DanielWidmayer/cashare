@@ -25,7 +25,7 @@ module.exports.db_alerts = db_alerts;
 // Connect to database
 // Node module mysql muss mit "npm install mysql" installiert werden, wenn noch nicht vorhanden..
 module.exports.createConnection = function (env_host, env_user, env_password, env_port, env_dbname) {
-    con = mysql.createConnection({
+    con = mysql.createPool({
         host: env_host,
         user: env_user,
         password: env_password,
