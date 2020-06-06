@@ -42,7 +42,6 @@ router.get('/', async function (req, res) {
 router.post('/', async function(req,res) {
   try {
     let now = getcurrentDateTime();
-    console.log(now);
     let groupid = await dbsql.db_group.createGroup(req.body['groupname'], req.body['groupdesc']);
     await dbsql.db_user_group.setUserAdmin(groupid, req.user[0]);
     await dbsql.db_alerts.createGroupAlert(groupid, 'primary', `Payment Group "${req.body['groupname']}" was created.`, now);
@@ -58,12 +57,26 @@ router.get('/:group', function (req, res) {
     return res.render('paymentgroup-shareboard.html', { pagename: 'groups' });
 });
 
-router.post('/join', function (req, res) {
-  //let groupid = req.params.group.replace(/[^\d]/g, '');
-  console.log(req.params);
-  console.log(req.query);
-  console.log(req.boy);
-  return res.redirect('/groups/:group');
+router.post('/:group/join', async function (req, res) {
+  let groupid = req.params.group.replace(/[^\d]/g, '');
+  let choice = req.body['choice'];
+  try {
+    let checker = await dbsql.db_user_group.getUserRole(groupid, req.user[0]);
+    if (checker == 0) {
+      if (choice) {
+        await dbsql.db_user_group.setUserRead(groupid, req.user[0]);
+        dbsql.db_user_group.removeInvite(groupid, req.user[0]);
+        dbsql.db_alerts.createGroupAlert(groupid, 'primary', req.user[1] + ' ' + req.user[2] + ' joined the Group.', getcurrentDateTime());
+        return res.redirect('/groups/' + req.params.group);
+      } else {
+        await dbsql.db_user_group.kickUser(groupid, req.user[0]);
+        return res.redirect('/home');
+      } 
+    }
+  } catch (err) {
+    throw (err);
+  }
+  return res.redirect('/groups');
 });
 
 router.post('/:group', async function (req, res) {

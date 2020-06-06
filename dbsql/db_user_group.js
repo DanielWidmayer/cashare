@@ -73,6 +73,16 @@ module.exports.getInvitedGroups = async function (userid) {
     }
 }
 
+module.exports.removeInvite = async function (groupid, userid) {
+    var sql = `UPDATE ${TBNAME} SET ${COLS[3]}=NULL WHERE ${COLS[1]}='${groupid}' AND ${COLS[0]}='${userid}';`;
+    try {
+        await query(sql);
+        return 1;
+    } catch (err) {
+        throw (err);
+    }
+}
+
 module.exports.getMembers = async function(groupid) {
     var sql = `SELECT ${COLS[0]}, ${COLS[2]} FROM ${TBNAME} WHERE ${COLS[1]}='${groupid}';`;
     try {

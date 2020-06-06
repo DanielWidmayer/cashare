@@ -41,7 +41,7 @@ function pollData()
     // }, 1000);
 }
 
-//pollData();
+pollData();
 
 
 

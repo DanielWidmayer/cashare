@@ -35,6 +35,7 @@ $('.alert-close').on('click', (function(event) {
     el.type = 'button';
     el.innerText = 'There are now more new Alerts.';
     if(list.length == 0) $('#alert-link').before(el);
+    $('#alertsDropdown span').text(parseInt($('#alertsDropdown span').text()) - 1);
 }));
 
 

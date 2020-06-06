@@ -176,10 +176,7 @@
 
       </div>
       <!-- End of Main Content -->
-
-    </div>
-    <!-- End of Content Wrapper -->
-    <!-- Footer -->
+       <!-- Footer -->
     <footer class="sticky-footer bg-white">
       <div class="container my-auto">
         <div class="copyright text-center my-auto">
@@ -188,6 +185,9 @@
       </div>
     </footer>
     <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+   
   </div>
   <!-- End of Page Wrapper -->
 
@@ -311,15 +311,15 @@
                   <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-4 cb-role" checked>
                   <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-4" hidden>
                 <% } else { %>
-                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3 cb-role">
-                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3" hidden>
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-4 cb-role">
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-4" hidden>
                 <% } %>
                 <% if (groups[el]['group_members'][m_ctr]['role'] > 2) { %>
                   <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-4 cb-role" checked> 
                   <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-4" hidden> 
                 <% } else { %>
-                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-3 cb-role"> 
-                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-3" hidden>   
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-4 cb-role"> 
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-4" hidden>   
                 <% } %>
               </div>
             </div>

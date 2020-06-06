@@ -142,16 +142,16 @@
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
-                      <!-- <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i> -->
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                     </a>
-                    <!-- <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                       aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Dropdown Header:</div>
                       <a class="dropdown-item" href="#">Action</a>
                       <a class="dropdown-item" href="#">Another action</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="#">Something else here</a>
-                    </div> -->
+                    </div>
                   </div>
                 </div>
                 <!-- Card Body -->
@@ -172,16 +172,16 @@
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                       aria-haspopup="true" aria-expanded="false">
-                      <!-- <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i> -->
+                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                     </a>
-                    <!-- <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                       aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header">Dropdown Header:</div>
                       <a class="dropdown-item" href="#">Action</a>
                       <a class="dropdown-item" href="#">Another action</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="#">Something else here</a>
-                    </div> -->
+                    </div>
                   </div>
                 </div>
                 <!-- Card Body -->
@@ -270,13 +270,13 @@
                             <td scope="row"><%=inv_groups[i_ctr]['inv']%></td>
                             <td><%=inv_groups[i_ctr]['name']%></td>
                             <td>
-                              <form method="POST" action="/groups/join" id="inv_<%=i_ctr%>">
+                              <form method="POST" action="/groups/group<%=inv_groups[i_ctr]['id']%>/join" id="inv_<%=i_ctr%>">
                                 <button class="btn btn-circle btn-success" id="acc_<%=i_ctr%>"><i
                                         class="fas fa-check text-white"></i></button>
-                                <input type="checkbox" name="choice" id="racc_<%=i_ctr%>" value="1" hidden>
+                                <input type="radio" name="choice" id="racc_<%=i_ctr%>" value="1" hidden>
                                 <button class="btn btn-circle btn-danger" id="den_<%=i_ctr%>"><i
                                         class="fas fa-times text-white"></i></button>
-                                <input type="checkbox" name="choice" id="rden_<%=i_ctr%>" value="0" hidden>
+                                <input type="radio" name="choice" id="rden_<%=i_ctr%>" value="0" hidden>
                               </form>
                             </td>
                         </tr>
@@ -356,7 +356,6 @@
         let s_id = '#rden_' + id_el[1];
         $(s_id).prop('checked', true);
       }
-      if($('#rden_0').is(':checked')) console.log('checked');
       let s_id = '#inv_' + id_el[1];
       $(s_id).submit();
     }));
