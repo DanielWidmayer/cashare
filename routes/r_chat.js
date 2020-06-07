@@ -20,7 +20,6 @@ router.post('/sendMessage', async function (req, res) {
 
 router.get('/messages', async function (req, res) {
     let ret = await dbsql.db_msg.getMessagesByUserID(req.user[0]);
-    console.log(ret);
     for (let index = 0; index < ret.length; index++) {
       ret[index]['timetag'] = ret[index]['timetag'].toLocaleString(); // convert timezone since mysql is shit and fucks it up
     }

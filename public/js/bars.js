@@ -1,5 +1,5 @@
 function beautifyTime(datetime) {
-    if ((datetime[6] = '')) return '';
+    if ((datetime == '')) return '';
     var d = new Date(); // build datetime format: yyyy-mm-dd hh:mm:ss
     datetime = datetime.split(/(T|\.|:|-| )/);
     // beautify time

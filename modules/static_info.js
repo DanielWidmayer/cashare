@@ -26,7 +26,7 @@ module.exports = async function(req, res, next) {
                       'id': group[dbsql.db_group.COLS[0]],
                       'name': group[dbsql.db_group.COLS[1]]
                   } 
-              } 
+                } 
               else {
                   let member = await dbsql.db_user.getDataByID(raw_messages[m_ctr][dbsql.db_msg.COLS[3]]);
                   sender_obj = {
@@ -73,6 +73,7 @@ module.exports = async function(req, res, next) {
             }
           }
       } catch (err) {
+          console.log('static_info middleware error: ');
           console.log(err);
       }
       
