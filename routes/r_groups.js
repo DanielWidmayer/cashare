@@ -125,9 +125,8 @@ router.post('/:group', async function (req, res) {
       num++;
     }
   }
-  console.log(members);
+
   if (req.body.kick) {
-    console.log('found kick');
     for (x = 0; x < req.body.kick.length; x++) {
       for (y = 0; y < members.length; y++) {
         if (members[y]['id'] == req.body.kick[x]) {
@@ -136,7 +135,7 @@ router.post('/:group', async function (req, res) {
       }
     }
   }
-  console.log(members);
+  
   try {
     if (await dbsql.db_user_group.getUserRole(groupid, req.user[0]) == 3) {
       for (m_ctr = 0; m_ctr < members.length; m_ctr++) {
