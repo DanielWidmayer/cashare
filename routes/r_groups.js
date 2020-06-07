@@ -135,7 +135,7 @@ router.post('/:group', async function (req, res) {
       }
     }
   }
-
+  
   try {
     if (await dbsql.db_user_group.getUserRole(groupid, req.user[0]) == 3) {
       for (m_ctr = 0; m_ctr < members.length; m_ctr++) {
