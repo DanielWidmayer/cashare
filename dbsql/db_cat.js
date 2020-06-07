@@ -18,12 +18,11 @@ module.exports.create_table = async function() {
     var sql2;
     try {
         await query(sql);
-        console.log("table category_table allready exists!");
+        console.log("Table '" + TBNAME + "' already exists!");
     }
     catch(err) {
-        console.log(err);
-        console.log("No table category_table.."); 
-        console.log("create table..");
+        console.log("Didn't find table named '" + TBNAME + "'"); 
+        console.log("Creating table '" + TBNAME + "'...");
         sql = "create table " + TBNAME + " ("
             + COLS[0] + " int not null auto_increment primary key," 
             + COLS[1] + " varchar(255) not null,"
@@ -45,11 +44,11 @@ module.exports.create_table = async function() {
             
         try {
             await query(sql);
-            console.log("table group_table created!");
+            console.log("Table '" + TBNAME + "' successfully created!");
             
         }
         catch(err) {
-            console.log("cannot create table...");
+            console.log("Error: Can't create table '" + TBNAME + "'...");
             console.log(err);
         }
         await query(sql2);
@@ -97,6 +96,39 @@ module.exports.getCategorysByUserID = async function(user_id, isExpense) {
             let res = [];
             for (i in q_res) {
                 res.push(q_res[i]);
+            }
+            return res;
+        }
+        catch(err) {
+             throw err;
+        }
+    }
+}
+
+module.exports.getCategoriesByUserID_json = async function(user_id, isExpense) {
+    if(isExpense == true)
+    {
+        var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[4]} = '${user_id}' AND ${COLS[3]} = true) OR (${COLS[4]} IS NULL AND ${COLS[3]} = true);`;
+        try {
+            let q_res = await query(sql);
+            let res = {};
+            for (const key in q_res) {
+                res[q_res[key]['category_id']] = q_res[key]['category_name'];
+            }
+            return res;
+        }
+        catch(err) {
+             throw err;
+        }
+    }
+    else
+    {
+        var sql = `SELECT * FROM ${TBNAME} WHERE (${COLS[4]} = '${user_id}' AND ${COLS[3]} = false) OR (${COLS[4]} IS NULL AND ${COLS[3]} = false);`;
+        try {
+            let q_res = await query(sql);
+            let res = {};
+            for (const key in q_res) {
+                res[q_res[key]['category_id']] = q_res[key]['category_name'];
             }
             return res;
         }

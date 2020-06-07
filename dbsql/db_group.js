@@ -13,13 +13,11 @@ module.exports.create_table = async function() {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
     try {
         await query(sql);
-        console.log("table group_table already exists!");
+        console.log("Table '" + TBNAME + "' already exists!");
     }
     catch(err) {
-        console.log(err);
-        console.log("No table group_table.."); 
-
-        console.log("create table..");
+        console.log("Didn't find table named '" + TBNAME + "'"); 
+        console.log("Creating table '" + TBNAME + "'...");
         sql = "create table " + TBNAME + " ("
             + COLS[0] + " int not null auto_increment primary key," 
             + COLS[1] + " varchar(255) not null,"
@@ -28,10 +26,10 @@ module.exports.create_table = async function() {
             +");"
         try {
             await query(sql);
-            console.log("table group_table created!");
+            console.log("Table '" + TBNAME + "' successfully created!");
         }
         catch(err) {
-            console.log("cannot create table...");
+            console.log("Error: Can't create table '" + TBNAME + "'...");
             console.log(err);
         }
     }
