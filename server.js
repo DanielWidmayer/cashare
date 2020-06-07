@@ -13,15 +13,15 @@ const app = express();
 const flash = require('connect-flash');
 const flash_mw = require('./modules/flashes');
 const dbsql = require('./dbsql');
-const redis = require('redis');
-const redisClient = redis.createClient(process.env.REDIS_URL);
-const redisStore = require('connect-redis')(session);
-
+if(process.env.DB_HOST != 'localhost'){
+  const redis = require('redis');
+  const redisClient = redis.createClient(process.env.REDIS_URL);
+  const redisStore = require('connect-redis')(session);
+  redisClient.on('error', (err) => {
+    console.log('redis error: ', err);
+    });
+}
 if (dotenv.error) throw dotenv.error;
-
-redisClient.on('error', (err) => {
-  console.log('redis error: ', err);
-});
 
 const IN_PROD = process.env.NODE_ENV === 'production';
 const TTL = parseInt(process.env.SESS_LIFETIME);
@@ -32,6 +32,7 @@ app.use(helmet());
 // Cookies
 app.use(cookieParser());
 
+if(process.env.DB_HOST != 'localhost'){
 // Session Authentication
 app.use(
   session({
@@ -49,7 +50,23 @@ app.use(
     store: new redisStore({client: redisClient}),
   })
 );
-
+}else{
+  app.use(
+    session({
+      name: process.env.SESS_NAME,
+      resave: false,
+      saveUninitialized: false,
+      secret: process.env.SESS_SECRET,
+      cookie: {
+        httpOnly: true,
+        maxAge: TTL,
+        sameSite: true,
+        secure: IN_PROD,
+      },
+      rolling: true,
+    })
+  );
+}
 // Serve Favicon
 app.use(fav(path.join(__dirname,'public','templates','favicon.ico')));
 
