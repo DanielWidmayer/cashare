@@ -74,8 +74,8 @@ router.post('/:group/join', async function (req, res) {
     if (checker == 0) {
       if (choice == 1) {
         await dbsql.db_user_group.setUserRead(groupid, req.user[0]);
-        dbsql.db_user_group.removeInvite(groupid, req.user[0]);
-        dbsql.db_alerts.createGroupAlert(groupid, 'primary', req.user[1] + ' ' + req.user[2] + ' joined the Group.', getcurrentDateTime());
+        await dbsql.db_user_group.removeInvite(groupid, req.user[0]);
+        await dbsql.db_alerts.createGroupAlert(groupid, 'primary', req.user[1] + ' ' + req.user[2] + ' joined the Group.', getcurrentDateTime());
         return res.redirect('/groups/' + req.params.group);
       } else {
         await dbsql.db_user_group.kickUser(groupid, req.user[0]);
@@ -99,8 +99,8 @@ router.post('/:group/inv', async function (req, res) {
     group = group[dbsql.db_group.COLS[1]];
     let user = await dbsql.db_user.getDataByMail(mail);
     await dbsql.db_user_group.setUserInvited(groupid, user[0], req.user[0]);
-    dbsql.db_alerts.createUserAlert(user[0], 'primary', req.user[1] + ' ' + req.user[2] + ' has invited you to join "' + group + '".', now);
-    dbsql.db_alerts.createGroupAlert(groupid, 'primary', user[1] + ' ' + user[2] + ' has been invited to join the Group.', now)
+    await dbsql.db_alerts.createUserAlert(user[0], 'primary', req.user[1] + ' ' + req.user[2] + ' has invited you to join "' + group + '".', now);
+    await dbsql.db_alerts.createGroupAlert(groupid, 'primary', user[1] + ' ' + user[2] + ' has been invited to join the Group.', now)
   } catch (err) {
     throw (err);
   }
@@ -125,9 +125,8 @@ router.post('/:group', async function (req, res) {
       num++;
     }
   }
-  console.log(members);
+
   if (req.body.kick) {
-    console.log('found kick');
     for (x = 0; x < req.body.kick.length; x++) {
       for (y = 0; y < members.length; y++) {
         if (members[y]['id'] == req.body.kick[x]) {
@@ -136,7 +135,7 @@ router.post('/:group', async function (req, res) {
       }
     }
   }
-  console.log(members);
+
   try {
     if (await dbsql.db_user_group.getUserRole(groupid, req.user[0]) == 3) {
       for (m_ctr = 0; m_ctr < members.length; m_ctr++) {
@@ -144,20 +143,20 @@ router.post('/:group', async function (req, res) {
         let user_data = await dbsql.db_user.getDataByID(userid);
         if(members[m_ctr]['roles'] == -1) {
           await dbsql.db_user_group.kickUser(groupid, userid);
-          dbsql.db_alerts.createGroupAlert(groupid, 'primary', user_data[1] + ' ' + user_data[2] + ' has been kicked out of the Group "' + groupname + '".', getcurrentDateTime());
-          dbsql.db_alerts.createUserAlert(userid, 'primary', 'You have been kicked out of Group "' + groupname + '".', getcurrentDateTime());
+          await dbsql.db_alerts.createGroupAlert(groupid, 'primary', user_data[1] + ' ' + user_data[2] + ' has been kicked out of the Group "' + groupname + '".', getcurrentDateTime());
+          await dbsql.db_alerts.createUserAlert(userid, 'primary', 'You have been kicked out of Group "' + groupname + '".', getcurrentDateTime());
         }
         else if(members[m_ctr]['roles'][1] == 1) {
           await dbsql.db_user_group.setUserAdmin(groupid, userid);
-          dbsql.db_alerts.createUserAlert(userid, 'primary', 'Your access rights in Group "' + groupname + '" might have been changed.', getcurrentDateTime());
+          await dbsql.db_alerts.createUserAlert(userid, 'primary', 'Your access rights in Group "' + groupname + '" might have been changed.', getcurrentDateTime());
         }
         else if (members[m_ctr]['roles'][0] == 1) {
           await dbsql.db_user_group.setUserWrite(groupid, userid);
-          dbsql.db_alerts.createUserAlert(userid, 'primary', 'Your access rights in Group "' + groupname + '" might have been changed.', getcurrentDateTime());
+          await dbsql.db_alerts.createUserAlert(userid, 'primary', 'Your access rights in Group "' + groupname + '" might have been changed.', getcurrentDateTime());
         }
         else {
           await dbsql.db_user_group.setUserRead(groupid, userid);
-          dbsql.db_alerts.createUserAlert(userid, 'primary', 'Your access rights in Group "' + groupname + '" might have been changed.', getcurrentDateTime());
+          await dbsql.db_alerts.createUserAlert(userid, 'primary', 'Your access rights in Group "' + groupname + '" might have been changed.', getcurrentDateTime());
         }
       }
       if (/\p{L}{1,}/u.test(groupname)) {

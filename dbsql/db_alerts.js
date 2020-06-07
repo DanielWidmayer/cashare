@@ -114,11 +114,13 @@ module.exports.createGroupAlert = async function (groupid, aclass, msg, time) {
         let members = await db_user_group.getMembers(groupid);
         let sql = ``;
         for (m_ctr = 0; m_ctr < members.length; m_ctr++) {
-            let userid = members[m_ctr][db_user_group.COLS[0]];
-            sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}, ${COLS[6]}) VALUES ('${userid}', '${groupid}', '${time}', '${aclass}', '${msg}', 0);`;
-            await query(sql);
-            return 1;
+            if (members[m_ctr][db_user_group.COLS[2]] > 0) {
+                let userid = members[m_ctr][db_user_group.COLS[0]];
+                sql = `INSERT INTO ${TBNAME} (${COLS[1]}, ${COLS[2]}, ${COLS[3]}, ${COLS[4]}, ${COLS[5]}, ${COLS[6]}) VALUES ('${userid}', '${groupid}', '${time}', '${aclass}', '${msg}', 0);`;
+                await query(sql);
+            }
         }
+        return 1;
     } catch (err) {
         throw (err);
     }
