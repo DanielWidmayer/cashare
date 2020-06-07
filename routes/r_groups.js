@@ -72,7 +72,7 @@ router.post('/:group/join', async function (req, res) {
   try {
     let checker = await dbsql.db_user_group.getUserRole(groupid, req.user[0]);
     if (checker == 0) {
-      if (choice) {
+      if (choice == 1) {
         await dbsql.db_user_group.setUserRead(groupid, req.user[0]);
         dbsql.db_user_group.removeInvite(groupid, req.user[0]);
         dbsql.db_alerts.createGroupAlert(groupid, 'primary', req.user[1] + ' ' + req.user[2] + ' joined the Group.', getcurrentDateTime());
@@ -125,17 +125,18 @@ router.post('/:group', async function (req, res) {
       num++;
     }
   }
-  
+  console.log(members);
   if (req.body.kick) {
+    console.log('found kick');
     for (x = 0; x < req.body.kick.length; x++) {
       for (y = 0; y < members.length; y++) {
         if (members[y]['id'] == req.body.kick[x]) {
-          members[y]['role'] = -1;
+          members[y]['roles'] = -1;
         }
       }
     }
   }
-
+  console.log(members);
   try {
     if (await dbsql.db_user_group.getUserRole(groupid, req.user[0]) == 3) {
       for (m_ctr = 0; m_ctr < members.length; m_ctr++) {

@@ -313,15 +313,15 @@
                   <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-4 cb-role" checked>
                   <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-4" hidden>
                 <% } else { %>
-                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-4 cb-role">
-                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-4" hidden>
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-4 cb-role">
+                  <input type="checkbox" name="cb-write_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-4" hidden checked>
                 <% } %>
-                <% if (groups[el]['group_members'][m_ctr]['role'] > 2) { %>
+                <% if (groups[el]['group_members'][m_ctr]['role'] == 3) { %>
                   <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-4 cb-role" checked> 
                   <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-4" hidden> 
                 <% } else { %>
-                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-4 cb-role"> 
-                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-4" hidden>   
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="1" class="mr-4 cb-role"> 
+                  <input type="checkbox" name="cb-admin_<%=groups[el]['group_members'][m_ctr]['id']%>" value="0" class="mr-4" hidden checked>   
                 <% } %>
               </div>
             </div>
