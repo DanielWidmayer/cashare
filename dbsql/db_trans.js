@@ -22,13 +22,11 @@ module.exports.create_table = async function() {
     var sql = "SELECT 1 FROM " + TBNAME + " LIMIT 1;"
     try {
         await query(sql);
-        console.log("table transaction_table already exists!");
+        console.log("Table '" + TBNAME + "' already exists!");
     }
     catch(err) {
-        console.log(err);
-        console.log("No table transaction_table.."); 
-
-        console.log("create table..");
+        console.log("Didn't find table named '" + TBNAME + "'"); 
+        console.log("Creating table '" + TBNAME + "'...");
         sql = "create table " + TBNAME + " ("
             + COLS[0] + " int not null auto_increment primary key,"
             + COLS[1] + " decimal(20,2) not null,"
@@ -53,10 +51,10 @@ module.exports.create_table = async function() {
             +");"
         try {
             await query(sql);
-            console.log("table transaction_table created!");
+            console.log("Table '" + TBNAME + "' successfully created!");
         }
         catch(err) {
-            console.log("cannot create table...");
+            console.log("Error: Can't create table '" + TBNAME + "'...");
             console.log(err);
         }
     }
@@ -85,11 +83,6 @@ module.exports.getAllTransactions = async function(user_id) {
 
 // hier noch speziell für User? Payment-Groups?
 module.exports.insertTransaction = async function(value, transonce, category, isExpense, userID, repetitionValue, timeUnit, dateTimeID, contractualPartner, destinationAccount) {
- 
-    let count_events = await query(`SELECT count(*) AS events FROM INFORMATION_SCHEMA.EVENTS;`);
-    var event_counter = parseInt(JSON.stringify(count_events[0].events)) + 1;
-    console.log(event_counter);
-    
     var sql, res;
     var destination_userID;
 
@@ -195,6 +188,25 @@ module.exports.insertTransaction = async function(value, transonce, category, is
 
     // event scheduled income (regularly)
     else if (transonce > 1){
+        try {
+            let count_events = await query(`SELECT EVENT_NAME FROM INFORMATION_SCHEMA.EVENTS ORDER BY EVENT_NAME DESC LIMIT 1;`);
+            //console.log(Object.keys(count_events[0]).length);
+            console.log(Object.keys(count_events).length);
+            if(Object.keys(count_events).length != 0){
+                var event_counter = parseInt(count_events[0]['EVENT_NAME'].split('t').pop()) + 1;
+                let digits = 7;
+                var event_prefix = "";
+                for (let i = event_counter.toString().length; i < digits; i++) {
+                    event_prefix += "0";
+                }
+            }else{ // if no event exists
+                var event_counter = '0';
+                event_prefix = '000000';
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        
         
         var sql_startTimeSpan = `SELECT IF(UNIX_TIMESTAMP('${dateTimeID}') < UNIX_TIMESTAMP(NOW()), true, false) AS future;`;
         var future_boolean;
@@ -220,7 +232,7 @@ module.exports.insertTransaction = async function(value, transonce, category, is
             }
             console.log("dateTimeID: " +dateTimeID);
             await query(`SET GLOBAL event_scheduler = on;`);
-            sql = `CREATE EVENT IF NOT EXISTS scheduled_event${event_counter}
+            sql = `CREATE EVENT IF NOT EXISTS scheduled_event${event_prefix}${event_counter}
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS '${dateTimeID}'
                     DO
@@ -240,7 +252,7 @@ module.exports.insertTransaction = async function(value, transonce, category, is
             let sql1, sql2;
             // //CONCAT(adddate(last_day(curdate()), 1), ' 00:00:00')
             await query(`SET GLOBAL event_scheduler = on;`);
-            sql1 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_counter}
+            sql1 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_prefix}${event_counter}
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS '${dateTimeID}'
                     DO
@@ -253,7 +265,7 @@ module.exports.insertTransaction = async function(value, transonce, category, is
                 console.log(err);
             }
 
-            sql2 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_counter + 1}
+            sql2 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_prefix}${event_counter + 1}
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS '${dateTimeID}'
                     DO
@@ -274,7 +286,7 @@ module.exports.insertTransaction = async function(value, transonce, category, is
             let sql1, sql2;
             // //CONCAT(adddate(last_day(curdate()), 1), ' 00:00:00') //, ${COLS[4]}    , '${category}'
             await query(`SET GLOBAL event_scheduler = on;`);
-            sql1 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_counter}
+            sql1 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_prefix}${event_counter}
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS '${dateTimeID}'
                     DO
@@ -287,7 +299,7 @@ module.exports.insertTransaction = async function(value, transonce, category, is
                 console.log(err);
             }
 
-            sql2 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_counter + 1}
+            sql2 = `CREATE EVENT IF NOT EXISTS scheduled_event${event_prefix}${event_counter + 1}
                     ON SCHEDULE EVERY '${repetitionValue}' ${timeUnit}
                     STARTS '${dateTimeID}'
                     DO
@@ -582,18 +594,17 @@ module.exports.getArraysPieChartIncomes = async function(user_id){
     
 module.exports.getRegularTransactions = async function(user_id, isExpense) {
     try{
-    let json_event_val = await query(`SELECT EVENT_DEFINITION, INTERVAL_VALUE, INTERVAL_FIELD, LAST_ALTERED, EVENT_NAME FROM INFORMATION_SCHEMA.EVENTS;`);
+    let json_event_val = await query(`SELECT EVENT_DEFINITION, INTERVAL_VALUE, INTERVAL_FIELD, STARTS, LAST_EXECUTED, EVENT_NAME FROM INFORMATION_SCHEMA.EVENTS;`);
     var eventData;
     for (i in json_event_val) {
         eventData = json_event_val[i]['EVENT_DEFINITION'].split('VALUES')[1].replace(/ |\'|\(|\)/g, '').split(',');
-
-        json_event_val[i]['TRANSACTION_VALUE'] = eventData[0];
-        json_event_val[i]['USER_ID'] = eventData[2];
-        json_event_val[i]['EVENT_DEFINITION'] = eventData[3]; // category
-        if(isExpense){
-            json_event_val[i]['IS_EXPENSE'] = '1'; // is expense is true = 1
+        if(eventData[2] == user_id && ((eventData[0] > 0 && !isExpense) || (eventData[0] < 0 && isExpense))){            
+            json_event_val[i]['TRANSACTION_VALUE'] = eventData[0];
+            json_event_val[i]['USER_ID'] = eventData[2];
+            json_event_val[i]['EVENT_DEFINITION'] = eventData[3]; // category
+            
         }else{
-            json_event_val[i]['IS_EXPENSE'] = '0'; // is income is expense false = 0
+            delete json_event_val[i];
         }
     }
     return json_event_val;

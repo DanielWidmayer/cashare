@@ -281,12 +281,35 @@
                                             <tr>
                                                 <th scope="col">Income Value</th>
                                                 <th scope="col">Time Interval</th>
-                                                <th scope="col">Last Altered</th>
+                                                <th scope="col">Next Trigger</th>
                                                 <th scope="col">Category</th>
                                                 <th scope="col">Delete</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="regular_incomes_table">
+                                            <% for (i in regular_income){ %>
+                                                <% if(regular_income[i]['TRANSACTION_VALUE'] > 0){ %>
+                                                    <tr id="regularIncomeRow<%= i %>" >
+                                                        <% for (var j = 0; j < 5; j++){ %>
+                                                            <td>
+                                                                <% if(j == 0){ %>
+                                                                    <%=regular_income[i]['TRANSACTION_VALUE'] %>
+                                                                <% } else if(j == 1){ %>
+                                                                    <%=regular_income[i]['INTERVAL_VALUE'] + ' ' + regular_income[i]['INTERVAL_FIELD']%>
+                                                                <% } else if(j == 2){ %>
+                                                                    <%= regular_income[i]['STARTS'] %>
+                                                                <% } else if(j == 3){ %>
+                                                                    <%= categories[regular_income[i]['EVENT_DEFINITION']] %>
+                                                                <% } else if(j == 4){ %>
+                                                                    <button id="<%= 'deleteRegularIncome' + i %>" class="btn btn-circle btn-primary bg-gradient-primary" aria-label="<%= regular_income[i]['EVENT_NAME'] %>">
+                                                                        <i class="fas fa-trash text-white"></i>
+                                                                    </button>
+                                                                <% } %>
+                                                            </td>
+                                                        <% } %>
+                                                    </tr>
+                                                <% } %>
+                                            <% } %>
                                         </tbody>
                                     </table>
                                 </div>
@@ -465,97 +488,6 @@
 
     </div>
 
-    <!-- Edit Income Modal -->
-    <div class="modal fade" id="editIncomeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Edit Income</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="text-center">
-                    <!-- Illustrations -->
-
-                    <div class="card-body">
-                        <div class="text-center">
-                            <div class="input-group mb-3">
-                                <input type="number" step="0.01" min="0" lang="en" class="form-control" value="50"
-                                    aria-label="Transaction Value" aria-describedby="basic-addon2"
-                                    id="transactionValue">
-                                <div class="input-group-append">
-                                    <span class="input-group-text" id="basic-addon2">$</span>
-                                </div>
-                            </div>
-                            <div id="" class="input-group mb-3">
-                                <div class="input-group">
-                                    <input type="number" step="1" min="1" class="form-control" value="10"
-                                        id="repetition_value">
-                                    <div class="input-group-append">
-                                        <select class="custom-select form-control" id="timeUnit">
-                                            <option selected>Choose Time Unit</option>
-                                            <option value="1">Years</option>
-                                            <option value="2">Months</option>
-                                            <option value="3">Days</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Calendar + Time Picker-->
-                            <div id="" class="form-group">
-                                <div class="input-group date datetimepicker" id="datetimepickermod1"
-                                    data-target-input="nearest">
-                                    <input id="dateTimeIDModal" type="text" class="form-control datetimepicker-input"
-                                        data-target="#datetimepickermod1" data-toggle="datetimepicker"
-                                        value="2000-01-01 10:10:10" />
-                                    <div class="input-group-append" data-target="#datetimepickermod1"
-                                        data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <label class="input-group-text">Start Time</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <select class="custom-select" id="chooseCategory">
-                                    <option selected>Amusement</option>
-                                    <% categorys.forEach(function(cat){ %>
-                                    <option value="<%=cat.category_id%>"><%=cat.category_name%></option>
-                                    <% }); %>
-                                </select>
-                                <div class="input-group-append">
-
-                                    <button type="button" class="btn btn-outline-secondary" data-toggle="modal"
-                                        data-target="#Category">
-                                        <i class="fas fa-plus fa-sm text-gray-50"></i>
-                                        New Category
-                                    </button>
-
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <hr>
-                    <!-- Button Add new Income-->
-                    <button class="btn btn-success btn-icon-split" id="addIncomeModal">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-check"></i>
-                        </span>
-                        <span class="text">Save Income</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-
 
     <!-- Modal Filter Data-->
     <div class="modal fade" id="filter_data" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -636,10 +568,10 @@
     <!-- Page level plugins -->
     <script src="/static/vendor/chart.js/Chart.min.js"></script>
 
-    <script>
+    <!-- <script>
         var transactions = <%- JSON.stringify(transactions) %>;
         var categorys = <%- JSON.stringify(categorys) %>;
-    </script>
+    </script> -->
 
     <!-- <script src="../templates/income.ejs"></script>  outsource.=?  </script> -->
 
