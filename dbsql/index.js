@@ -24,7 +24,7 @@ module.exports.db_alerts = db_alerts;
 
 // Connect to database
 // Node module mysql muss mit "npm install mysql" installiert werden, wenn noch nicht vorhanden..
-module.exports.createConnection = function( env_host, env_user, env_password, env_port, env_dbname ) {
+module.exports.createConnection = function (env_host, env_user, env_password, env_port, env_dbname) {
     con = mysql.createConnection({
         host: env_host,
         user: env_user,
@@ -37,33 +37,33 @@ module.exports.createConnection = function( env_host, env_user, env_password, en
     query = util.promisify(con.query).bind(con);
 }
 
-module.exports.query = async function(sql_query){
+module.exports.query = async function (sql_query) {
     try {
         res = await query(sql_query);
     }
-    catch(err) {
+    catch (err) {
         console.log(err);
     }
     return res;
 }
 
-module.exports.connect = async function() {
-    con.connect(async function(err) {
+module.exports.connect = async function () {
+    con.connect(async function (err) {
         if (err) throw err;
         console.log("Connected to database!");
 
         // create TABLE user_table
-        await db_user.create_table(); 
+        await db_user.create_table();
 
         // create TABLE category_table
-        await db_cat.create_table();
+        await db_cat.create_table(db_user);
 
         // create TABLE group_table
         await db_group.create_table();
 
         // create TABLE user_group_table
         await db_user_group.create_table(db_user, db_group);
-  
+
         // create TABLE user_category_table
         await db_user_cat.create_table(db_user, db_cat);
 
@@ -87,4 +87,3 @@ module.exports.connect = async function() {
 
 
 
-  
