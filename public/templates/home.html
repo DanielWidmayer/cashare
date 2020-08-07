@@ -10,7 +10,6 @@
     <meta name="Daniel Widmayer" content="Financing">
 
     <title>Cashare Ca$hboard</title>
-    <base href="http://localhost:3000">
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -23,90 +22,331 @@
 
 </head>
 
-<body id="page-top">
-    <div class="parallax">
-        <div id="group1" class="parallax__group">
+<body>
+    <!-- Sticky Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-fixed-top bg-gradient-primary navbar-z text-xl">
+        <a class="navbar-brand p-1" href="#">
+            <img src="img/cashare21.png" width="90">
+        </a>
+        <a class="navbar-brand p-1" href="#">
+            <div class="navbar-brand-text collapse-brand">CA$HARE</div>
+        </a>
+        <ul class="navbar-nav ml-5 collapse-items">
+            <li class="">
+                <a class="nav-link" href="#group1">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li>
+                <a class="nav-link" href="#group2">Track</a>
+            </li>
+            <li>
+                <a class="nav-link" href="#group3">Share</a>
+            </li>
+            <li>
+                <a class="nav-link" href="#group4">Analyze</a>
+            </li>
+            <li>
+                <a class="nav-link" href="#group5">Invest</a>
+            </li>
+            <li>
+                <a class="nav-link" href="#group6">About</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav flex-row ml-auto">
+            <li class="pr-2">
+                <a class="nav-link" href="./login">Login</a>
+            </li>
+            <li class="pr-2">
+                <a class="nav-link collapse-reg" href="./register">Register</a>
+            </li>
+            <li>
+                <a class="nav-link" href="https://github.com/PhilemonWeber/cashare">
+                    <img class="img-rounded" width="50" src="img/github.png">
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!-- !Navbar -->
+
+    <!-- Parallax Effect Section -->
+    <div class="parallax" data-spy="scroll" data-target=".navbar">
+        <div id="group1" class="parallax__group bg-gradient-nwhite">
             <div class="parallax__layer parallax__layer--base">
-                <!-- As a heading -->
-                <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary">
-                    <a class="navbar-brand" href="#">
-                        <img src="img/cashare21.png" width="90">
-                        <div class="navbar-brand-text">CA$HARE</div>
-                    </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="./register">Register</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <span>Span</span>
-                </nav>
-                <div class="title">Base Layer 1</div>
-                <div class="float-right p-3">
-                    <img class="img-fluid" src="img/undraw_personal_finance.svg" alt="">
+                <div class="pos-abs-left text-home rounded">
+                    <h1 class="card rounded text-primary">CA$HARE</h1>
+                    <p class="card rounded"> Unlock financial freedom with this powerful tool for tracking your
+                        finances
+                        and managing finances in groups or with friends!</p>
+                </div>
+                <div class="pos-abs-right p-3">
+                    <img class="img-fluid" src="img/undraw_transfer_money.svg" alt="">
                 </div>
             </div>
         </div>
         <div id="group2" class="parallax__group">
             <div class="parallax__layer parallax__layer--base">
-                <div class="title">Base Layer 2</div>
-                <div class="float-left p-3">
-                    <img class="img-fluid" src="img/undraw_online_collaboration_7pfp.svg" alt="">
+                <div class="pos-abs-right text-home rounded">
+                    <h1 class="card rounded text-primary">Track</h1>
+                    <p class="card rounded"> Track your finances with stunning visuals, and become the master of your
+                        finances!</p>
+                </div>
+                <div class="p-3 pos-abs-left">
+                    <img class="img-fluid" src="img/undraw_personal_finance.svg" alt="">
                 </div>
             </div>
             <div class="parallax__layer parallax__layer--back">
-                <div class="title">Background Layer</div>
             </div>
         </div>
-        <div id="group3" class="parallax__group">
+        <div id="group3" class="parallax__group bg-gradient-nwhite">
             <div class="parallax__layer parallax__layer--fore">
-                <div class="title">Foreground Layer</div>
+                <div class="pos-abs-left text-home rounded">
+                    <h1 class="card rounded text-primary">$hare</h1>
+                    <p class="card rounded"> Share finances by oranizing them in payment groups! For easier
+                        communication use the included chat to communicate.</p>
+                </div>
             </div>
             <div class="parallax__layer parallax__layer--base">
-                <div class="title">Base Layer</div>
+                <div class="pos-abs-right p-3">
+                    <img class="img-fluid" src="img/undraw_online_collaboration.svg" alt="">
+                </div>
             </div>
         </div>
         <div id="group4" class="parallax__group">
             <div class="parallax__layer parallax__layer--base">
-                <div class="title">Base Layer</div>
+                <div class="pos-abs-right text-home rounded">
+                    <h1 class="card rounded text-primary">Analyze</h1>
+                    <p class="card rounded"> Analyze your finances and get notified about unusal high spendings. With
+                        this you can become the master on your finances to know when and for what you spend the most
+                        money!</p>
+                </div>
             </div>
+
             <div class="parallax__layer parallax__layer--back">
-                <div class="title">Background Layer</div>
+                <div class="pos-abs-left marg-helper p-3">
+                    <img class="img-fluid" src="img/undraw_finance_laptop.svg" alt="">
+                </div>
             </div>
             <div class="parallax__layer parallax__layer--deep">
-                <div class="title">Deep Background Layer</div>
             </div>
         </div>
-        <div id="group5" class="parallax__group">
+        <div id="group5" class="parallax__group bg-gradient-nwhite">
             <div class="parallax__layer parallax__layer--fore">
-                <div class="title">Foreground Layer</div>
+                <div class="pos-abs-left text-home rounded">
+                    <h1 class="card rounded text-primary">Invest</h1>
+                    <p class="card rounded">After becoming financially independent with this tool, start
+                        investing so that you money works for you instead of you working for the money.</p>
+                </div>
             </div>
             <div class="parallax__layer parallax__layer--base">
-                <div class="title">Base Layer</div>
+                <div class="pos-abs-right p-3">
+                    <img class="img-fluid" src="img/undraw_investing_data.svg" alt="">
+                </div>
             </div>
         </div>
         <div id="group6" class="parallax__group">
             <div class="parallax__layer parallax__layer--back">
-                <div class="title">Background Layer</div>
             </div>
             <div class="parallax__layer parallax__layer--base">
-                <div class="title">Base Layer</div>
+                <div class="pos-abs-right text-home rounded">
+                    <h1 class="card rounded text-primary">About</h1>
+                    <p class="card rounded">This is a student project. You can find us on GitHub or check out the team
+                        below.</p>
+                </div>
+                <div class="pos-abs-left p-3">
+                    <img class="img-fluid" src="img/undraw_posting_photo.svg" alt="">
+                </div>
             </div>
         </div>
         <div id="group7" class="parallax__group">
             <div class="parallax__layer parallax__layer--base">
-                <div class="title">Base Layer</div>
+
+                <!-- Team Section -->
+                <section class="team-section text-center my-5">
+                    <!-- Section heading -->
+                    <h2 class="h1-responsive font-weight-bold my-5">Our amazing team</h2>
+                    <!-- Section description -->
+                    <p class="grey-text w-responsive mx-auto mb-5">Check out our socials.</p>
+
+                    <!-- Grid row -->
+                    <div class="row text-center">
+
+                        <!-- Grid column -->
+                        <div class="col-md-3 mb-md-0 mb-5">
+                            <div class="avatar mx-auto">
+                                <img src="https://www.ufz.de/export/data/2/210853_BB_quad_5.jpg"
+                                    class="rounded z-depth-1-half" alt="Sample avatar" width="250" height="250">
+                            </div>
+                            <h4 class="font-weight-bold dark-grey-text my-4">Jens the Bühler</h4>
+                            <h6 class="text-uppercase grey-text mb-3"><strong>Mädchen für Alles</strong></h6>
+                            <!--Email-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-3 mb-md-0 mb-5">
+                            <div class="avatar mx-auto">
+                                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20(27).jpg"
+                                    class="rounded z-depth-1-half" alt="Sample avatar" width="250" height="250">
+                            </div>
+                            <h4 class="font-weight-bold dark-grey-text my-4">Denis Albern</h4>
+                            <h6 class="text-uppercase grey-text mb-3"><strong>Chief of the Server</strong></h6>
+                            <!--Email-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            <!-- GitHub-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <!-- Facebook-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <!--Dribbble -->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-dribbble">
+                                <i class="fab fa-dribbble"></i>
+                            </a>
+                            <!-- Twitter -->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-3">
+                            <div class="avatar mx-auto">
+                                <img src="https://www.askideas.com/media/36/Funny-Photoshopped-Tomato-Baby-Face-Photo-For-Whatsapp.jpg"
+                                    class="rounded z-depth-1-half" alt="Sample avatar" width="250" height="250">
+                            </div>
+                            <h4 class="font-weight-bold dark-grey-text my-4">Timmy the Tomato</h4>
+                            <h6 class="text-uppercase grey-text mb-3"><strong>Backend Soldier</strong></h6>
+                            <!--Linkedin -->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-li">
+                                <i class="fab fa-linkedin-in "></i>
+                            </a>
+                            <!-- Twitter -->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
+                                <i class="fab fa-twitter "></i>
+                            </a>
+                            <!--Pinterest -->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-pin">
+                                <i class="fab fa-pinterest "></i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-3 mb-md-0 mb-5">
+                            <div class="avatar mx-auto">
+                                <img src="https://mybroadband.co.za/news/wp-content/uploads/2013/10/Hacker-coder-developer-software-programmer-alphanumeric-matrix.jpg"
+                                    class="rounded z-depth-1-half" alt="Sample avatar" width="250" height="250">
+                            </div>
+                            <h4 class="font-weight-bold dark-grey-text my-4">Φ le mon we ber</h4>
+                            <h6 class="text-uppercase grey-text mb-3"><strong>GitHub Chief Officer <br>
+                                    Junior Developer</strong></h6>
+                            <!--Email-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            <!-- Facebook-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <!-- GitHub-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-3 mb-md-0 mb-5">
+                            <div class="avatar mx-auto">
+                                <img src="https://orf.at/static/images/site/news/20161251/umberto_eco_tot_pure_afp.4729155.jpg"
+                                    class="rounded z-depth-1-half" alt="Sample avatar" width="250" height="250">
+                            </div>
+                            <h4 class="font-weight-bold dark-grey-text my-4">André, dein Schwager</h4>
+                            <h6 class="text-uppercase grey-text mb-3"><strong>Meister der Dokumente<br>
+                                </strong></h6>
+                            <!--Email-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            <!-- Facebook-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <!-- GitHub-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-3 mb-md-0 mb-5">
+                            <div class="avatar mx-auto">
+                                <img src="https://www.lto.de/fileadmin/user_upload/altermann_620.jpg"
+                                    class="rounded z-depth-1-half" alt="Sample avatar" width="250" height="250">
+                            </div>
+                            <h4 class="font-weight-bold dark-grey-text my-4">Tobias Stauch</h4>
+                            <h6 class="text-uppercase grey-text mb-3"><strong>Senior Software Developer<br>
+                                </strong></h6>
+                            <!--Email-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            <!-- Facebook-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <!-- GitHub-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-3 mb-md-0 mb-5">
+                            <div class="avatar mx-auto">
+                                <img src="https://marvelgoodies.com/wp-content/uploads/2019/07/D5ip4_eWkAAs7od.jpg"
+                                    class="rounded z-depth-1-half" alt="Sample avatar" width="250" height="250">
+                            </div>
+                            <h4 class="font-weight-bold dark-grey-text my-4">DanielWidmayer</h4>
+                            <h6 class="text-uppercase grey-text mb-3"><strong>SCRUM Master<br>
+                                </strong></h6>
+                            <!--Email-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            <!-- GitHub-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-git">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <!-- Facebook-->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-fb">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <!--Dribbble -->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-dribbble">
+                                <i class="fab fa-dribbble"></i>
+                            </a>
+                            <!-- Twitter -->
+                            <a type="button" class="btn-floating btn-sm mx-1 mb-0 btn-tw">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                        <!-- Grid column -->
+
+                    </div>
+                    <!-- Grid row -->
+                </section>
+                <!-- Section: Team -->
+
             </div>
         </div>
     </div>
@@ -119,13 +359,6 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/cashare.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 

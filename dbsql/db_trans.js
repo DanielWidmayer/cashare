@@ -4,6 +4,7 @@ const COLS = [
     'transaction_id',
     'transaction_value',
     'transaction_date',
+    'comment',
     'user_id',
     'category_id'    
 ];

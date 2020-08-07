@@ -13,7 +13,7 @@
     <hr class="sidebar-divider">
 
     <!-- Nav Item - Ca$hboard -->
-    <li class="nav-item active">
+    <li class="nav-item  <% if (pagename === 'index') { %> active <% } %>">
         <a class="nav-link" href="./home">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Ca$hboard</span></a>
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    <li class="nav-item <% if (pagename === 'expenses') { %> active <% } %>">
         <a class="nav-link" href="./expenses">
             <i class="fas fa-fw fa-money-check-alt"></i>
             <span>Expenses</span>
@@ -37,7 +37,7 @@
     </li>
 
     <!-- Nav Item - Income -->
-    <li class="nav-item">
+    <li class="nav-item <% if (pagename === 'income') { %> active <% } %>">
         <a class="nav-link" href="./income">
             <i class="fas fa-fw fa-dollar-sign"></i>
             <span>Income</span>
@@ -46,7 +46,7 @@
 
 
     <!-- Nav Item - Logs -->
-    <li class="nav-item">
+    <li class="nav-item <% if (pagename === 'logs') { %> active <% } %>">
         <a class="nav-link" href="./tables">
             <i class="fas fa-fw fa-file-invoice-dollar"></i>
             <span>Logs</span>
@@ -64,7 +64,7 @@
     </div>
 
     <!-- Nav Item - Payment Groups -->
-    <li class="nav-item">
+    <li class="nav-item <% if (pagename === 'groups') { %> active <% } %>">
         <a class="nav-link collapsed" href="./groups" data-toggle="collapse" data-target="#collapsePayGroups"
             aria-expanded="true" aria-controls="collapseTestings">
             <i class="fas fa-fw fa-hand-holding-usd"></i>
@@ -72,7 +72,8 @@
         </a>
         <div id="collapsePayGroups" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item font-weight-bold text-primary" href="./groups">Overview</a>
+                <h6 class="collapse-header">Total:</h6>
+                <a class="collapse-item font-weight-bold" href="./groups">Overview</a>
                 <div class="collapse-divider"></div>
                 <h6 class="collapse-header">Payment Groups:</h6>
                 <a class="collapse-item" href="./groups-shareboard">Payment Group Title</a>
@@ -90,7 +91,7 @@
     </div>
 
     <!-- Nav Item - Charts -->
-    <li class="nav-item">
+    <li class="nav-item <% if (pagename === 'profile') { %> active <% } %>">
         <a class="nav-link" href="./profile">
             <i class="fas fa-fw fa-user"></i>
             <span>Profile</span></a>
