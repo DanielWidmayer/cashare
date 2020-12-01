@@ -36,7 +36,7 @@ We used [SB Admin 2](https://startbootstrap.com/template-overviews/sb-admin-2/) 
 
 ## Preview
 
-![Picture](currentLook.png)
+![Picture](Unbenannt.png)
 
 ## Status
 
